@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int totalBalloons = 10;
     [SerializeField] private int targetBalloonCount = 3;
     [SerializeField] private float balloonCollisionRadius = 0.5f;
-    [SerializeField] private GameObject prefabBalloon;
+    [SerializeField] private GameObject balloonPrefab;
+    [SerializeField] private Transform balloonParent;
     [SerializeField] private List<string> balloonList = new List<string>();
 
     [Header ("Building...")]
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour
 
             if (Physics2D.OverlapCircle(targetPos, balloonCollisionRadius) == null)
             {
-                Instantiate(prefabBalloon, targetPos, Quaternion.identity);
+                Instantiate(balloonPrefab, targetPos, Quaternion.identity, balloonParent);
                 spawnedCount++;
             }
             attempts++;

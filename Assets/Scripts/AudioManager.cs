@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioData[] backgroundList, sfxList;
-    public AudioSource backgroundSource, sfxSource;
+    public AudioData[] bgm, sfx;
+    public AudioSource bgmSource, sfxSource;
 
     public static AudioManager instance;
 
@@ -22,12 +22,12 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayBackground("Savfk");
+        PlayBGM("Savfk");
     }
 
-    public void PlayBackground(string name)
+    public void PlayBGM(string name)
     {
-        AudioData audioData = Array.Find(backgroundList, element => element.audioName == name);
+        AudioData audioData = Array.Find(bgm, element => element.audioName == name);
 
         if (audioData == null)
         {
@@ -35,14 +35,14 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            backgroundSource.clip = audioData.clip;
-            backgroundSource.Play();
+            bgmSource.clip = audioData.clip;
+            bgmSource.Play();
         }
     }
 
     public void PlaySFX(string name)
     {
-        AudioData audioData = Array.Find(sfxList, element => element.audioName == name);
+        AudioData audioData = Array.Find(sfx, element => element.audioName == name);
 
         if (audioData == null)
         {
@@ -52,5 +52,25 @@ public class AudioManager : MonoBehaviour
         {
             sfxSource.PlayOneShot(audioData.clip);
         }
+    }
+
+    public void ToggleBGM()
+    {
+        bgmSource.mute = !bgmSource.mute;
+    }
+
+    public void ToggleSFX()
+    {
+        sfxSource.mute = !sfxSource.mute;
+    }
+
+    public void BGMVolume(float volume)
+    {
+        bgmSource.volume = volume;
+    }
+
+    public void SFXVolume(float volume)
+    {
+        sfxSource.volume = volume;
     }
 }
