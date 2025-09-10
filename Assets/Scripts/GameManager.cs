@@ -6,22 +6,19 @@ public class GameManager : MonoBehaviour
     private int attempts = 0;
     private int spawnedCount = 0;
 
-    [Header ("Balloon Settings")]
+    [Header ("Balloon Properties")]
     [SerializeField] private int totalBalloons = 10;
     [SerializeField] private int targetBalloonCount = 3;
     [SerializeField] private float balloonCollisionRadius = 0.5f;
     [SerializeField] private GameObject balloonPrefab;
     [SerializeField] private Transform balloonParent;
-    [SerializeField] private List<string> balloonList = new List<string>();
 
-    [Header ("Building...")]
-    [SerializeField] private List<short> hitList = new List<short>();
+    [Header("Balloon Game Data")]
+    [SerializeField] private List<string> balloonList = new List<string>();
+    [SerializeField] private List<int> balloonHitCounts = new List<int>();
 
     [Header("Spawning Area")]
     public Vector2 areaSize = new Vector2(10f, 5f);
-
-    [Header("Cannon Settings")]
-    public float rotationCannonSpeed = 100f;
 
     [Header("Other Settings")]
     public float rotationSpeed = 50f;
@@ -36,7 +33,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(instance);
+            Destroy(gameObject);
         }
     }
 
@@ -51,14 +48,14 @@ public class GameManager : MonoBehaviour
         balloonList.Add(num);
     }
 
-    public void RegisterBalloonHit(short num)
+    public void RegisterBalloonHit(int num)
     {
-        hitList.Add(num);
+        balloonHitCounts.Add(num);
     }
 
     private void GenerateBalloon()
     {
-        while (spawnedCount < totalBalloons && attempts < totalBalloons)
+        while (spawnedCount < totalBalloons && attempts < 101)
         {
             float randomX = Random.Range(-areaSize.x / 2, areaSize.x / 2);
             float randomY = Random.Range(-areaSize.y / 2, areaSize.y / 2);
@@ -76,12 +73,12 @@ public class GameManager : MonoBehaviour
 
     private void CalculateTargetSum()
     {
-        short sum = 0;
+        int sum = 0;
         string resultText = "";
 
         for (int i = 0; i < targetBalloonCount; i++)
         {
-            if (short.TryParse(balloonList[i], out short value))
+            if (int.TryParse(balloonList[i], out int value))
             {
                 sum += value;
                 resultText += value;
@@ -98,11 +95,11 @@ public class GameManager : MonoBehaviour
 
     public void CalculateBalloon()
     {
-        short sum = 0;
+        int sum = 0;
 
-        for (int i = 0; i < hitList.Count; i++)
+        for (int i = 0; i < balloonHitCounts.Count; i++)
         {
-            sum += hitList[i];
+            sum += balloonHitCounts[i];
         }
 
         Debug.Log(sum);

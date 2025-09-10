@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class CannonAim : MonoBehaviour
 {
+    [SerializeField] private float min = 0f;
+    [SerializeField] private float max = 90f;
+
     private Camera cam;
     private Vector2 mousePos
     {
@@ -21,7 +24,7 @@ public class CannonAim : MonoBehaviour
     {
         Vector2 dir = mousePos - (Vector2)transform.position;
         float angle = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
-        float clampedAngle = Mathf.Clamp(angle, 0f, 90f);
-        transform.eulerAngles = new Vector3(0f, 0f, angle);
+        float clampedAngle = Mathf.Clamp(angle, min, max);
+        transform.eulerAngles = new Vector3(0f, 0f, clampedAngle);
     }
 }

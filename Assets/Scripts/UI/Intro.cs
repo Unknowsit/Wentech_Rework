@@ -1,8 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Intro : MonoBehaviour
 {
+    [SerializeField] private string nextSceneName = null;
+    [SerializeField] private float loadDelayTime = 5f;
+
     private void Update()
     {
         IntroGame();
@@ -10,9 +14,15 @@ public class Intro : MonoBehaviour
 
     private void IntroGame()
     {
-        if (Input.anyKeyDown)
+        if (Input.GetMouseButtonDown(0))
         {
-            SceneManager.LoadSceneAsync("MainMenu"); // Transition Screen to Main Menu
+            StartCoroutine(LoadSceneAfterDelay(loadDelayTime));
         }
+    }
+
+    private IEnumerator LoadSceneAfterDelay(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        SceneManager.LoadSceneAsync(nextSceneName); // Transition Screen to Main Menu
     }
 }

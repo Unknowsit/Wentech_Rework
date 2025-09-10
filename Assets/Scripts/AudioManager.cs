@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioData[] bgm, sfx;
+    public AudioData[] bgmData, sfxData;
     public AudioSource bgmSource, sfxSource;
 
     public static AudioManager instance;
@@ -27,7 +27,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBGM(string name)
     {
-        AudioData audioData = Array.Find(bgm, element => element.audioName == name);
+        AudioData audioData = Array.Find(bgmData, element => element.audioName == name);
 
         if (audioData == null)
         {
@@ -42,7 +42,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(string name)
     {
-        AudioData audioData = Array.Find(sfx, element => element.audioName == name);
+        AudioData audioData = Array.Find(sfxData, element => element.audioName == name);
 
         if (audioData == null)
         {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CannonShooter : MonoBehaviour
 {
@@ -15,14 +16,17 @@ public class CannonShooter : MonoBehaviour
         }
     }
 
+    private UIController uiController;
+
     private void Awake()
     {
         cam = Camera.main;
+        uiController = GetComponent<UIController>();
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             AudioManager.instance.PlaySFX("SFX01");
             Destroy(this);

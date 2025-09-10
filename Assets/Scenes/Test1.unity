@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 93937081}
   - component: {fileID: 93937080}
   - component: {fileID: 93937079}
+  - component: {fileID: 93937082}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -395,7 +396,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -800, y: 0}
+  m_AnchoredPosition: {x: 800, y: 400}
   m_SizeDelta: {x: 160, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &93937079
@@ -442,6 +443,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1150538195}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: PauseGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1337275663}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -492,6 +505,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93937077}
   m_CullTransparentMesh: 1
+--- !u!61 &93937082
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93937077}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &187513350
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,6 +634,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1150538195}
+        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
+        m_MethodName: PauseGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1337275663}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -1805,9 +1876,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c1a0a2df3473a489e5981d0664a1da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgm:
+  bgmData:
   - {fileID: 11400000, guid: 3e404cd5c79d4434c9e5b91ebd345b1a, type: 2}
-  sfx:
+  sfxData:
   - {fileID: 11400000, guid: 664fe6083c35beb47831227d2765ad5d, type: 2}
   - {fileID: 11400000, guid: dfcba681f7420ef478a695aea9cdd05d, type: 2}
   bgmSource: {fileID: 73822161}
@@ -2867,6 +2938,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a4f1241af6209a48b46bdd101be5fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  min: 0
+  max: 90
 --- !u!1 &1577097882
 GameObject:
   m_ObjectHideFlags: 0
@@ -3650,9 +3723,8 @@ MonoBehaviour:
   balloonPrefab: {fileID: 1476127773447772888, guid: 0064a8ec3ba17604fa9297613da22a4c, type: 3}
   balloonParent: {fileID: 1152949959}
   balloonList: []
-  hitList: 
-  areaSize: {x: 10, y: 5}
-  rotationCannonSpeed: 100
+  balloonHitCounts: 
+  areaSize: {x: 15, y: 5}
   rotationSpeed: 50
 --- !u!1 &2027825661
 GameObject:
