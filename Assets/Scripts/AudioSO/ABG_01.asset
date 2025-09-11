@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79a962ced6f32af44aa00c1c7a7309a1, type: 3}
-  m_Name: 00_BGM
+  m_Name: ABG_01
   m_EditorClassIdentifier: 
-  audioName: Savfk
-  clip: {fileID: 8300000, guid: 868630e96c6cfa64eb0ebc11d48c473d, type: 3}
+  audioName: ABG1
+  clip: {fileID: 8300000, guid: 72ba7add7f42c6a4392e14aa2b413360, type: 3}

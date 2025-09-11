@@ -1,10 +1,11 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioData[] bgmData, sfxData;
-    public AudioSource bgmSource, sfxSource;
+    public AudioData[] bgmData, sfxData, ambData;
+    public AudioSource bgmSource, sfxSource, ambSource;
 
     public static AudioManager instance;
 
@@ -13,6 +14,7 @@ public class AudioManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -22,7 +24,8 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        PlayBGM("Savfk");
+        PlayBGM("BGM03");
+        PlayAmbient("ABG1");
     }
 
     public void PlayBGM(string name)
@@ -54,6 +57,21 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayAmbient(string name)
+    {
+        AudioData audioData = Array.Find(ambData, element => element.audioName == name);
+
+        if (audioData == null)
+        {
+            Debug.Log("Ambient source not found");
+        }
+        else
+        {
+            ambSource.clip = audioData.clip;
+            ambSource.Play();
+        }
+    }
+
     public void ToggleBGM()
     {
         bgmSource.mute = !bgmSource.mute;
@@ -72,5 +90,18 @@ public class AudioManager : MonoBehaviour
     public void SFXVolume(float volume)
     {
         sfxSource.volume = volume;
+    }
+
+    public IEnumerator FadeOut(AudioSource source, float duration)
+    {
+        float startVolume = source.volume;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            source.volume = Mathf.Lerp(startVolume, 0f, t / duration);
+            yield return null;
+        }
+
+        source.volume = 1;
     }
 }
