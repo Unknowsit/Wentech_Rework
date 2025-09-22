@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -18,14 +19,33 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
-            Destroy(instance);
+            Destroy(gameObject);
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        PlayBGM("BGM03");
-        PlayAmbient("ABG1");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Intro")
+        {
+            PlayBGM("BGM03");
+            PlayAmbient("ABG1");
+        }
+        else if (scene.name == "Operator")
+        {
+            PlayBGM("BGM01");
+            ambSource.Stop();
+            //PlayAmbient("SFX03");
+        }
     }
 
     public void PlayBGM(string name)

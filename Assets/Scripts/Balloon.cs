@@ -19,7 +19,7 @@ public class Balloon : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             AudioManager.instance.PlaySFX("SFX02");
-            gameManager.RegisterBalloonHit(short.Parse(numText.text));
+            gameManager.RegisterBalloonHit(int.Parse(numText.text));
             Destroy(gameObject);
         }
     }

@@ -34,8 +34,8 @@ public class Intro : MonoBehaviour
         StartCoroutine(audioManager.FadeOut(audioManager.ambSource, delayTime));
         yield return new WaitForSeconds(delayTime);
         SceneManager.LoadSceneAsync(nextSceneName); // Transition Screen to Main Menu
-        AudioManager.instance.PlayBGM("BGM01");
-        AudioManager.instance.PlayAmbient("SFX03");
+        //AudioManager.instance.PlayBGM("BGM01");
+        //AudioManager.instance.PlayAmbient("SFX03");
     }
 
     /*private IEnumerator FadeOutBGM(float duration)

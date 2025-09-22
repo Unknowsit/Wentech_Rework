@@ -73,9 +73,82 @@ public class GameManager : MonoBehaviour
 
     private void CalculateTargetSum()
     {
+        int sum = int.Parse(balloonList[0]);
+        string resultText = sum.ToString();
+
+        for (int i = 1; i < targetBalloonCount; i++)
+        {
+            if (int.TryParse(balloonList[i], out int value))
+            {
+                switch (GameData.SelectedMode)
+                {
+                    case OperatorMode.Add:
+                        sum += value;
+                        resultText += " + " + value;
+                        break;
+                    case OperatorMode.Subtract:
+                        sum -= value;
+                        resultText += " - " + value;
+                        break;
+                    case OperatorMode.Multiply:
+                        sum *= value;
+                        resultText += " * " + value;
+                        break;
+                    case OperatorMode.Divide:
+                        if (value != 0) sum /= value;
+                        resultText += " / " + value;
+                        break;
+                }
+            }
+        }
+
+        Debug.Log($"Expression: {resultText} = {sum}");
+    }
+
+    public void CalculateBalloon()
+    {
+        int sum = 0;
+
+        for (int i = 0; i < balloonHitCounts.Count; i++)
+        {
+            switch (GameData.SelectedMode)
+            {
+                case OperatorMode.Add:
+                    sum += balloonHitCounts[i];
+                    break;
+                case OperatorMode.Subtract:
+                    sum -= balloonHitCounts[i];
+                    break;
+                case OperatorMode.Multiply:
+                    sum = (i == 0) ? balloonHitCounts[i] : sum * balloonHitCounts[i];
+                    break;
+                case OperatorMode.Divide:
+                    if (balloonHitCounts[i] != 0)
+                        sum = (i == 0) ? balloonHitCounts[i] : sum / balloonHitCounts[i];
+                    break;
+            }
+        }
+
+        Debug.Log("Player Result: " + sum);
+
+        /*
+        if (GameData.SelectedMode == OperatorMode.Divide)
+        {
+            Debug.Log("Player Result: " + sum.ToString("F3"));
+        }
+        else
+        {
+            Debug.Log("Player Result: " + sum);
+        }
+        */
+    }
+
+    /*
+    private void CalculateTargetSum()
+    {
         int sum = 0;
         string resultText = "";
-
+        
         for (int i = 0; i < targetBalloonCount; i++)
         {
             if (int.TryParse(balloonList[i], out int value))
@@ -89,6 +162,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
         Debug.Log("Result: " + sum);
         Debug.Log($"Expression: {resultText} = {sum}");
     }
@@ -104,6 +178,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log(sum);
     }
+    */
 
     private void OnDrawGizmos()
     {
