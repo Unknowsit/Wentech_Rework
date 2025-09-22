@@ -37,10 +37,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void StartGame()
     {
         GenerateBalloon();
         CalculateTargetSum();
+    }
+
+    public void SetTargetBalloonCount(int count)
+    {
+        targetBalloonCount = Mathf.Clamp(count, 1, totalBalloons);
+        StartGame();
     }
 
     public void RegisterBalloonNumber(string num)

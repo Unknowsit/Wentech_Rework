@@ -42,8 +42,8 @@ public class AudioManager : MonoBehaviour
         }
         else if (scene.name == "Operator")
         {
+            StartCoroutine(FadeIn(bgmSource, 3f));
             PlayBGM("BGM01");
-            ambSource.Stop();
             //PlayAmbient("SFX03");
         }
     }
@@ -112,6 +112,20 @@ public class AudioManager : MonoBehaviour
         sfxSource.volume = volume;
     }
 
+    public IEnumerator FadeIn(AudioSource source, float duration)
+    {
+        source.volume = 0f;
+        float startVolume = 0f;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            source.volume = Mathf.Lerp(startVolume, 1f, t / duration);
+            yield return null;
+        }
+
+        source.volume = 1f;
+    }
+
     public IEnumerator FadeOut(AudioSource source, float duration)
     {
         float startVolume = source.volume;
@@ -122,6 +136,6 @@ public class AudioManager : MonoBehaviour
             yield return null;
         }
 
-        source.volume = 1;
+        source.volume = 1f;
     }
 }
