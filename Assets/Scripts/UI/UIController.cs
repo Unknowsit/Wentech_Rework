@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,6 +22,17 @@ public class UIController : MonoBehaviour
     private bool isGamePaused = false;
 
     public Slider _bgmSlider, _sfxSlider;
+
+    [Header ("Scene Transition")]
+    [SerializeField] private float delayTime = 3f;
+    [SerializeField] private GameObject loadingCover;
+
+    private AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = AudioManager.instance;
+    }
 
     public void OnAddModeSelected()
     {
@@ -55,7 +67,7 @@ public class UIController : MonoBehaviour
     {
         if (isConfirming)
         {
-            SceneManager.LoadScene("Gameplay");
+            StartCoroutine(TransitionToNextScene(delayTime));
         }
     }
 
@@ -99,5 +111,13 @@ public class UIController : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
+    }
+
+    private IEnumerator TransitionToNextScene(float delayTime)
+    {
+        loadingCover.SetActive(true);
+        StartCoroutine(audioManager.FadeOut(audioManager.bgmSource, delayTime));
+        yield return new WaitForSeconds(delayTime);
+        SceneManager.LoadScene("Gameplay");
     }
 }

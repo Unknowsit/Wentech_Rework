@@ -213,7 +213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &68236212
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2078,6 +2078,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05371e5a9f676b4db774242b6a0c540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayTime: 3
+  loadingCover: {fileID: 68236211}
   _bgmSlider: {fileID: 0}
   _sfxSlider: {fileID: 0}
 --- !u!1 &1478571961
