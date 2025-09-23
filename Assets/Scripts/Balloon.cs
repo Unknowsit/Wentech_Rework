@@ -26,6 +26,14 @@ public class Balloon : MonoBehaviour
 
     private void RandomNumber()
     {
-        numText.text = Random.Range(0, 101).ToString();
+        switch (GameData.SelectedMode)
+        {
+            case OperatorMode.Add or OperatorMode.Subtract:
+                numText.text = Random.Range(0, 101).ToString();
+                break;
+            case OperatorMode.Multiply or OperatorMode.Divide:
+                numText.text = Random.Range(2, 13).ToString();
+                break;
+        }
     }
 }
