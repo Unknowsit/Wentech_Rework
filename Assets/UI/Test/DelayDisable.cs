@@ -1,86 +1,83 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class DelayDisable : MonoBehaviour
 {
-    public GameObject obj1;
-    public GameObject obj2;
-    public GameObject obj3;
-    public GameObject obj4;
-    public GameObject obj5;
-    public GameObject obj6;
+    public GameObject Object_1;
+    public GameObject Object_2;
+    public GameObject Object_3;
+    public GameObject Object_4;
+    public GameObject Object_5;
+    public GameObject Object_6;
 
-    public void DisableObj1WithDelay()
+    public void Delay1Right()
     {
-        Invoke("DisableObj1", 1f);
+        StartCoroutine(DelayObject_Right());
     }
 
-    void DisableObj1()
+    IEnumerator DelayObject_Right()
     {
-        if (obj1 != null) obj1.SetActive(false);
-        if (obj2 != null) obj2.SetActive(true);
+        // ปิด Object_1 หลัง 1.1 วิ
+        StartCoroutine(DelayAction(Object_1, false, 1.1f));
 
+        // เปิด Object_2 หลัง 1 วิ
+        StartCoroutine(DelayAction(Object_2, true, 1f));
+
+        // (ถ้าต้องการ) ปรับ order ของ Object_2 เป็น 0 ทันที คงไว้ 2 วิ
+        // StartCoroutine(DelayOrderAction(Object_2, 0, 2f, 0f));
+
+        yield break;
     }
 
-    public void DisableObj2WithDelay()
+    public void Delay2Left()
     {
-        Invoke("DisableObj2", 1f);
+        StartCoroutine(DelayObject_Left());
     }
 
-    void DisableObj2()
+    IEnumerator DelayObject_Left()
     {
-        if (obj2 != null) obj2.SetActive(false);
-        
-        if (obj3 != null) obj3.SetActive(true);
+        // ปิด Object_2 หลัง 1.1 วิ
+        StartCoroutine(DelayAction(Object_2, false, 1.1f));
+
+        // เปิด Object_1 หลัง 1 วิ
+        StartCoroutine(DelayAction(Object_1, true, 1f));
+
+        // ✅ ให้ Object 4,5,6 หน่วง 1 วิ ก่อน แล้วค่อยเปลี่ยน order เป็น 0 คงไว้ 2 วิ
+        StartCoroutine(DelayOrderAction(Object_4, 0, 2f, 1f));
+        StartCoroutine(DelayOrderAction(Object_5, 0, 2f, 1f));
+        StartCoroutine(DelayOrderAction(Object_6, 0, 2f, 1f));
+
+        yield break;
     }
 
-    public void DisableObj3WithDelay()
+    IEnumerator DelayAction(GameObject obj, bool state, float delay)
     {
-        Invoke("DisableObj3", 1f);
+        yield return new WaitForSeconds(delay);
+        if (obj != null) obj.SetActive(state);
     }
 
-    void DisableObj3()
+    // เพิ่ม startDelay เพื่อรอก่อนค่อยเปลี่ยน order
+    IEnumerator DelayOrderAction(GameObject obj, int tempOrder, float duration, float startDelay)
     {
-        if (obj3 != null) obj3.SetActive(false);
-        if (obj4 != null) obj4.SetActive(true);
-    }
+        if (obj == null) yield break;
 
-    public void DisableObj4WithDelay()
-    {
-        Invoke("DisableObj4", 1f);
-    }
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            int originalOrder = sr.sortingOrder;
 
-    void DisableObj4()
-    {
-        if (obj4 != null) obj4.SetActive(false);
-        if (obj3 != null) obj3.SetActive(true);
-    }
+            // รอก่อนตามเวลาที่กำหนด
+            if (startDelay > 0f)
+                yield return new WaitForSeconds(startDelay);
 
-    /// <summary>
-    /// //////
-    /// </summary>
-    public void DisableObj5WithDelay()
-    {
-        Invoke("DisableObj5", 1f);
-    }
+            // เปลี่ยนเป็นค่าใหม่
+            sr.sortingOrder = tempOrder;
 
-    void DisableObj5()
-    {
-        if (obj1 != null) obj1.SetActive(true);
-        if (obj2 != null) obj2.SetActive(false);
-    }
-    /// <summary>
-    /// /////
-    /// </summary>
-    /// 
-    public void DisableObj6WithDelay()
-    {
-        Invoke("DisableObj6", 1f);
-    }
+            // คงค่าไว้ตามเวลาที่กำหนด
+            yield return new WaitForSeconds(duration);
 
-    void DisableObj6()
-    {
-        if (obj3 != null) obj3.SetActive(false);
-        if (obj2 != null) obj2.SetActive(true);
+            // กลับเป็นค่าเดิม
+            sr.sortingOrder = originalOrder;
+        }
     }
 }
-
