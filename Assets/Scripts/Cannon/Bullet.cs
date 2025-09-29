@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Wall"))
         {
             GameManager.instance.CalculateBalloon();
+            UIController.instance.RunTransition();
             Destroy(gameObject);
         }
 

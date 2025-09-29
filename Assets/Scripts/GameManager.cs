@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
     private int attempts = 0;
     private int spawnedCount = 0;
 
+    public int totalTurns = 1;
+
     [Header ("Balloon Properties")]
     [SerializeField] private int totalBalloons = 10;
     [SerializeField] private int targetBalloonCount = 3;
@@ -35,6 +37,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Time.timeScale = 0f;
     }
 
     private void StartGame()
@@ -43,11 +47,19 @@ public class GameManager : MonoBehaviour
         CalculateTargetSum();
     }
 
+    public void SetTargetRounds(int count)
+    {
+        totalTurns = count * 2;
+        StartGame();
+    }
+
+    /*
     public void SetTargetBalloonCount(int count)
     {
         targetBalloonCount = Mathf.Clamp(count, 1, totalBalloons);
         StartGame();
     }
+    */
 
     public void RegisterBalloonNumber(string num)
     {

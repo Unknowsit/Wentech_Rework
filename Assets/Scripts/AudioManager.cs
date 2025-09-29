@@ -46,6 +46,10 @@ public class AudioManager : MonoBehaviour
             PlayBGM("BGM01");
             //PlayAmbient("SFX03");
         }
+        else if (scene.name == "Gameplay")
+        {
+
+        }
     }
 
     public void PlayBGM(string name)
