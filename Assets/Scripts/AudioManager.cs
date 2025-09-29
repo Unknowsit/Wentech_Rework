@@ -44,7 +44,7 @@ public class AudioManager : MonoBehaviour
         {
             StartCoroutine(FadeIn(bgmSource, 3f));
             PlayBGM("BGM01");
-            //PlayAmbient("SFX03");
+            ambSource.Stop();
         }
         else if (scene.name == "Gameplay")
         {

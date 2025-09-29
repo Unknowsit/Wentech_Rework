@@ -49,36 +49,42 @@ public class UIController : MonoBehaviour
     {
         isConfirming = true;
         GameData.SelectedMode = OperatorMode.Add;
+        audioManager.PlaySFX("SFX02");
     }
 
     public void OnSubtractModeSelected()
     {
         isConfirming = true;
         GameData.SelectedMode = OperatorMode.Subtract;
+        audioManager.PlaySFX("SFX02");
     }
 
     public void OnMultiplyModeSelected()
     {
         isConfirming = true;
         GameData.SelectedMode = OperatorMode.Multiply;
+        audioManager.PlaySFX("SFX02");
     }
 
     public void OnDivideModeSelected()
     {
         isConfirming = true;
         GameData.SelectedMode = OperatorMode.Divide;
+        audioManager.PlaySFX("SFX02");
     }
 
     public void CancelConfirming()
     {
         isConfirming = false;
+        audioManager.PlaySFX("SFX03");
     }
 
     public void OnConfirmButtonClicked()
     {
         if (isConfirming)
         {
-            StartCoroutine(TransitionToNextScene(delayTime));
+            audioManager.PlaySFX("SFX04");
+            StartCoroutine(TransitionToNextScene(delayTime));           
         }
     }
 
@@ -86,6 +92,7 @@ public class UIController : MonoBehaviour
     {
         if (int.TryParse(UIManager.instance.targetInputField.text, out int target))
         {
+            audioManager.PlaySFX("SFX04");
             GameManager.instance.SetTargetRounds(target);
             Time.timeScale = 1f;
         }
