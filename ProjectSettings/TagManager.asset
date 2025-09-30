@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Wall
   - Box
+  - Mirror
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Reflection point
   - 
   - 
   - 
