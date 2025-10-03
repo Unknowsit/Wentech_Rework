@@ -32,10 +32,10 @@ public class UI : MonoBehaviour
         StartCoroutine(DelayAction("MinusCard", false, 1.4f));
         StartCoroutine(DelayAction("PlusCard", true, 1f));
 
-        StartCoroutine(DelayOrderAction("MinusCardInTheMiddle", 0, 1.4f, 1f));
-        StartCoroutine(DelayOrderAction("MinusCardInTheRight", 0, 1.4f, 1f));
+        StartCoroutine(DelayOrderAction("MinusCardInTheMiddle", -1, 1.4f, 1f));
+        StartCoroutine(DelayOrderAction("MinusCardInTheRight", -1, 1.4f, 1f));
         StartCoroutine(DelayOrderAction("MinusCardInTheLeft", -1, 1.4f, 1f));
-        StartCoroutine(DelayOrderAction("MinusHiddenCardInTheRight", 0, 1.4f, 1f));
+        StartCoroutine(DelayOrderAction("MinusHiddenCardInTheRight", -1, 1.4f, 1f));
 
         StartCoroutine(DelayOrderAction("MinusBG", 0, 1f, 1f));
 
