@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
         {
             GameManager.instance.CalculateBalloon();
             UIController.instance.RunTransition();
+            GameManager.instance.SpawnBalloonHitTexts();
             Destroy(gameObject);
         }
 

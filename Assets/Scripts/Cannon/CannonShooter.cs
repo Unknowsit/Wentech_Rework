@@ -16,12 +16,9 @@ public class CannonShooter : MonoBehaviour
         }
     }
 
-    private UIController uiController;
-
     private void Awake()
     {
         cam = Camera.main;
-        uiController = GetComponent<UIController>();
     }
 
     private void Update()

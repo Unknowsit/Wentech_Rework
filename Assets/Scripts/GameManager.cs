@@ -18,6 +18,12 @@ public class GameManager : MonoBehaviour
     [Header("Balloon Game Data")]
     [SerializeField] private List<string> balloonList = new List<string>();
     [SerializeField] private List<int> balloonHitCounts = new List<int>();
+    public List<int> BalloonHitCounts { get { return balloonHitCounts; } }
+
+    [Header("Balloon UI Prefabs")]
+    [SerializeField] private GameObject balloonHitPrefab;
+    [SerializeField] private Transform balloonHitParent;
+    public int currentBalloonIndex = 0;
 
     [Header("Spawning Area")]
     public Vector2 areaSize = new Vector2(10f, 5f);
@@ -121,6 +127,7 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log($"Expression: {resultText} = {sum}");
+        UIManager.instance.NumTarget.text = sum.ToString();
     }
 
     public void CalculateBalloon()
@@ -159,6 +166,14 @@ public class GameManager : MonoBehaviour
             Debug.Log("Player Result: " + sum);
         }
         */
+    }
+
+    public void SpawnBalloonHitTexts()
+    {
+        for (int i = 0; i < balloonHitCounts.Count; i++)
+        {
+            Instantiate(balloonHitPrefab, transform.position, Quaternion.identity, balloonHitParent);
+        }
     }
 
     /*

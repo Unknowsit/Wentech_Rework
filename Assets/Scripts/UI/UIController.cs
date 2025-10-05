@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,11 +30,14 @@ public class UIController : MonoBehaviour
     [SerializeField] private Image blackoutScreen;
 
     private AudioManager audioManager;
+    private UIManager uiManager;
+
     public static UIController instance;
 
     private void Awake()
     {
         audioManager = AudioManager.instance;
+        uiManager = UIManager.instance;
 
         if (instance == null)
         {
@@ -90,7 +94,7 @@ public class UIController : MonoBehaviour
 
     public void SetTurnCount()
     {
-        if (int.TryParse(UIManager.instance.targetInputField.text, out int target))
+        if (int.TryParse(uiManager.targetInputField.text, out int target))
         {
             audioManager.PlaySFX("SFX04");
             GameManager.instance.SetTargetRounds(target);
@@ -101,7 +105,7 @@ public class UIController : MonoBehaviour
     /*
     public void ConfirmTargetCount()
     {
-        if (int.TryParse(UIManager.instance.targetInputField.text, out int target))
+        if (int.TryParse(uiManager.targetInputField.text, out int target))
         {
             GameManager.instance.SetTargetBalloonCount(target);
         }
@@ -181,6 +185,7 @@ public class UIController : MonoBehaviour
     {
         yield return StartCoroutine(FadeInUI(delayTime));
         yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(FadeOutUI(delayTime));
+        StartCoroutine(FadeOutUI(delayTime));
+        uiManager.ShowCalculationPanel();
     }
 }

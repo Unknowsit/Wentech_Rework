@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
     [Header("Game Setup UI")]
     public TMP_InputField targetInputField;
     [SerializeField] private Button confirmButton;
+    [SerializeField] private TextMeshProUGUI numTarget;
+    public TextMeshProUGUI NumTarget => numTarget;
 
     [Header("Timer Settings")]
     [SerializeField] private Slider _progressBar;
@@ -14,6 +16,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private float remainingTime;
     public float RemainingTime { get { return remainingTime; } set { remainingTime = value; } }
+
+    [Header ("Gameplay Panel UI")]
+    [SerializeField] private GameObject calculationPanel;
 
     public static UIManager instance;
 
@@ -27,5 +32,10 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void ShowCalculationPanel()
+    {
+        calculationPanel.SetActive(true);
     }
 }
