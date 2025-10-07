@@ -18,7 +18,9 @@ public class UI : MonoBehaviour
         StartCoroutine(DelayOrderAction("PlusCardInTheRight", 0, 1.4f, 1f));
         StartCoroutine(DelayOrderAction("PlusHiddenCardInTheRight", 0, 1.4f, 1f));
 
-        StartCoroutine(DelayActionToggle("MinusBarrier", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MinusBarrierOnTheLeft", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MinusBarrierOnTheMiddle", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MinusBarrierOnTheRight", 1.4f, 0f));
         yield break;
     }
 
@@ -39,7 +41,9 @@ public class UI : MonoBehaviour
 
         StartCoroutine(DelayOrderAction("MinusBG", 0, 1f, 1f));
 
-        StartCoroutine(DelayActionToggle("PlusBarrier", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("PlusBarrierOnTheLeft", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("PlusBarrierOnTheMiddle", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("PlusBarrierOnTheRight", 1.4f, 0f));
         yield break;
     }
 
@@ -58,7 +62,9 @@ public class UI : MonoBehaviour
         StartCoroutine(DelayOrderAction("MinusCardInTheLeft", 0, 1.4f, 1f));
         StartCoroutine(DelayOrderAction("MinusHiddenCardInTheRight", 0, 1.4f, 1f));
 
-        StartCoroutine(DelayActionToggle("MultiplyBarrier", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheLeft", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheMiddle", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheRight", 1.4f, 0f));
         yield break;
     }
 
@@ -79,7 +85,9 @@ public class UI : MonoBehaviour
 
         StartCoroutine(DelayOrderAction("MultiplyBG", 0, 1f, 1f));
 
-        StartCoroutine(DelayActionToggle("MinusBarrier", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MinusBarrierOnTheLeft", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MinusBarrierOnTheMiddle", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MinusBarrierOnTheRight", 1.4f, 0f));
         yield break;
     }
 
@@ -98,7 +106,9 @@ public class UI : MonoBehaviour
         StartCoroutine(DelayOrderAction("MultiplyCardInTheLeft", 0, 1.4f, 1f));
         StartCoroutine(DelayOrderAction("MultiplyHiddenCardInTheLeft", 0, 1.4f, 1f));
 
-        StartCoroutine(DelayActionToggle("DivideBarrier", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("DivideBarrierOnTheLeft", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("DivideBarrierOnTheMiddle", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("DivideBarrierOnTheRight", 1.4f, 0f));
         yield break;
     }
 
@@ -118,7 +128,9 @@ public class UI : MonoBehaviour
 
         StartCoroutine(DelayOrderAction("DivideBG", 0, 1f, 1f));
 
-        StartCoroutine(DelayActionToggle("MultiplyBarrier", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheLeft", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheMiddle", 1.4f, 0f));
+        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheRight", 1.4f, 0f));
         yield break;
     }
 
