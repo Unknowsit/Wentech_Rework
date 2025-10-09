@@ -3,11 +3,11 @@ using System;
 
 public class Clock : MonoBehaviour
 {
+    public float rotationSpeed = 100f; // ความเร็วในการหมุน (องศาต่อวินาที)
+
     void Update()
     {
-        DateTime time = DateTime.Now;
-        float seconds = time.Second + time.Millisecond / 1000f;
-        float angle = -seconds * 6f; 
-        transform.localRotation = Quaternion.Euler(0, 0, angle);
+        // หมุนไปตามเข็มนาฬิกา
+        transform.Rotate(0, 0, -rotationSpeed * Time.deltaTime);
     }
 }
