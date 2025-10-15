@@ -6988,7 +6988,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalTurns: 1
   totalBalloons: 20
-  targetBalloonCount: 2
+  targetBalloonCount: 4
   balloonCollisionRadius: 0.5
   balloonPrefab: {fileID: 1476127773447772888, guid: 0064a8ec3ba17604fa9297613da22a4c, type: 3}
   balloonParent: {fileID: 1152949959}
