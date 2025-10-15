@@ -7,13 +7,20 @@ public class Bullet : MonoBehaviour
 
     private Vector2 direction;
 
+    private GameManager gameManager;
+
+    private void Awake()
+    {
+        gameManager = GameManager.instance;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            GameManager.instance.CalculateBalloon();
+            gameManager.CalculateBalloon();
             UIController.instance.RunTransition();
-            GameManager.instance.SpawnBalloonHitTexts();
+            gameManager.SpawnBalloonHitTexts();
             Destroy(gameObject);
         }
 

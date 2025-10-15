@@ -1,21 +1,7 @@
-using NUnit.Framework.Internal;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-public enum OperatorMode
-{
-    Add,
-    Subtract,
-    Multiply,
-    Divide
-}
-
-public static class GameData
-{
-    public static OperatorMode SelectedMode = OperatorMode.Add;
-}
 
 public class UIController : MonoBehaviour
 {
@@ -56,10 +42,10 @@ public class UIController : MonoBehaviour
         audioManager.PlaySFX("SFX02");
     }
 
-    public void OnSubtractModeSelected()
+    public void OnMinusModeSelected()
     {
         isConfirming = true;
-        GameData.SelectedMode = OperatorMode.Subtract;
+        GameData.SelectedMode = OperatorMode.Minus;
         audioManager.PlaySFX("SFX02");
     }
 

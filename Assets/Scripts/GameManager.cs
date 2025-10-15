@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private bool hasSpawned = false;
+
     private int attempts = 0;
     private int spawnedCount = 0;
 
@@ -23,7 +25,9 @@ public class GameManager : MonoBehaviour
     [Header("Balloon UI Prefabs")]
     [SerializeField] private GameObject balloonHitPrefab;
     [SerializeField] private Transform balloonHitParent;
-    public int currentBalloonIndex = 0;
+
+    [SerializeField] private BalloonSlot[] balloonSlots;
+    [HideInInspector] public int currentBalloonIndex = 0;
 
     [Header("Spawning Area")]
     public Vector2 areaSize = new Vector2(10f, 5f);
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
     public float rotationSpeed = 50f;
 
     public static GameManager instance;
+    private UIManager uiManager;
 
     private void Awake()
     {
@@ -45,6 +50,7 @@ public class GameManager : MonoBehaviour
         }
 
         Time.timeScale = 0f;
+        uiManager = UIManager.instance;
     }
 
     private void StartGame()
@@ -110,7 +116,7 @@ public class GameManager : MonoBehaviour
                         sum += value;
                         resultText += " + " + value;
                         break;
-                    case OperatorMode.Subtract:
+                    case OperatorMode.Minus:
                         sum -= value;
                         resultText += " - " + value;
                         break;
@@ -127,7 +133,7 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log($"Expression: {resultText} = {sum}");
-        UIManager.instance.NumTarget.text = sum.ToString();
+        uiManager.TargetText.text = sum.ToString();
     }
 
     public void CalculateBalloon()
@@ -141,11 +147,12 @@ public class GameManager : MonoBehaviour
                 case OperatorMode.Add:
                     sum += balloonHitCounts[i];
                     break;
-                case OperatorMode.Subtract:
+                case OperatorMode.Minus:
                     sum -= balloonHitCounts[i];
                     break;
                 case OperatorMode.Multiply:
-                    sum = (i == 0) ? balloonHitCounts[i] : sum * balloonHitCounts[i];
+                    sum *= balloonHitCounts[i];
+                    //sum = (i == 0) ? balloonHitCounts[i] : sum * balloonHitCounts[i];
                     break;
                 case OperatorMode.Divide:
                     if (balloonHitCounts[i] != 0)
@@ -170,10 +177,82 @@ public class GameManager : MonoBehaviour
 
     public void SpawnBalloonHitTexts()
     {
+        if (hasSpawned) return;
+        hasSpawned = true;
+
         for (int i = 0; i < balloonHitCounts.Count; i++)
         {
             Instantiate(balloonHitPrefab, transform.position, Quaternion.identity, balloonHitParent);
         }
+    }
+
+    public void UpdateBalloonSum()
+    {
+        int sum = 0;
+
+        switch (GameData.SelectedMode)
+        {
+            case OperatorMode.Add:
+                foreach (var slot in balloonSlots)
+                {
+                    sum += slot.GetBalloonValue();
+                }
+                break;
+            case OperatorMode.Minus:
+                foreach (var slot in balloonSlots)
+                {
+                    sum -= slot.GetBalloonValue();
+                }
+                break;
+            case OperatorMode.Multiply:
+            {
+                int tempSum = 1;
+                bool hasBalloon = false;
+
+                foreach (var slot in balloonSlots)
+                {
+                    int value = slot.GetBalloonValue();
+
+                    if (value != 0)
+                    {
+                        tempSum *= value;
+                        hasBalloon = true;
+                    }
+                }
+
+                sum = hasBalloon ? tempSum : 0;
+                break;
+            }
+            case OperatorMode.Divide:
+            {
+                int tempSum = 0;
+                bool hasBalloon = false;
+
+                foreach (var slot in balloonSlots)
+                {
+                    int value = slot.GetBalloonValue();
+
+                    if (value != 0)
+                    {
+                        if (!hasBalloon)
+                        {
+                            tempSum = value;
+                        }
+                        else
+                        {
+                            tempSum /= value;
+                        }
+
+                        hasBalloon = true;
+                    }
+                }
+
+                sum = hasBalloon ? tempSum : 0;
+                break;
+            }
+        }
+
+        uiManager.TotalText.text = sum.ToString();
     }
 
     /*

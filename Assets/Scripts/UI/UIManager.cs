@@ -2,13 +2,28 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum OperatorMode
+{
+    Add,
+    Minus,
+    Multiply,
+    Divide
+}
+
+public static class GameData
+{
+    public static OperatorMode SelectedMode = OperatorMode.Add;
+}
+
 public class UIManager : MonoBehaviour
 {
     [Header("Game Setup UI")]
     public TMP_InputField targetInputField;
     [SerializeField] private Button confirmButton;
-    [SerializeField] private TextMeshProUGUI numTarget;
-    public TextMeshProUGUI NumTarget => numTarget;
+    [SerializeField] private TextMeshProUGUI targetText;
+    public TextMeshProUGUI TargetText => targetText;
+    [SerializeField] private TextMeshProUGUI totatText;
+    public TextMeshProUGUI TotalText => totatText;
 
     [Header("Timer Settings")]
     [SerializeField] private Slider _progressBar;
