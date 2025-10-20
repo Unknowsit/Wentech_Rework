@@ -7454,7 +7454,7 @@ MonoBehaviour:
   player1: 0
   player2: 0
   currentBalloonIndex: 0
-  totalBalloons: 5
+  totalBalloons: 10
   targetBalloonCount: 4
   balloonCollisionRadius: 0.5
   balloonPrefab: {fileID: 1476127773447772888, guid: 0064a8ec3ba17604fa9297613da22a4c, type: 3}
