@@ -10,8 +10,17 @@ public class Balloon : MonoBehaviour
     private void Awake()
     {
         gameManager = GameManager.instance;
-        RandomNumber();
-        gameManager.RegisterBalloonNumber(numText.text);
+
+        if (gameManager.totalTurns % 2 == 0)
+        {
+            RandomNumber();
+            gameManager.RegisterBalloonNumber(numText.text);
+        }
+        else
+        {
+            numText.text = gameManager.BalloonList[gameManager.currentBalloonIndex];
+            gameManager.currentBalloonIndex++;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,7 +38,7 @@ public class Balloon : MonoBehaviour
         switch (GameData.SelectedMode)
         {
             case OperatorMode.Add or OperatorMode.Minus:
-                numText.text = Random.Range(0, 101).ToString();
+                numText.text = Random.Range(1, 101).ToString();
                 break;
             case OperatorMode.Multiply or OperatorMode.Divide:
                 numText.text = Random.Range(2, 13).ToString();

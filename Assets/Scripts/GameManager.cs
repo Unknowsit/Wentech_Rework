@@ -3,15 +3,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private bool hasSpawned = false;
+    [SerializeField] private bool hasSpawned = false;
 
     private int attempts = 0;
     private int spawnedCount = 0;
 
     public int totalTurns = 1;
+    public int player1, player2;
+
+    [HideInInspector] public int currentBalloonIndex = 0;
 
     [Header ("Balloon Properties")]
-    [SerializeField] private int totalBalloons = 10;
+    [Range(1, 20)] [SerializeField] private int totalBalloons = 10;
     [SerializeField] private int targetBalloonCount = 3;
     [SerializeField] private float balloonCollisionRadius = 0.5f;
     [SerializeField] private GameObject balloonPrefab;
@@ -19,21 +22,23 @@ public class GameManager : MonoBehaviour
 
     [Header("Balloon Game Data")]
     [SerializeField] private List<string> balloonList = new List<string>();
+    public List<string> BalloonList { get { return balloonList; } }
+
     [SerializeField] private List<int> balloonHitCounts = new List<int>();
     public List<int> BalloonHitCounts { get { return balloonHitCounts; } }
+
+    [SerializeField] private BalloonSlot[] balloonSlots;
 
     [Header("Balloon UI Prefabs")]
     [SerializeField] private GameObject balloonHitPrefab;
     [SerializeField] private Transform balloonHitParent;
-
-    [SerializeField] private BalloonSlot[] balloonSlots;
-    [HideInInspector] public int currentBalloonIndex = 0;
 
     [Header("Spawning Area")]
     public Vector2 areaSize = new Vector2(10f, 5f);
 
     [Header("Other Settings")]
     public float rotationSpeed = 50f;
+    [SerializeField] private GameObject cannonShooter;
 
     public static GameManager instance;
     private UIManager uiManager;
@@ -50,19 +55,84 @@ public class GameManager : MonoBehaviour
         }
 
         Time.timeScale = 0f;
+    }
+
+    private void Start()
+    {
         uiManager = UIManager.instance;
     }
 
-    private void StartGame()
+    public void RestartGame()
     {
+        ResetGameState();
         GenerateBalloon();
         CalculateTargetSum();
+        currentBalloonIndex = 0;
+    }
+
+    private void ResetGameState()
+    {
+        DestroyChildren(balloonParent);
+        DestroyChildren(balloonHitParent);
+        ClearBalloonSlots();
+
+        if (totalTurns % 2 != 0) balloonList.Clear();
+        balloonHitCounts.Clear();
+        ResetCounters();
+
+        totalTurns--;
+        hasSpawned = false;
+        cannonShooter.SetActive(true);
+        ResetUI();
+    }
+
+    private void DestroyChildren(Transform parent)
+    {
+        foreach (Transform child in parent)
+            Destroy(child.gameObject);
+    }
+
+    public void ClearBalloonSlots()
+    {
+        foreach (BalloonSlot slot in balloonSlots)
+        {
+            for (int i = slot.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(slot.transform.GetChild(i).gameObject);
+            }
+        }
+    }
+
+    private void ResetCounters()
+    {
+        spawnedCount = 0;
+        attempts = 0;
+        currentBalloonIndex = 0;
+    }
+
+    private void ResetUI()
+    {
+        uiManager.TotalText.text = "0";
+        uiManager.RemainingTime = 100;
+    }
+
+    public void SetPlayerValues()
+    {
+        if (totalTurns % 2 == 0)
+        {
+            player1 = int.Parse(uiManager.TotalText.text);
+        }
+        else
+        {
+            player2 = int.Parse(uiManager.TotalText.text);
+        }
     }
 
     public void SetTargetRounds(int count)
     {
         totalTurns = count * 2;
-        StartGame();
+        GenerateBalloon();
+        CalculateTargetSum();
     }
 
     /*

@@ -26,7 +26,7 @@ public class CannonShooter : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             AudioManager.instance.PlaySFX("SFX01");
-            Destroy(this);
+            gameObject.SetActive(false);
             Vector2 direction = mousePos - (Vector2)bulletSpawnPos.position;
             Bullet bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
             bullet.Shoot(direction.normalized);

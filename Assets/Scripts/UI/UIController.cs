@@ -22,9 +22,6 @@ public class UIController : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = AudioManager.instance;
-        uiManager = UIManager.instance;
-
         if (instance == null)
         {
             instance = this;
@@ -33,6 +30,9 @@ public class UIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        audioManager = AudioManager.instance;
+        uiManager = UIManager.instance;
     }
 
     public void OnAddModeSelected()
@@ -143,6 +143,39 @@ public class UIController : MonoBehaviour
     private IEnumerator FadeInUI(float duration)
     {
         Debug.Log("Start fade in UI.");
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Clamp01(elapsed / duration);
+            blackoutScreen.color = new Color(0f, 0f, 0f, alpha);
+            yield return null;
+        }
+
+        blackoutScreen.color = new Color(0f, 0f, 0f, 1f);
+    }
+
+    private IEnumerator FadeOutUI(float duration)
+    {
+        Debug.Log("Start fade out UI.");
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Clamp01(1f - (elapsed / duration));
+            blackoutScreen.color = new Color(0f, 0f, 0f, alpha);
+            yield return null;
+        }
+
+        blackoutScreen.color = new Color(0f, 0f, 0f, 0f);
+    }
+
+    /*
+    private IEnumerator FadeInUI(float duration)
+    {
+        Debug.Log("Start fade in UI.");
         for (float i = 0f; i <= 1f; i += Time.deltaTime / duration)
         {
             Debug.Log("Processing...");
@@ -161,17 +194,28 @@ public class UIController : MonoBehaviour
             yield return null;
         }
     }
+    */
 
     public void RunTransition()
     {
-        StartCoroutine(TransitionRoutine());
+        StartCoroutine(TransitionRoutine(true));
     }
 
-    public IEnumerator TransitionRoutine()
+    public IEnumerator TransitionRoutine(bool flag)
     {
         yield return StartCoroutine(FadeInUI(delayTime));
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(FadeOutUI(delayTime));
-        uiManager.ShowCalculationPanel();
+        
+        if (flag)
+        {
+            uiManager.ShowCalculationPanel();
+        }
+        else
+        {
+            uiManager.HideCalculationPanel();
+            GameManager.instance.RestartGame();
+        }
+
+        yield return new WaitForSeconds(0.3f);
+        yield return StartCoroutine(FadeOutUI(delayTime));
     }
 }

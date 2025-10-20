@@ -7,7 +7,7 @@ public class Delay : MonoBehaviour
     public void OnButtonClick()
     {
         Invoke("MyFunction", 1f);
-        Invoke("NewO", 3f);
+        //Invoke("NewO", 3f);
     }
 
     void MyFunction()

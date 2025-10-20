@@ -33,7 +33,10 @@ public class UIManager : MonoBehaviour
     public float RemainingTime { get { return remainingTime; } set { remainingTime = value; } }
 
     [Header ("Gameplay Panel UI")]
-    [SerializeField] private GameObject calculationPanel;
+    [SerializeField] public GameObject calculationPanel;
+
+    private GameManager gameManager;
+    private UIController uiController;
 
     public static UIManager instance;
 
@@ -49,8 +52,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        gameManager = GameManager.instance;
+        uiController = UIController.instance;
+    }
+
     public void ShowCalculationPanel()
     {
         calculationPanel.SetActive(true);
+    }
+
+    public void HideCalculationPanel()
+    {
+        calculationPanel.SetActive(false);
+    }
+
+    public void OnSubmitButtonClicked()
+    {
+        StartCoroutine(uiController.TransitionRoutine(false));
+        gameManager.SetPlayerValues();
     }
 }

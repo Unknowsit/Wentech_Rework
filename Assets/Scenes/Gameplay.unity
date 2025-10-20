@@ -2282,7 +2282,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 587145728}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 510688862}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: OnSubmitButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &587145728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7437,25 +7449,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09ee64c89cf8994ebf76c71e3ee2907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasSpawned: 0
   totalTurns: 1
-  totalBalloons: 20
+  player1: 0
+  player2: 0
+  currentBalloonIndex: 0
+  totalBalloons: 5
   targetBalloonCount: 4
   balloonCollisionRadius: 0.5
   balloonPrefab: {fileID: 1476127773447772888, guid: 0064a8ec3ba17604fa9297613da22a4c, type: 3}
   balloonParent: {fileID: 1152949959}
   balloonList: []
   balloonHitCounts: 
-  balloonHitPrefab: {fileID: 4466741007451554737, guid: 67146caf38ff6ff49bbfd65bc9f59b40, type: 3}
-  balloonHitParent: {fileID: 1347064312}
   balloonSlots:
   - {fileID: 1133686248}
   - {fileID: 1704947480}
   - {fileID: 175747405}
   - {fileID: 1235501034}
   - {fileID: 1764547826}
-  currentBalloonIndex: 0
+  balloonHitPrefab: {fileID: 4466741007451554737, guid: 67146caf38ff6ff49bbfd65bc9f59b40, type: 3}
+  balloonHitParent: {fileID: 1347064312}
   areaSize: {x: 15, y: 5}
   rotationSpeed: 50
+  cannonShooter: {fileID: 363876700}
 --- !u!1 &2027825661
 GameObject:
   m_ObjectHideFlags: 0
