@@ -119,7 +119,7 @@ public class UI : MonoBehaviour
 
     IEnumerator DivideButtonOnTheLeft()
     {
-        StartCoroutine(DelayAction("DivideCard", false, 1.4f));
+        StartCoroutine(DelayAction("DivideCard", false, 1.2f));
         StartCoroutine(DelayAction("MultiplyCard", true, 1f));
 
         StartCoroutine(DelayOrderAction("DivideCardInTheMiddle", 0, 1f, 1f));
@@ -128,9 +128,9 @@ public class UI : MonoBehaviour
 
         StartCoroutine(DelayOrderAction("DivideBG", 0, 1f, 1f));
 
-        /*StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheLeft", 1.4f, 0f));
-        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheMiddle", 1.4f, 0f));
-        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheRight", 1.4f, 0f));*/
+        /*StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheLeft", 1.2f, 0f));
+        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheMiddle", 1.2f, 0f));
+        StartCoroutine(DelayActionToggle("MultiplyBarrierOnTheRight", 1.2f, 0f));*/
         yield break;
     }
 
