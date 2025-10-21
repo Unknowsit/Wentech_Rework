@@ -140,7 +140,7 @@ public class UIController : MonoBehaviour
         SceneManager.LoadScene("Gameplay");
     }
 
-    private IEnumerator FadeInUI(float duration)
+    public IEnumerator FadeInUI(float duration)
     {
         Debug.Log("Start fade in UI.");
         float elapsed = 0f;
@@ -156,7 +156,7 @@ public class UIController : MonoBehaviour
         blackoutScreen.color = new Color(0f, 0f, 0f, 1f);
     }
 
-    private IEnumerator FadeOutUI(float duration)
+    public IEnumerator FadeOutUI(float duration)
     {
         Debug.Log("Start fade out UI.");
         float elapsed = 0f;
@@ -198,24 +198,47 @@ public class UIController : MonoBehaviour
 
     public void RunTransition()
     {
-        StartCoroutine(TransitionRoutine(true));
+        StartCoroutine(UITransition(showPanel: uiManager.calculationPanel));
     }
 
-    public IEnumerator TransitionRoutine(bool flag)
+    public IEnumerator UITransition(GameObject showPanel = null, params GameObject[] hidePanels)
     {
         yield return StartCoroutine(FadeInUI(delayTime));
-        
+
+        foreach (var panel in hidePanels)
+        {
+            panel.SetActive(false);
+        }
+
+        if (showPanel != null)
+        {
+            showPanel.SetActive(true);
+        }
+
+        yield return new WaitForSeconds(0.3f);
+        yield return StartCoroutine(FadeOutUI(delayTime));
+    }
+
+    /*
+    public IEnumerator UITransition(bool flag)
+    {
+        yield return StartCoroutine(FadeInUI(delayTime));
+
+        uiManager.HideCalculationPanel();
+        uiManager.HideScorePanel();
+
         if (flag)
         {
             uiManager.ShowCalculationPanel();
         }
         else
         {
-            uiManager.HideCalculationPanel();
+            uiManager.ShowScorePanel();
             GameManager.instance.RestartGame();
         }
 
         yield return new WaitForSeconds(0.3f);
         yield return StartCoroutine(FadeOutUI(delayTime));
     }
+    */
 }

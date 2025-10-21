@@ -121,16 +121,25 @@ public class GameManager : MonoBehaviour
         if (totalTurns % 2 == 0)
         {
             player1 = int.Parse(uiManager.TotalText.text);
+            uiManager.Player01.text = $"Answer : {player1.ToString()}";
+            uiManager.PlayerText.text = "P2";
         }
         else
         {
             player2 = int.Parse(uiManager.TotalText.text);
+            uiManager.Player02.text = $"Answer : {player2.ToString()}";
+            uiManager.PlayerText.text = "P1";
         }
     }
 
     public void SetTargetRounds(int count)
     {
         totalTurns = count * 2;
+    }
+
+    public void SetBalloonSpawnCount(int count)
+    {
+        totalBalloons = Mathf.Clamp(count, 10, 20);
         GenerateBalloon();
         CalculateTargetSum();
     }
@@ -139,7 +148,6 @@ public class GameManager : MonoBehaviour
     public void SetTargetBalloonCount(int count)
     {
         targetBalloonCount = Mathf.Clamp(count, 1, totalBalloons);
-        StartGame();
     }
     */
 
