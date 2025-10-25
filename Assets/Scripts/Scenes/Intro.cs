@@ -6,14 +6,7 @@ public class Intro : MonoBehaviour
 {
     [SerializeField] private string nextSceneName = null;
     [SerializeField] private float loadDelayTime = 5f;
-
-    private AudioManager audioManager;
-
-    private void Awake()
-    {
-        audioManager = AudioManager.instance;
-    }
-
+    [SerializeField] private AudioManager audioManager;
     private void Update()
     {
         IntroGame();
