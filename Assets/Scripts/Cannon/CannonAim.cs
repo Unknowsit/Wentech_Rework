@@ -27,4 +27,11 @@ public class CannonAim : MonoBehaviour
         float clampedAngle = Mathf.Clamp(angle, min, max);
         transform.eulerAngles = new Vector3(0f, 0f, clampedAngle);
     }
+
+    private void OnDrawGizmos()
+    {
+        if (cam == null) cam = Camera.main;
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, mousePos);
+    }
 }

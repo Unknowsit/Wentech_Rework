@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Other Settings")]
     public float rotationSpeed = 50f;
-    [SerializeField] private GameObject cannonShooter;
+
+    public CannonShooter cannonShooter;
 
     public static GameManager instance;
     private UIManager uiManager;
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
 
         totalTurns--;
         hasSpawned = false;
-        cannonShooter.SetActive(true);
+        cannonShooter.enabled = true;
         ResetUI();
     }
 

@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public enum OperatorMode
 {
@@ -44,12 +43,16 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float remainingTime;
     public float RemainingTime { get { return remainingTime; } set { remainingTime = value; } }
 
-    [Header("Gameplay Panel UI")]
+    [Header("Math Panel UI")]
     [SerializeField] public GameObject calculationPanel;
 
     [SerializeField] private TextMeshProUGUI totalText;
     public TextMeshProUGUI TotalText => totalText;
 
+    [SerializeField] private Button submitButton;
+    public Button SubmitButton => submitButton;
+
+    [Header("Score Panel UI")]
     [SerializeField] public GameObject scorePanel;
 
     [SerializeField] private TextMeshProUGUI player01;
@@ -57,6 +60,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI player02;
     public TextMeshProUGUI Player02 => player02;
+
+    [SerializeField] private Button nextButton;
+    public Button NextButton => nextButton;
 
     [Header("Useless")]
     public TMP_InputField targetInputField;
@@ -132,6 +138,7 @@ public class UIManager : MonoBehaviour
     {
         StartCoroutine(uiController.UITransition(scorePanel, calculationPanel));
         gameManager.SetPlayerValues();
+        NextButton.interactable = true;
     }
 
     public void ShowScorePanel()
