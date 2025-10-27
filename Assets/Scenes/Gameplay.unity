@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 4309710}
   - component: {fileID: 4309709}
   m_Layer: 5
-  m_Name: NumText (TMP)
+  m_Name: ScoreP1Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2751,7 +2751,7 @@ GameObject:
   - component: {fileID: 438182217}
   - component: {fileID: 438182216}
   m_Layer: 5
-  m_Name: PlayerText02 (TMP)
+  m_Name: P1Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2994,8 +2994,10 @@ MonoBehaviour:
   totalText: {fileID: 625203036}
   submitButton: {fileID: 587145727}
   scorePanel: {fileID: 1773979921}
-  player01: {fileID: 2117800939}
-  player02: {fileID: 930879664}
+  resultP1Text: {fileID: 2117800939}
+  scoreP1Text: {fileID: 4309709}
+  resultP2Text: {fileID: 930879664}
+  scoreP2Text: {fileID: 734009489}
   nextButton: {fileID: 287064797}
   targetInputField: {fileID: 1847498273}
 --- !u!4 &510688863
@@ -4022,7 +4024,7 @@ GameObject:
   - component: {fileID: 734009490}
   - component: {fileID: 734009489}
   m_Layer: 5
-  m_Name: NumText (TMP)
+  m_Name: ScoreP2Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4786,7 +4788,7 @@ GameObject:
   - component: {fileID: 930879665}
   - component: {fileID: 930879664}
   m_Layer: 5
-  m_Name: AnswerText (TMP)
+  m_Name: ResultP2Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5240,7 +5242,7 @@ GameObject:
   - component: {fileID: 1108583871}
   - component: {fileID: 1108583870}
   m_Layer: 5
-  m_Name: PlayerText01 (TMP)
+  m_Name: P2Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9674,10 +9676,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09ee64c89cf8994ebf76c71e3ee2907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasSpawned: 0
+  p1: 0
+  p2: 0
   totalTurns: 1
-  player1: 0
-  player2: 0
   currentBalloonIndex: 0
   totalBalloons: 10
   targetBalloonCount: 4
@@ -9898,7 +9899,7 @@ GameObject:
   - component: {fileID: 2117800940}
   - component: {fileID: 2117800939}
   m_Layer: 5
-  m_Name: AnswerText (TMP)
+  m_Name: ResultP1Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

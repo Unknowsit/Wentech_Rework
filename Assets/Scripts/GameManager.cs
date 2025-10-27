@@ -1,15 +1,16 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private bool hasSpawned = false;
+    private bool hasSpawned = false;
 
     private int attempts = 0;
     private int spawnedCount = 0;
 
+    public int p1, p2;
     public int totalTurns = 1;
-    public int player1, player2;
 
     [HideInInspector] public int currentBalloonIndex = 0;
 
@@ -121,15 +122,16 @@ public class GameManager : MonoBehaviour
     {
         if (totalTurns % 2 == 0)
         {
-            player1 = int.Parse(uiManager.TotalText.text);
-            uiManager.Player01.text = $"Answer : {player1.ToString()}";
+            p1 = int.Parse(uiManager.TotalText.text);
+            uiManager.ResultP1Text.text = $"Answer : {p1.ToString()}";
             uiManager.PlayerText.text = "P2";
         }
         else
         {
-            player2 = int.Parse(uiManager.TotalText.text);
-            uiManager.Player02.text = $"Answer : {player2.ToString()}";
+            p2 = int.Parse(uiManager.TotalText.text);
+            uiManager.ResultP2Text.text = $"Answer : {p2.ToString()}";
             uiManager.PlayerText.text = "P1";
+            StartCoroutine(uiManager.CountScore(p1, p2));
         }
     }
 
@@ -332,6 +334,48 @@ public class GameManager : MonoBehaviour
         }
 
         uiManager.TotalText.text = sum.ToString();
+    }
+
+    private IEnumerator CountScore(bool isP1)
+    {
+        int current;
+        if (isP1) current = int.Parse(uiManager.ResultP1Text.text);
+        else current = int.Parse(uiManager.ResultP2Text.text);
+
+        int target = current + 1000;
+
+        while (current < target)
+        {
+            int diff = target - current;
+            int step = Mathf.Max(1, Mathf.CeilToInt(diff * 0.5f));
+
+            current += step;
+            if (current > target) current = target;
+
+            if (isP1)
+            {
+                p1 = current;
+                uiManager.ScoreP1Text.text = p1.ToString();
+            }
+            else
+            {
+                p2 = current;
+                uiManager.ScoreP2Text.text = p2.ToString();
+            }
+
+            yield return new WaitForSeconds(0.05f);
+        }
+        /*
+        //Debug.Log("Diff " + diff);
+        if (player1 > player2)
+        {
+            uiManager.ScorePlayerOne.text += 1000;
+        }
+        else if (player1 < player2)
+        {
+            uiManager.ScorePlayerTwo.text += 1000;
+        }
+        */
     }
 
     /*
