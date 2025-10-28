@@ -2751,7 +2751,7 @@ GameObject:
   - component: {fileID: 438182217}
   - component: {fileID: 438182216}
   m_Layer: 5
-  m_Name: P1Text (TMP)
+  m_Name: P2Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5242,7 +5242,7 @@ GameObject:
   - component: {fileID: 1108583871}
   - component: {fileID: 1108583870}
   m_Layer: 5
-  m_Name: P2Text (TMP)
+  m_Name: P1Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

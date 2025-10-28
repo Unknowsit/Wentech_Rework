@@ -18,6 +18,8 @@ public static class GameData
 
 public class UIManager : MonoBehaviour
 {
+    private bool shouldReset = false;
+
     private int scoreP1 = 0, scoreP2 = 0;
 
     [Header("Player Info")]
@@ -46,7 +48,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float remainingTime;
     public float RemainingTime { get { return remainingTime; } set { remainingTime = value; } }
 
-    [Header("Math Panel UI")]
+    [Header("Calculation Panel UI")]
     [SerializeField] public GameObject calculationPanel;
 
     [SerializeField] private TextMeshProUGUI totalText;
@@ -164,53 +166,41 @@ public class UIManager : MonoBehaviour
     {
         StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
         gameManager.RestartGame();
+
+        if (shouldReset)
+        {
+            StartCoroutine(ClearResultTexts());
+        }
     }
 
-    public IEnumerator CountScore(int p1, int p2)
+    public void CountScore(int p1, int p2)
     {
-        int current;
+        int current = int.Parse(targetText.text);
 
-        if (gameManager.totalTurns % 2 == 0)
-            current = scoreP1;
-        else
-            current = scoreP2;
+        int diffP1 = Mathf.Abs(p1 - current);
+        int diffP2 = Mathf.Abs(p2 - current);
 
-        //int target = current + 1000;
+        int scoreP1 = Mathf.RoundToInt((1f - (float)diffP1 / current) * 1000f);
+        int scoreP2 = Mathf.RoundToInt((1f - (float)diffP2 / current) * 1000f);
 
-        while (true)
-        {
-            int targetNum = int.Parse(targetText.text);
+        scoreP1 = Mathf.Clamp(scoreP1, 0, 1000);
+        scoreP2 = Mathf.Clamp(scoreP2, 0, 1000);
 
-            int p1Num = p1 - targetNum;
-            int p2Num = p2 - targetNum;
+        this.scoreP1 += scoreP1;
+        scoreP1Text.text = this.scoreP1.ToString();
+        this.scoreP2 += scoreP2;
+        scoreP2Text.text = this.scoreP2.ToString();
 
-            Debug.Log("P1: " + p1Num);
-            Debug.Log("P2: " + p2Num);
-            /*
-            int diff = target - current;
-            int step = Mathf.Max(1, Mathf.CeilToInt(diff * 0.3f));
-            */
+        shouldReset = true;
+    }
 
-            //current += step;
+    private IEnumerator ClearResultTexts()
+    {
+        shouldReset = false;
 
-            //if (current > target) current = target;
+        yield return new WaitForSecondsRealtime(1f);
 
-            if (p1 > p2)
-            {
-                scoreP1 += 1000;
-                scoreP1Text.text = scoreP1.ToString();
-                break;
-            }
-            else if (p1 < p2)
-            {
-                scoreP2 += 1000;
-                scoreP2Text.text = scoreP2.ToString();
-                break;
-            }
-
-            yield return new WaitForSeconds(0.05f);
-            //yield return null;
-            //break;
-        }
+        resultP1Text.text = "Answer : 0";
+        resultP2Text.text = "Answer : 0";
     }
 }

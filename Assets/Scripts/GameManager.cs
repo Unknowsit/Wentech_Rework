@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
             p2 = int.Parse(uiManager.TotalText.text);
             uiManager.ResultP2Text.text = $"Answer : {p2.ToString()}";
             uiManager.PlayerText.text = "P1";
-            StartCoroutine(uiManager.CountScore(p1, p2));
+            uiManager.CountScore(p1, p2);
         }
     }
 
