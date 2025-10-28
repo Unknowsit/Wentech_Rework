@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     [Header("Other Settings")]
     public float rotationSpeed = 50f;
 
+    public CannonAim cannonAim;
     public CannonShooter cannonShooter;
 
     public static GameManager instance;

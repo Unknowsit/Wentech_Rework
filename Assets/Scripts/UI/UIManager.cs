@@ -34,7 +34,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider balloonSpawnSlider;
     [SerializeField] private TextMeshProUGUI balloonSpawnText;
 
-    [Header("Confirm Button")]
+    [Header("Initialization Phase")]
+    [SerializeField] private float delayTime;
     [SerializeField] private Button confirmButton;
 
     [Header("Gameplay Info")]
@@ -122,6 +123,15 @@ public class UIManager : MonoBehaviour
         audioManager.PlaySFX("SFX04");
         gameManager.SetTargetRounds(targetTurns);
         gameManager.SetBalloonSpawnCount(targetBalloons);
+
+        StartCoroutine(DelayTimeToStart(delayTime));
+    }
+
+    private IEnumerator DelayTimeToStart(float delayTime)
+    {
+        yield return new WaitForSecondsRealtime(delayTime);
+        gameManager.cannonAim.enabled = true;
+        gameManager.cannonShooter.enabled = true;
         Time.timeScale = 1f;
     }
 

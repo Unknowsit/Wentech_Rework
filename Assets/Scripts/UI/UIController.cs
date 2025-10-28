@@ -78,6 +78,7 @@ public class UIController : MonoBehaviour
         }
     }
 
+    /*
     public void SetTurnCount()
     {
         if (int.TryParse(uiManager.targetInputField.text, out int target))
@@ -87,6 +88,7 @@ public class UIController : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
+    */
 
     /*
     public void ConfirmTargetCount()
