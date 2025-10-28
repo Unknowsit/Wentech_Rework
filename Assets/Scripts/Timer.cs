@@ -4,13 +4,9 @@ public class Timer : MonoBehaviour
 {
     private UIManager ui;
 
-    private void Awake()
-    {
-        ui = UIManager.instance;
-    }
-
     private void Start()
     {
+        ui = UIManager.instance;
         ui._ProgressBar.maxValue = ui.RemainingTime;
         ui._ProgressBar.value = ui.RemainingTime;
     }

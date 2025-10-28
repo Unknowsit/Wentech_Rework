@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
 
     public CannonAim cannonAim;
     public CannonShooter cannonShooter;
+    public Timer timer;
 
     public static GameManager instance;
     private UIManager uiManager;
@@ -56,8 +57,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        Time.timeScale = 0f;
     }
 
     private void Start()

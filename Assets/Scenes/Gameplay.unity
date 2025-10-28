@@ -2189,6 +2189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 370929125}
   - component: {fileID: 370929126}
+  - component: {fileID: 370929127}
   m_Layer: 5
   m_Name: ProgressBar
   m_TagString: Untagged
@@ -2270,6 +2271,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &370929127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370929124}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9528f409e4ac73d41bd4364a351e705e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &382818327
 GameObject:
   m_ObjectHideFlags: 0
@@ -2986,6 +2999,7 @@ MonoBehaviour:
   turnCountText: {fileID: 192765720}
   balloonSpawnSlider: {fileID: 1239982081}
   balloonSpawnText: {fileID: 1605526416}
+  delayTime: 3
   confirmButton: {fileID: 1467040947}
   targetText: {fileID: 423375377}
   _progressBar: {fileID: 370929126}
@@ -5494,7 +5508,6 @@ GameObject:
   - component: {fileID: 1150538192}
   - component: {fileID: 1150538191}
   - component: {fileID: 1150538195}
-  - component: {fileID: 1150538190}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5502,18 +5515,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1150538190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1150538189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9528f409e4ac73d41bd4364a351e705e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1150538191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6758,7 +6759,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415511490}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a4f1241af6209a48b46bdd101be5fe2, type: 3}
   m_Name: 
@@ -6772,7 +6773,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415511490}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f192c3ee119f2641a56f4e8c570f4f1, type: 3}
   m_Name: 
@@ -9697,7 +9698,9 @@ MonoBehaviour:
   balloonHitParent: {fileID: 1347064312}
   areaSize: {x: 15, y: 5}
   rotationSpeed: 50
+  cannonAim: {fileID: 1415511493}
   cannonShooter: {fileID: 1415511494}
+  timer: {fileID: 370929127}
 --- !u!1 &2027825661
 GameObject:
   m_ObjectHideFlags: 0

@@ -132,7 +132,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(delayTime);
         gameManager.cannonAim.enabled = true;
         gameManager.cannonShooter.enabled = true;
-        Time.timeScale = 1f;
+        gameManager.timer.enabled = true;
     }
 
     private void UpdateTurnText(float value)
