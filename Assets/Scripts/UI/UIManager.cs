@@ -13,7 +13,7 @@ public enum OperatorMode
 
 public static class GameData
 {
-    public static OperatorMode SelectedMode = OperatorMode.Add;
+    public static OperatorMode SelectedMode = OperatorMode.Minus;
 }
 
 public class UIManager : MonoBehaviour
@@ -186,19 +186,51 @@ public class UIManager : MonoBehaviour
     public void CountScore(int p1, int p2)
     {
         int current = int.Parse(targetText.text);
+        int scoreP1 = 0, scoreP2 = 0;
 
-        int diffP1 = Mathf.Abs(p1 - current);
-        int diffP2 = Mathf.Abs(p2 - current);
+        switch (GameData.SelectedMode)
+        {
+            case OperatorMode.Add:
+            case OperatorMode.Multiply:
+                {
+                    int diffP1 = Mathf.Abs(p1 - current);
+                    int diffP2 = Mathf.Abs(p2 - current);
 
-        int scoreP1 = Mathf.RoundToInt((1f - (float)diffP1 / current) * 1000f);
-        int scoreP2 = Mathf.RoundToInt((1f - (float)diffP2 / current) * 1000f);
+                    scoreP1 = Mathf.RoundToInt((1f - (float)diffP1 / current) * 1000f);
+                    scoreP2 = Mathf.RoundToInt((1f - (float)diffP2 / current) * 1000f);
+                    break;
+                }
+            case OperatorMode.Minus:
+            case OperatorMode.Divide:
+                {
+                    float diffP1 = Mathf.Abs(p1 - current);
+                    float diffP2 = Mathf.Abs(p2 - current);
+                    float absCurrent = Mathf.Abs(current);
+
+                    if (absCurrent > Mathf.Epsilon)
+                    {
+                        float accuracyP1 = absCurrent / (absCurrent + diffP1);
+                        float accuracyP2 = absCurrent / (absCurrent + diffP2);
+
+                        scoreP1 = Mathf.RoundToInt(accuracyP1 * 1000f);
+                        scoreP2 = Mathf.RoundToInt(accuracyP2 * 1000f);
+                    }
+                    else
+                    {
+                        scoreP1 = 0;
+                        scoreP2 = 0;
+                    }
+                    break;
+                }
+        }
 
         scoreP1 = Mathf.Clamp(scoreP1, 0, 1000);
         scoreP2 = Mathf.Clamp(scoreP2, 0, 1000);
 
         this.scoreP1 += scoreP1;
-        scoreP1Text.text = this.scoreP1.ToString();
         this.scoreP2 += scoreP2;
+
+        scoreP1Text.text = this.scoreP1.ToString();
         scoreP2Text.text = this.scoreP2.ToString();
 
         shouldReset = true;

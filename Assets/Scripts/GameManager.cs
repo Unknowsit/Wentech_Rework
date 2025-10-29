@@ -199,7 +199,7 @@ public class GameManager : MonoBehaviour
                         break;
                     case OperatorMode.Minus:
                         sum -= value;
-                        resultText += " - " + value;
+                        resultText += $" - ({value})";
                         break;
                     case OperatorMode.Multiply:
                         sum *= value;
@@ -334,48 +334,6 @@ public class GameManager : MonoBehaviour
         }
 
         uiManager.TotalText.text = sum.ToString();
-    }
-
-    private IEnumerator CountScore(bool isP1)
-    {
-        int current;
-        if (isP1) current = int.Parse(uiManager.ResultP1Text.text);
-        else current = int.Parse(uiManager.ResultP2Text.text);
-
-        int target = current + 1000;
-
-        while (current < target)
-        {
-            int diff = target - current;
-            int step = Mathf.Max(1, Mathf.CeilToInt(diff * 0.5f));
-
-            current += step;
-            if (current > target) current = target;
-
-            if (isP1)
-            {
-                p1 = current;
-                uiManager.ScoreP1Text.text = p1.ToString();
-            }
-            else
-            {
-                p2 = current;
-                uiManager.ScoreP2Text.text = p2.ToString();
-            }
-
-            yield return new WaitForSeconds(0.05f);
-        }
-        /*
-        //Debug.Log("Diff " + diff);
-        if (player1 > player2)
-        {
-            uiManager.ScorePlayerOne.text += 1000;
-        }
-        else if (player1 < player2)
-        {
-            uiManager.ScorePlayerTwo.text += 1000;
-        }
-        */
     }
 
     /*
