@@ -13,7 +13,7 @@ public enum OperatorMode
 
 public static class GameData
 {
-    public static OperatorMode SelectedMode = OperatorMode.Minus;
+    public static OperatorMode SelectedMode = OperatorMode.Divide;
 }
 
 public class UIManager : MonoBehaviour

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -278,16 +277,22 @@ public class GameManager : MonoBehaviour
                 {
                     sum += slot.GetBalloonValue();
                 }
+
+                uiManager.TotalText.text = sum.ToString();
                 break;
             case OperatorMode.Minus:
-                foreach (var slot in balloonSlots)
+                for (int i = 0; i < balloonSlots.Length; i++)
                 {
-                    sum -= slot.GetBalloonValue();
+                    int value = balloonSlots[i].GetBalloonValue();
+                    if (value == 0) continue;
+                    sum = (sum == 0) ? value : sum - value;
                 }
+
+                uiManager.TotalText.text = sum.ToString();
                 break;
             case OperatorMode.Multiply:
             {
-                int tempSum = 1;
+                int sumMultiply = 1;
                 bool hasBalloon = false;
 
                 foreach (var slot in balloonSlots)
@@ -296,44 +301,33 @@ public class GameManager : MonoBehaviour
 
                     if (value != 0)
                     {
-                        tempSum *= value;
+                        sumMultiply *= value;
                         hasBalloon = true;
                     }
                 }
 
-                sum = hasBalloon ? tempSum : 0;
+                sum = hasBalloon ? sumMultiply : 0;
+                uiManager.TotalText.text = sum.ToString();
                 break;
             }
             case OperatorMode.Divide:
             {
-                int tempSum = 0;
-                bool hasBalloon = false;
+                float sumDivide = 0;
+                bool firstFound = false;
 
                 foreach (var slot in balloonSlots)
                 {
                     int value = slot.GetBalloonValue();
+                    if (value == 0) continue;
 
-                    if (value != 0)
-                    {
-                        if (!hasBalloon)
-                        {
-                            tempSum = value;
-                        }
-                        else
-                        {
-                            tempSum /= value;
-                        }
-
-                        hasBalloon = true;
-                    }
+                    sumDivide = firstFound ? sumDivide / value : value;
+                    firstFound = true;
                 }
 
-                sum = hasBalloon ? tempSum : 0;
+                uiManager.TotalText.text = firstFound ? sumDivide.ToString("F2") : "0.00";
                 break;
             }
         }
-
-        uiManager.TotalText.text = sum.ToString();
     }
 
     /*
