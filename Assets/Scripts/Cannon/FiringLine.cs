@@ -19,27 +19,35 @@ public class FiringLine : MonoBehaviour
         lineOfSight.positionCount = 1;
         lineOfSight.SetPosition(0, transform.position);
 
-        Vector2 mirrorHitPoint = Vector2.zero;
-        Vector2 mirrorHitNormal = Vector2.zero;
-
         Vector2 direction = transform.right;
         Vector2 origin = transform.position;
 
         for (int i = 0; i < reflections; i++)
         {
             RaycastHit2D hitInfo = Physics2D.Raycast(origin, direction, MaxRayDistance, LayerDetection);
-
             lineOfSight.positionCount += 1;
 
             if (hitInfo.collider != null)
             {
-                lineOfSight.SetPosition(lineOfSight.positionCount - 1, hitInfo.point);
+                Vector2 hitPoint = hitInfo.point;
+                lineOfSight.SetPosition(lineOfSight.positionCount - 1, hitPoint);
+
+                // ————— Debug: วาด segment จริง (origin -> hitPoint)
+                Debug.DrawLine(origin, hitPoint, Color.green);
+
+                // ————— Debug: วาด normal ที่จุดชน (ยาวเล็กน้อย)
+                Debug.DrawRay(hitPoint, hitInfo.normal * 0.5f, Color.red);
 
                 if (hitInfo.collider.CompareTag("Box"))
                 {
-                    //  ใช้ทิศทางที่ยิงไป Reflect กับ normal ที่โดน
-                    direction = Vector2.Reflect(direction, hitInfo.normal);
-                    origin = hitInfo.point;
+                    // คำนวณทิศทางสะท้อน
+                    direction = Vector2.Reflect(direction, hitInfo.normal).normalized;
+
+                    // ————— Debug: วาดทิศทางที่สะท้อนจากจุดชน (ยาวเล็กน้อย)
+                    Debug.DrawRay(hitPoint, direction * 1.0f, Color.cyan);
+
+                    // ตั้ง origin เล็กน้อยให้หลุดจาก collider เพื่อหลีกเลี่ยงการชนซ้ำ (epsilon shift)
+                    origin = hitPoint + direction * 0.01f;
                 }
                 else
                 {
@@ -49,8 +57,12 @@ public class FiringLine : MonoBehaviour
             }
             else
             {
-                // ไม่มีอะไรโดน ยิงตรงไปให้สุดระยะ
-                lineOfSight.SetPosition(lineOfSight.positionCount - 1, origin + direction * MaxRayDistance);
+                // ไม่มีอะไรโดน: วาดจนสุดระยะ
+                Vector2 endPoint = origin + direction * MaxRayDistance;
+                lineOfSight.SetPosition(lineOfSight.positionCount - 1, endPoint);
+
+                // ————— Debug: วาด segment สุดท้าย
+                Debug.DrawLine(origin, endPoint, Color.red);
                 break;
             }
         }
