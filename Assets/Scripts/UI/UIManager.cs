@@ -24,7 +24,6 @@ public class UIManager : MonoBehaviour
 
     [Header("Player Info")]
     [SerializeField] private TextMeshProUGUI playerText;
-    public TextMeshProUGUI PlayerText => playerText;
 
     [Header("Turn Setup")]
     [SerializeField] private Slider turnCountSlider;
@@ -158,7 +157,7 @@ public class UIManager : MonoBehaviour
     public void OnSubmitButtonClicked()
     {
         StartCoroutine(uiController.UITransition(scorePanel, calculationPanel));
-        gameManager.SetPlayerValues();
+        gameManager.SetPlayerValues(totalText, playerText);
         NextButton.interactable = true;
     }
 
@@ -183,19 +182,19 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void CountScore(int p1, int p2)
+    public void CountScore(float p1, float p2)
     {
-        int current = int.Parse(targetText.text);
+        float current = float.Parse(targetText.text);
         int scoreP1 = 0, scoreP2 = 0;
+
+        float diffP1 = Mathf.Abs(p1 - current);
+        float diffP2 = Mathf.Abs(p2 - current);
 
         switch (GameData.SelectedMode)
         {
             case OperatorMode.Add:
             case OperatorMode.Multiply:
                 {
-                    int diffP1 = Mathf.Abs(p1 - current);
-                    int diffP2 = Mathf.Abs(p2 - current);
-
                     scoreP1 = Mathf.RoundToInt((1f - (float)diffP1 / current) * 1000f);
                     scoreP2 = Mathf.RoundToInt((1f - (float)diffP2 / current) * 1000f);
                     break;
@@ -203,8 +202,6 @@ public class UIManager : MonoBehaviour
             case OperatorMode.Minus:
             case OperatorMode.Divide:
                 {
-                    float diffP1 = Mathf.Abs(p1 - current);
-                    float diffP2 = Mathf.Abs(p2 - current);
                     float absCurrent = Mathf.Abs(current);
 
                     if (absCurrent > Mathf.Epsilon)
@@ -217,6 +214,7 @@ public class UIManager : MonoBehaviour
                     }
                     else
                     {
+                        Debug.LogWarning("Target is zero! Can't calculate score.");
                         scoreP1 = 0;
                         scoreP2 = 0;
                     }

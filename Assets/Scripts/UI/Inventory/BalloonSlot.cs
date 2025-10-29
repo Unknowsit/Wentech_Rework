@@ -4,11 +4,13 @@ using UnityEngine.EventSystems;
 public class BalloonSlot : MonoBehaviour, IDropHandler
 {
     private GameManager gameManager;
+    private UIManager uiManager;
     private BalloonHitText currentBalloon;
 
     private void Awake()
     {
         gameManager = GameManager.instance;
+        uiManager = UIManager.instance;
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -39,7 +41,7 @@ public class BalloonSlot : MonoBehaviour, IDropHandler
         }
 
         currentBalloon = droppedObject.GetComponent<BalloonHitText>();
-        gameManager.UpdateBalloonSum();
+        RefreshSum();
     }
 
     public int GetBalloonValue()
@@ -50,12 +52,17 @@ public class BalloonSlot : MonoBehaviour, IDropHandler
     public void OnBalloonRemoved()
     {
         currentBalloon = null;
-        gameManager.UpdateBalloonSum();
+        RefreshSum();
     }
 
     public void SetBalloon(BalloonHitText balloon)
     {
         currentBalloon = balloon;
-        gameManager.UpdateBalloonSum();
+        RefreshSum();
+    }
+
+    private void RefreshSum()
+    {
+        gameManager.UpdateBalloonSum(uiManager.TotalText);
     }
 }

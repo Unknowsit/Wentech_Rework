@@ -4049,12 +4049,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerText: {fileID: 417557790}
-  turnCountSlider: {fileID: 0}
-  turnCountText: {fileID: 0}
-  balloonSpawnSlider: {fileID: 0}
-  balloonSpawnText: {fileID: 0}
+  turnCountSlider: {fileID: 1747715609}
+  turnCountText: {fileID: 302660095}
+  balloonSpawnSlider: {fileID: 44072045}
+  balloonSpawnText: {fileID: 78026979}
   delayTime: 3
-  confirmButton: {fileID: 0}
+  confirmButton: {fileID: 1950635526}
   targetText: {fileID: 423375377}
   _progressBar: {fileID: 370929126}
   remainingTime: 100
@@ -4067,7 +4067,7 @@ MonoBehaviour:
   resultP2Text: {fileID: 930879664}
   scoreP2Text: {fileID: 734009489}
   nextButton: {fileID: 287064797}
-  targetInputField: {fileID: 0}
+  targetInputField: {fileID: 300210914}
 --- !u!4 &510688863
 Transform:
   m_ObjectHideFlags: 0
@@ -12325,7 +12325,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 510688862}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: ApplyTurnSetup
         m_Mode: 1

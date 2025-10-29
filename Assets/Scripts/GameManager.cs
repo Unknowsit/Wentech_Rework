@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,7 +9,7 @@ public class GameManager : MonoBehaviour
     private int attempts = 0;
     private int spawnedCount = 0;
 
-    public int p1, p2;
+    public float p1, p2;
     public int totalTurns = 1;
 
     [HideInInspector] public int currentBalloonIndex = 0;
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         ResetGameState();
         GenerateBalloon();
-        CalculateTargetSum();
+        CalculateTargetSum(uiManager.TargetText);
         currentBalloonIndex = 0;
     }
 
@@ -117,19 +118,19 @@ public class GameManager : MonoBehaviour
         uiManager.RemainingTime = 100;
     }
 
-    public void SetPlayerValues()
+    public void SetPlayerValues(TextMeshProUGUI playerInputText, TextMeshProUGUI playerText)
     {
         if (totalTurns % 2 == 0)
         {
-            p1 = int.Parse(uiManager.TotalText.text);
+            p1 = float.Parse(playerInputText.text);
             uiManager.ResultP1Text.text = $"Answer : {p1.ToString()}";
-            uiManager.PlayerText.text = "P2";
+            playerText.text = "P2";
         }
         else
         {
-            p2 = int.Parse(uiManager.TotalText.text);
+            p2 = float.Parse(playerInputText.text);
             uiManager.ResultP2Text.text = $"Answer : {p2.ToString()}";
-            uiManager.PlayerText.text = "P1";
+            playerText.text = "P1";
             uiManager.CountScore(p1, p2);
         }
     }
@@ -143,7 +144,7 @@ public class GameManager : MonoBehaviour
     {
         totalBalloons = Mathf.Clamp(count, 10, 20);
         GenerateBalloon();
-        CalculateTargetSum();
+        CalculateTargetSum(uiManager.TargetText);
     }
 
     /*
@@ -181,7 +182,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void CalculateTargetSum()
+    private void CalculateTargetSum(TextMeshProUGUI targetText)
     {
         int sum = int.Parse(balloonList[0]);
         string resultText = sum.ToString();
@@ -195,25 +196,29 @@ public class GameManager : MonoBehaviour
                     case OperatorMode.Add:
                         sum += value;
                         resultText += " + " + value;
+                        targetText.text = sum.ToString();
                         break;
                     case OperatorMode.Minus:
                         sum -= value;
                         resultText += $" - ({value})";
+                        targetText.text = sum.ToString();
                         break;
                     case OperatorMode.Multiply:
                         sum *= value;
                         resultText += " * " + value;
+                        targetText.text = sum.ToString();
                         break;
                     case OperatorMode.Divide:
-                        if (value != 0) sum /= value;
+                        //if (value != 0)
+                        sum /= value;
                         resultText += " / " + value;
+                        targetText.text = sum.ToString("F2");
                         break;
                 }
             }
         }
 
         Debug.Log($"Expression: {resultText} = {sum}");
-        uiManager.TargetText.text = sum.ToString();
     }
 
     public void CalculateBalloon()
@@ -266,7 +271,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UpdateBalloonSum()
+    public void UpdateBalloonSum(TextMeshProUGUI totalText)
     {
         int sum = 0;
 
@@ -278,7 +283,7 @@ public class GameManager : MonoBehaviour
                     sum += slot.GetBalloonValue();
                 }
 
-                uiManager.TotalText.text = sum.ToString();
+                totalText.text = sum.ToString();
                 break;
             case OperatorMode.Minus:
                 for (int i = 0; i < balloonSlots.Length; i++)
@@ -288,7 +293,7 @@ public class GameManager : MonoBehaviour
                     sum = (sum == 0) ? value : sum - value;
                 }
 
-                uiManager.TotalText.text = sum.ToString();
+                totalText.text = sum.ToString();
                 break;
             case OperatorMode.Multiply:
             {
@@ -307,7 +312,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 sum = hasBalloon ? sumMultiply : 0;
-                uiManager.TotalText.text = sum.ToString();
+                totalText.text = sum.ToString();
                 break;
             }
             case OperatorMode.Divide:
@@ -324,7 +329,7 @@ public class GameManager : MonoBehaviour
                     firstFound = true;
                 }
 
-                uiManager.TotalText.text = firstFound ? sumDivide.ToString("F2") : "0.00";
+                totalText.text = firstFound ? sumDivide.ToString("F2") : "0.00";
                 break;
             }
         }
