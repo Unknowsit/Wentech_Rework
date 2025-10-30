@@ -123,13 +123,13 @@ public class GameManager : MonoBehaviour
         if (totalTurns % 2 == 0)
         {
             p1 = float.Parse(playerInputText.text);
-            uiManager.ResultP1Text.text = $"Answer : {p1.ToString()}";
+            uiManager.ResultP1Text.text = $"{p1.ToString()}";
             playerText.text = "P2";
         }
         else
         {
             p2 = float.Parse(playerInputText.text);
-            uiManager.ResultP2Text.text = $"Answer : {p2.ToString()}";
+            uiManager.ResultP2Text.text = $"{p2.ToString()}";
             playerText.text = "P1";
             uiManager.CountScore(p1, p2);
         }

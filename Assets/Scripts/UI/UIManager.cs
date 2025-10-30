@@ -240,7 +240,7 @@ public class UIManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(1f);
 
-        resultP1Text.text = "Answer : 0";
-        resultP2Text.text = "Answer : 0";
+        resultP1Text.text = "0";
+        resultP2Text.text = "0";
     }
 }

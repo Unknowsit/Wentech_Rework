@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 074f0fd64fb8da24ea7236b446f5cbf2
+guid: aedf7d790ac801b409933798b4a7499a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1836799359256116039
-    second: 456_0
+      213: -7636065062218683851
+    second: mars_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 456_0
+      name: mars_0
       rect:
         serializedVersion: 2
-        x: 887
-        y: 112
-        width: 576
-        height: 779
+        x: 0
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 110, y: 110, z: 110, w: 110}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9b4cfdbe6b06286e0800000000000000
-      internalID: -1836799359256116039
+      spriteID: 53a2fa4984f370690800000000000000
+      internalID: -7636065062218683851
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4b593613319e31e4a8d704742ac3ce9d
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      456_0: -1836799359256116039
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
