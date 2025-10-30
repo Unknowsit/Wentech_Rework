@@ -1371,7 +1371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &510688862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,8 +1384,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9b099f6e48f7c04ba72126b8ccbf333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerText: {fileID: 0}
+  turnCountSlider: {fileID: 0}
+  turnCountText: {fileID: 0}
+  balloonSpawnSlider: {fileID: 0}
+  balloonSpawnText: {fileID: 0}
+  delayTime: 0
+  confirmButton: {fileID: 0}
+  targetText: {fileID: 0}
   _progressBar: {fileID: 370929126}
   remainingTime: 100
+  calculationPanel: {fileID: 0}
+  totalText: {fileID: 0}
+  submitButton: {fileID: 0}
+  scorePanel: {fileID: 0}
+  resultP1Text: {fileID: 0}
+  scoreP1Text: {fileID: 0}
+  resultP2Text: {fileID: 0}
+  scoreP2Text: {fileID: 0}
+  nextButton: {fileID: 0}
+  targetInputField: {fileID: 0}
 --- !u!4 &510688863
 Transform:
   m_ObjectHideFlags: 0
@@ -1396,6 +1414,60 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &513669079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513669081}
+  - component: {fileID: 513669080}
+  m_Layer: 0
+  m_Name: VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &513669080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513669079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa0599ba2f8c1914db0d01edd707aa5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oneShotPrefab: {fileID: 2041370504997863635, guid: 160a0c9c3c439b348a56be686e89b26f, type: 3}
+  trailPrefab: {fileID: 5556136133512694969, guid: b235ab535f38e0e4b9aedc83bc6b9d89, type: 3}
+  oneShotMouseButton: 1
+  dragMouseButton: 0
+  emitPerUnit: 30
+  minDistance: 0.01
+  followMouse: 1
+  desiredMaxParticlesForTrail: 8000
+  trailLifetimeClamp: 1.25
+  runtimeParent: {fileID: 0}
+--- !u!4 &513669081
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513669079}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 520.12317, y: 725.76135, z: -0.8144449}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1992,7 +2064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &845264294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2369,7 +2441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1150538190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2481,6 +2553,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bgmSlider: {fileID: 956276261}
   _sfxSlider: {fileID: 2027825663}
+  delayTime: 3
+  loadingCover: {fileID: 0}
+  blackoutScreen: {fileID: 0}
 --- !u!1 &1152949958
 GameObject:
   m_ObjectHideFlags: 0
@@ -3171,7 +3246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1555656382
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3912,7 +3987,7 @@ RectTransform:
   m_Father: {fileID: 261750577}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4135,7 +4210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2021577128
 Transform:
   m_ObjectHideFlags: 0
@@ -4163,6 +4238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09ee64c89cf8994ebf76c71e3ee2907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  p1: 0
+  p2: 0
+  totalTurns: 1
+  currentBalloonIndex: 0
   totalBalloons: 20
   targetBalloonCount: 3
   balloonCollisionRadius: 0.5
@@ -4170,8 +4249,14 @@ MonoBehaviour:
   balloonParent: {fileID: 1152949959}
   balloonList: []
   balloonHitCounts: 
+  balloonSlots: []
+  balloonHitPrefab: {fileID: 0}
+  balloonHitParent: {fileID: 0}
   areaSize: {x: 15, y: 5}
   rotationSpeed: 50
+  cannonAim: {fileID: 0}
+  cannonShooter: {fileID: 0}
+  timer: {fileID: 0}
 --- !u!1 &2027825661
 GameObject:
   m_ObjectHideFlags: 0
@@ -4426,3 +4511,4 @@ SceneRoots:
   - {fileID: 1150538194}
   - {fileID: 1067407907}
   - {fileID: 1320417617}
+  - {fileID: 513669081}
