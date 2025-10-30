@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour
 
     private void CalculateTargetSum(TextMeshProUGUI targetText)
     {
-        int sum = int.Parse(balloonList[0]);
+        float sum = int.Parse(balloonList[0]);
         string resultText = sum.ToString();
 
         for (int i = 1; i < targetBalloonCount; i++)
@@ -213,12 +213,37 @@ public class GameManager : MonoBehaviour
                         sum /= value;
                         resultText += " / " + value;
                         targetText.text = sum.ToString("F2");
+                        /*
+                        float tempSum = sum;
+
+                        if (float.TryParse(balloonList[i], out float fValue) && Mathf.Abs(fValue) > Mathf.Epsilon)
+                        {
+                            tempSum /= fValue;
+                            resultText += " / " + fValue;
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"Skip division by zero or near-zero value: {fValue}");
+                        }
+
+                        //tempSum = Mathf.Clamp(tempSum, -9999f, 9999f);
+                        sum = tempSum;
+                        targetText.text = tempSum.ToString("F2");
+                        */
                         break;
                 }
             }
         }
 
-        Debug.Log($"Expression: {resultText} = {sum}");
+        if (GameData.SelectedMode == OperatorMode.Divide)
+        {
+            //Debug.Log($"Expression: {balloonList[0]} / {balloonList[targetBalloonCount - 1]} = {(float)sum:F2}");
+            Debug.Log($"Expression: {resultText} = {(float)sum:F2}");
+        }
+        else
+        {
+            Debug.Log($"Expression: {resultText} = {sum}");
+        }
     }
 
     public void CalculateBalloon()
