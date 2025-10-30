@@ -25,6 +25,14 @@ public class CannonShooter : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+
+            if (hit.collider != null && hit.collider.CompareTag("Box"))
+            {
+                return;
+            }
+
             AudioManager.instance.PlaySFX("SFX01");
             enabled = false;
             Vector2 direction = mousePos - (Vector2)bulletSpawnPos.position;
