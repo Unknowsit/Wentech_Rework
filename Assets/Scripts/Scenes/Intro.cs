@@ -7,6 +7,7 @@ public class Intro : MonoBehaviour
     [SerializeField] private string nextSceneName = null;
     [SerializeField] private float loadDelayTime = 5f;
     [SerializeField] private AudioManager audioManager;
+
     private void Update()
     {
         IntroGame();
@@ -16,6 +17,7 @@ public class Intro : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            audioManager.PlaySFX("SFX01");
             StartCoroutine(LoadSceneAfterDelay(loadDelayTime));
         }
     }

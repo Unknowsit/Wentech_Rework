@@ -4,8 +4,15 @@ using Unity.VisualScripting;
 
 public class UI : MonoBehaviour
 {
+    private AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = AudioManager.instance;
+    }
     public void PlusCardButtonOnTheRight()
     {
+        audioManager.PlaySFX("SFX02");
         StartCoroutine(PlusButtonOnTheRight());
     }
 
@@ -26,6 +33,7 @@ public class UI : MonoBehaviour
 
     public void MinusCardButtonOnTheLeft()
     {
+        audioManager.PlaySFX("SFX02");
         StartCoroutine(MinusButtonOnTheLeft());
     }
 
@@ -49,6 +57,7 @@ public class UI : MonoBehaviour
 
     public void MinusCardButtonOnTheRight()
     {
+        audioManager.PlaySFX("SFX02");
         StartCoroutine(MinusButtonOnTheRight());
     }
 
@@ -70,6 +79,7 @@ public class UI : MonoBehaviour
 
     public void MultiplyCardButtonOnTheLeft()
     {
+        audioManager.PlaySFX("SFX02");
         StartCoroutine(MultiplyButtonOnTheLeft());
     }
 
@@ -93,6 +103,7 @@ public class UI : MonoBehaviour
 
     public void MultiplyCardButtonOnTheRight()
     {
+        audioManager.PlaySFX("SFX02");
         StartCoroutine(MultiplyButtonOnTheRight());
     }
 
@@ -114,6 +125,7 @@ public class UI : MonoBehaviour
 
     public void DivideCardButtonOnTheLeft()
     {
+        audioManager.PlaySFX("SFX02");
         StartCoroutine(DivideButtonOnTheLeft());
     }
 
