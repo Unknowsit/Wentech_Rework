@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f94a6de3cfcb3a842be5ed529fa94c0a
+guid: d714252d4991a6e42bfa3660d7a56eab
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7658089953167653468
-    second: bogie_0
+      213: -3545594279797795933
+    second: Line 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,9 +40,9 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -97,19 +97,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
     buildTarget: WindowsStoreApps
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -126,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bogie_0
+      name: Line 1_0
       rect:
         serializedVersion: 2
-        x: 33
-        y: 13
-        width: 585
-        height: 465
+        x: 80
+        y: 127
+        width: 240
+        height: 145
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4a5447b03cff8b590800000000000000
-      internalID: -7658089953167653468
+      spriteID: 3a3def2b9c48bcec0800000000000000
+      internalID: -3545594279797795933
       vertices: []
       indices: 
       edges: []
@@ -161,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bogie_0: -7658089953167653468
+      Line 1_0: -3545594279797795933
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

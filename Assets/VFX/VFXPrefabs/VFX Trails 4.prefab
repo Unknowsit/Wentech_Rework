@@ -2712,7 +2712,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 1
+    enabled: 0
     strength:
       serializedVersion: 2
       minMaxState: 0
@@ -4872,7 +4872,7 @@ GameObject:
   - component: {fileID: 2864767696390173360}
   - component: {fileID: 6538763959603561900}
   m_Layer: 0
-  m_Name: VFX Trails 3
+  m_Name: VFX Trails 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
