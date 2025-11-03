@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 455478fb591ae404bac48e10549bfaa6
+guid: fef0bc8a266c9e14a942236b86d77591
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2871151347693630104
-    second: Menu_tree02_0
+      213: 3161377183836907632
+    second: meteorite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Menu_tree02_0
+      name: meteorite_0
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
         y: 0
-        width: 94
-        height: 289
+        width: 133
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 86d4650bf0f9728d0800000000000000
-      internalID: -2871151347693630104
+      spriteID: 078af9b8cc77fdb20800000000000000
+      internalID: 3161377183836907632
       vertices: []
       indices: 
       edges: []
@@ -160,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Menu_tree02_0: -2871151347693630104
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 93634777eabf1744385ce51c0212446f
+guid: f94a6de3cfcb3a842be5ed529fa94c0a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5544759889648580066
-    second: Menu_tree03_0
+      213: -7658089953167653468
+    second: bogie_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Menu_tree03_0
+      name: bogie_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 0
-        width: 105
-        height: 102
+        x: 33
+        y: 13
+        width: 585
+        height: 465
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2e576530eb1f2fc40800000000000000
-      internalID: 5544759889648580066
+      spriteID: 4a5447b03cff8b590800000000000000
+      internalID: -7658089953167653468
       vertices: []
       indices: 
       edges: []
@@ -160,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Menu_tree03_0: 5544759889648580066
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

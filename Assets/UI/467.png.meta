@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 41b37c7c780f249409ecaf39cd52e10a
+guid: 46ec60d85a5ae34469b15aee1b56a97b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -544669075214959726
-    second: Menu_tree04_0
+      213: 1348376056296270360
+    second: 467_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Menu_tree04_0
+      name: 467_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 0
-        width: 54
-        height: 202
+        x: 47
+        y: 16
+        width: 2725
+        height: 1167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 29bfba3ac52f078f0800000000000000
-      internalID: -544669075214959726
+      spriteID: 81a6e2311e466b210800000000000000
+      internalID: 1348376056296270360
       vertices: []
       indices: 
       edges: []
@@ -160,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Menu_tree04_0: -544669075214959726
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

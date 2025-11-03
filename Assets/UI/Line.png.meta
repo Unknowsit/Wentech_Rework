@@ -1,10 +1,61 @@
 fileFormatVersion: 2
-guid: f888e380cfb59c94ea018c9e7f79980e
+guid: f9dd0c0af0d5da74b86dd1e78d33edb1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6753498790482791363
-    second: Menu_tree05_0
+      213: 1547804281730946603
+    second: Line_0
+  - first:
+      213: -3953923034041246989
+    second: Line_1
+  - first:
+      213: 7125965934803250217
+    second: Line_2
+  - first:
+      213: 28523761897398784
+    second: Line_3
+  - first:
+      213: -8970951058964038786
+    second: Line_4
+  - first:
+      213: -87026920168542980
+    second: Line_5
+  - first:
+      213: -103466819107968340
+    second: Line_6
+  - first:
+      213: -3174340678055282004
+    second: Line_7
+  - first:
+      213: 8602791984444982448
+    second: Line_8
+  - first:
+      213: 2911998137416248038
+    second: Line_9
+  - first:
+      213: -5753985998899509244
+    second: Line_10
+  - first:
+      213: 7780033838320589192
+    second: Line_11
+  - first:
+      213: -4761613726608766291
+    second: Line_12
+  - first:
+      213: 6096251217307660185
+    second: Line_13
+  - first:
+      213: 3956129795670046624
+    second: Line_14
+  - first:
+      213: 8787521915458688012
+    second: Line_15
+  - first:
+      213: -3517745157105711931
+    second: Line_16
+  - first:
+      213: -7940954280142711411
+    second: Line_17
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,40 +160,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Menu_tree05_0
+      name: Line_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 79
-        height: 96
+        width: 2800
+        height: 1200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3cbc1cd4e5f39bd50800000000000000
-      internalID: 6753498790482791363
+      spriteID: 14f26fa07f97c724e80427755bee50a2
+      internalID: -399598087
       vertices: []
       indices: 
       edges: []
@@ -151,7 +189,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 38affd9ad9d87624a9411f78b918b108
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +199,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Menu_tree05_0: 6753498790482791363
+      Line_0: -399598087
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -7,7 +7,7 @@ public class BalloonSlot : MonoBehaviour, IDropHandler
     private UIManager uiManager;
     private BalloonHitText currentBalloon;
 
-    private void Awake()
+    private void Start()
     {
         gameManager = GameManager.instance;
         uiManager = UIManager.instance;
