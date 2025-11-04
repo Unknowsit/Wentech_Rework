@@ -25,11 +25,8 @@ public class Intro : MonoBehaviour
 
     private void StartIntro()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            audioManager.PlaySFX("SFX01");
-            StartCoroutine(LoadSceneAfterDelay(loadDelayTime));
-        }
+        audioManager.PlaySFX("SFX01");
+        StartCoroutine(LoadSceneAfterDelay(loadDelayTime));
     }
 
     private IEnumerator LoadSceneAfterDelay(float delayTime)
