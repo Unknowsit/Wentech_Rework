@@ -201,13 +201,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void CountScore(float p1, float p2)
+    public void CountScore(float p1, float p2, bool p1Answered, bool p2Answered)
     {
+        //Debug.Log($"[CountScore] Received - P1:{p1} ({p1Answered}), P2:{p2} ({p2Answered})");
         float current = float.Parse(targetText.text);
         int scoreP1 = 0, scoreP2 = 0;
 
-        float diffP1 = Mathf.Abs(p1 - current);
-        float diffP2 = Mathf.Abs(p2 - current);
+        float diffP1 = p1Answered ? Mathf.Abs(p1 - current) : float.MaxValue;
+        float diffP2 = p2Answered ? Mathf.Abs(p2 - current) : float.MaxValue;
+
+        //Debug.Log($"[CountScore] Target:{current}, DiffP1:{diffP1}, DiffP2:{diffP2}");
 
         if (GameData.IsSingleMode())
         {
@@ -220,8 +223,8 @@ public class UIManager : MonoBehaviour
                     {
                         if (current > Mathf.Epsilon)
                         {
-                            scoreP1 = Mathf.RoundToInt((1f - diffP1 / current) * 1000f);
-                            scoreP2 = Mathf.RoundToInt((1f - diffP2 / current) * 1000f);
+                            if (p1Answered) scoreP1 = Mathf.RoundToInt((1f - diffP1 / current) * 1000f);
+                            if (p2Answered) scoreP2 = Mathf.RoundToInt((1f - diffP2 / current) * 1000f);
                         }
                         break;
                     }
@@ -232,11 +235,8 @@ public class UIManager : MonoBehaviour
 
                         if (absCurrent > Mathf.Epsilon)
                         {
-                            float accuracyP1 = absCurrent / (absCurrent + diffP1);
-                            float accuracyP2 = absCurrent / (absCurrent + diffP2);
-
-                            scoreP1 = Mathf.RoundToInt(accuracyP1 * 1000f);
-                            scoreP2 = Mathf.RoundToInt(accuracyP2 * 1000f);
+                            if (p1Answered) scoreP1 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP1) * 1000f);
+                            if (p2Answered) scoreP2 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP2) * 1000f);
                         }
                         else
                         {
@@ -248,17 +248,14 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Multiple modes selected - using safe scoring method");
+            //Debug.LogWarning("Multiple modes selected - using safe scoring method");
 
             float absCurrent = Mathf.Abs(current);
 
             if (absCurrent > Mathf.Epsilon)
             {
-                float accuracyP1 = absCurrent / (absCurrent + diffP1);
-                float accuracyP2 = absCurrent / (absCurrent + diffP2);
-
-                scoreP1 = Mathf.RoundToInt(accuracyP1 * 1000f);
-                scoreP2 = Mathf.RoundToInt(accuracyP2 * 1000f);
+                if (p1Answered) scoreP1 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP1) * 1000f);
+                if (p2Answered) scoreP2 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP2) * 1000f);
             }
             else
             {
@@ -266,11 +263,17 @@ public class UIManager : MonoBehaviour
             }
         }
 
+        //Debug.Log($"[CountScore] Before Clamp - ScoreP1:{scoreP1}, ScoreP2:{scoreP2}");
+
         scoreP1 = Mathf.Clamp(scoreP1, 0, 1000);
         scoreP2 = Mathf.Clamp(scoreP2, 0, 1000);
 
+        //Debug.Log($"[CountScore] After Clamp - ScoreP1:{scoreP1}, ScoreP2:{scoreP2}");
+
         this.scoreP1 += scoreP1;
         this.scoreP2 += scoreP2;
+
+        //Debug.Log($"[CountScore] Total Score - P1:{this.scoreP1}, P2:{this.scoreP2}");
 
         scoreP1Text.text = this.scoreP1.ToString();
         scoreP2Text.text = this.scoreP2.ToString();

@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
 {
     private bool hasSpawned = false;
 
+    private bool p1HasAnswered = false;
+    private bool p2HasAnswered = false;
+
     private int attempts = 0;
     private int spawnedCount = 0;
 
@@ -84,16 +87,17 @@ public class GameManager : MonoBehaviour
 
     private void ResetGameState()
     {
+        DestroyChildren(balloonParent);
+
         if (!GameData.IsSingleMode())
         {
             DestroyChildren(numberBalloonParent);
             DestroyChildren(operatorBalloonParent);
-            ClearOperatorSlots();
             ClearNumberSlots();
+            ClearOperatorSlots();
         }
         else
         {
-            DestroyChildren(balloonParent);
             DestroyChildren(balloonHitParent);
             ClearBalloonSlots();
         }
@@ -147,6 +151,39 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private bool HasAnswer(float value)
+    {
+        return value != 0f || PlayerHasBalloon();
+    }
+
+    private bool PlayerHasBalloon()
+    {
+        if (GameData.IsSingleMode())
+            return HasNumberSlotBalloon();
+        else
+            return HasMultiSlotBalloon();
+    }
+
+    public bool HasNumberSlotBalloon()
+    {
+        foreach (var slot in balloonSlots)
+        {
+            if (slot.HasBalloon())
+                return true;
+        }
+        return false;
+    }
+
+    public bool HasMultiSlotBalloon()
+    {
+        foreach (var slot in numberSlots)
+        {
+            if (slot.HasNumber())
+                return true;
+        }
+        return false;
+    }
+
     private void ResetCounters()
     {
         spawnedCount = 0;
@@ -173,15 +210,23 @@ public class GameManager : MonoBehaviour
         if (totalTurns % 2 == 0)
         {
             p1 = float.Parse(playerInputText.text);
+            p1HasAnswered = HasAnswer(p1);
+            //Debug.Log($"[P1] Answer: {p1}, HasBalloon: {PlayerHasBalloon()}, p1HasAnswered: {p1HasAnswered}");
             uiManager.ResultP1Text.text = $"{p1.ToString()}";
             playerText.text = "P2";
         }
         else
         {
             p2 = float.Parse(playerInputText.text);
+            p2HasAnswered = HasAnswer(p2);
+            //Debug.Log($"[P2] Answer: {p2}, HasBalloon: {PlayerHasBalloon()}, p2HasAnswered: {p2HasAnswered}");
+            //Debug.Log($"[CountScore] Calling with P1:{p1} ({p1HasAnswered}), P2:{p2} ({p2HasAnswered})");
             uiManager.ResultP2Text.text = $"{p2.ToString()}";
             playerText.text = "P1";
-            uiManager.CountScore(p1, p2);
+            uiManager.CountScore(p1, p2, p1HasAnswered, p2HasAnswered);
+
+            p1HasAnswered = false;
+            p2HasAnswered = false;
         }
     }
 
