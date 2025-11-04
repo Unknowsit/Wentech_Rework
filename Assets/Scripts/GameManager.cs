@@ -544,13 +544,6 @@ public class GameManager : MonoBehaviour
         bool hasValue = false;
         bool hasDivide = GameData.HasMode(OperatorMode.Divide);
 
-        if (numberSlots == null || numberSlots.Length == 0)
-        {
-            Debug.LogError("NumberSlots not assigned!");
-            totalText.text = "0";
-            return;
-        }
-
         List<object> sequence = new List<object>();
 
         for (int i = 0; i < numberSlots.Length; i++)
@@ -558,7 +551,8 @@ public class GameManager : MonoBehaviour
             if (numberSlots[i].HasNumber())
             {
                 int value = numberSlots[i].GetBalloonValue();
-                sequence.Add(value);
+
+                sequence.Add((float)value);
                 Debug.Log($"NumberSlot {i}: Number = {value}");
             }
 
@@ -567,6 +561,7 @@ public class GameManager : MonoBehaviour
                 if (operatorSlots[i].HasOperator())
                 {
                     var op = operatorSlots[i].GetOperatorMode();
+
                     if (op.HasValue)
                     {
                         sequence.Add(op.Value);
@@ -582,7 +577,40 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (sequence[0] is int firstNumber)
+        for (int i = 1; i < sequence.Count - 1; i += 2)
+        {
+            if (sequence[i] is OperatorMode op && sequence[i - 1] is float left && sequence[i + 1] is float right)
+            {
+                if (op == OperatorMode.Multiply || op == OperatorMode.Divide)
+                {
+                    if (op == OperatorMode.Divide && Mathf.Approximately(right, 0f))
+                    {
+                        Debug.LogWarning($"Division by zero at index {i} — skipping this operation.");
+
+                        sequence.RemoveAt(i + 1);
+                        sequence.RemoveAt(i);
+                        i -= 2;
+                        continue;
+                    }
+
+                    float result = (op == OperatorMode.Multiply) ? left * right : left / right;
+                    Debug.Log($"Evaluated (priority) {left} {op} {right} = {result}");
+
+                    sequence[i - 1] = result;
+                    sequence.RemoveAt(i + 1);
+                    sequence.RemoveAt(i);
+
+                    i -= 2;
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid sequence pattern at index {i}. Stopping priority pass.");
+                break;
+            }
+        }
+
+        if (sequence[0] is float firstNumber)
         {
             sum = firstNumber;
             hasValue = true;
@@ -591,43 +619,37 @@ public class GameManager : MonoBehaviour
             int i = 1;
             while (i < sequence.Count)
             {
-                if (i < sequence.Count - 1 &&
-                    sequence[i] is OperatorMode op && sequence[i + 1] is int number)
+                if (i < sequence.Count - 1 && sequence[i] is OperatorMode op && sequence[i + 1] is float nextNumber)
                 {
                     float oldSum = sum;
-
                     switch (op)
                     {
                         case OperatorMode.Add:
-                            sum += number;
-                            Debug.Log($"{oldSum} + {number} = {sum}");
+                            sum += nextNumber;
                             break;
                         case OperatorMode.Minus:
-                            sum -= number;
-                            Debug.Log($"{oldSum} - {number} = {sum}");
+                            sum -= nextNumber;
                             break;
                         case OperatorMode.Multiply:
-                            sum *= number;
-                            Debug.Log($"{oldSum} * {number} = {sum}");
+                            sum *= nextNumber;
                             break;
                         case OperatorMode.Divide:
-                            if (number != 0)
+                            if (!Mathf.Approximately(nextNumber, 0f))
                             {
-                                sum /= number;
-                                Debug.Log($"{oldSum} / {number} = {sum}");
+                                sum /= nextNumber;
                             }
                             else
                             {
-                                Debug.LogWarning("Division by zero!");
+                                Debug.LogWarning("Division by zero in fallback step!");
                             }
                             break;
                     }
 
                     i += 2;
                 }
-                else if (sequence[i] is int nextNumber)
+                else if (sequence[i] is float lonelyNumber)
                 {
-                    Debug.LogWarning($"Missing operator before number {nextNumber}!");
+                    Debug.LogWarning($"Missing operator before number {lonelyNumber}!");
                     i++;
                 }
                 else

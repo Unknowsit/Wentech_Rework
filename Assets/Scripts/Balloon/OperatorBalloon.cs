@@ -23,10 +23,10 @@ public class OperatorBalloon : MonoBehaviour
                 operatorText.text = "-";
                 break;
             case OperatorMode.Multiply:
-                operatorText.text = "*";
+                operatorText.text = "×";
                 break;
             case OperatorMode.Divide:
-                operatorText.text = "/";
+                operatorText.text = "÷";
                 break;
         }
     }
