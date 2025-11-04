@@ -35,17 +35,39 @@ public class Balloon : MonoBehaviour
 
     private void RandomNumber()
     {
-        switch (GameData.SelectedMode)
+        if (GameData.IsSingleMode())
         {
-            case OperatorMode.Add:
-                numText.text = Random.Range(1, 101).ToString();
-                break;
-            case OperatorMode.Minus:
-                numText.text = Random.Range(-100, 0).ToString();
-                break;
-            case OperatorMode.Multiply or OperatorMode.Divide:
-                numText.text = Random.Range(2, 13).ToString();
-                break;
+            switch (GameData.GetSingleMode())
+            {
+                case OperatorMode.Add:
+                    numText.text = Random.Range(1, 101).ToString();
+                    break;
+                case OperatorMode.Minus:
+                    numText.text = Random.Range(-100, 0).ToString();
+                    break;
+                case OperatorMode.Multiply:
+                case OperatorMode.Divide:
+                    numText.text = Random.Range(2, 13).ToString();
+                    break;
+            }
+        }
+        else
+        {
+            var randomMode = GameData.GetRandomMode();
+
+            switch (randomMode)
+            {
+                case OperatorMode.Add:
+                    numText.text = Random.Range(1, 101).ToString();
+                    break;
+                case OperatorMode.Minus:
+                    numText.text = Random.Range(-100, 0).ToString();
+                    break;
+                case OperatorMode.Multiply:
+                case OperatorMode.Divide:
+                    numText.text = Random.Range(2, 13).ToString();
+                    break;
+            }
         }
     }
 }

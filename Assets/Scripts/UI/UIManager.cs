@@ -3,19 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum OperatorMode
-{
-    Add,
-    Minus,
-    Multiply,
-    Divide
-}
-
-public static class GameData
-{
-    public static OperatorMode SelectedMode = OperatorMode.Divide;
-}
-
 public class UIManager : MonoBehaviour
 {
     private bool shouldReset = false;
@@ -48,14 +35,23 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float remainingTime;
     public float RemainingTime { get { return remainingTime; } set { remainingTime = value; } }
 
-    [Header("Calculation Panel UI")]
-    [SerializeField] public GameObject calculationPanel;
+    [Header("Single-Mode Panel UI")]
+    [SerializeField] public GameObject singleModePanel;
 
     [SerializeField] private TextMeshProUGUI totalText;
     public TextMeshProUGUI TotalText => totalText;
 
     [SerializeField] private Button submitButton;
     public Button SubmitButton => submitButton;
+
+    [Header("Multi-Mode Panel UI")]
+    [SerializeField] public GameObject multiModePanel;
+
+    [SerializeField] private TextMeshProUGUI multiTotalText;
+    public TextMeshProUGUI MultiTotalText => multiTotalText;
+
+    [SerializeField] private Button multiSubmitButton;
+    public Button MultiSubmitButton => multiSubmitButton;
 
     [Header("Score Panel UI")]
     [SerializeField] public GameObject scorePanel;
@@ -146,18 +142,41 @@ public class UIManager : MonoBehaviour
 
     public void ShowCalculationPanel()
     {
-        calculationPanel.SetActive(true);
+        if (GameData.IsSingleMode())
+        {
+            singleModePanel.SetActive(true);
+        }
+        else
+        {
+            multiModePanel.SetActive(true);
+        }
     }
 
     public void HideCalculationPanel()
     {
-        calculationPanel.SetActive(false);
+        if (GameData.IsSingleMode())
+        {
+            singleModePanel.SetActive(false);
+        }
+        else
+        {
+            multiModePanel.SetActive(false);
+        }
     }
 
     public void OnSubmitButtonClicked()
     {
-        StartCoroutine(uiController.UITransition(scorePanel, calculationPanel));
-        gameManager.SetPlayerValues(totalText, playerText);
+        if (GameData.IsSingleMode())
+        {
+            StartCoroutine(uiController.UITransition(scorePanel, singleModePanel));
+            gameManager.SetPlayerValues(totalText, playerText);
+        }
+        else
+        {
+            StartCoroutine(uiController.UITransition(scorePanel, multiModePanel));
+            gameManager.SetPlayerValues(multiTotalText, playerText);
+        }
+
         NextButton.interactable = true;
     }
 
@@ -190,36 +209,61 @@ public class UIManager : MonoBehaviour
         float diffP1 = Mathf.Abs(p1 - current);
         float diffP2 = Mathf.Abs(p2 - current);
 
-        switch (GameData.SelectedMode)
+        if (GameData.IsSingleMode())
         {
-            case OperatorMode.Add:
-            case OperatorMode.Multiply:
-                {
-                    scoreP1 = Mathf.RoundToInt((1f - (float)diffP1 / current) * 1000f);
-                    scoreP2 = Mathf.RoundToInt((1f - (float)diffP2 / current) * 1000f);
-                    break;
-                }
-            case OperatorMode.Minus:
-            case OperatorMode.Divide:
-                {
-                    float absCurrent = Mathf.Abs(current);
+            var mode = GameData.GetSingleMode();
 
-                    if (absCurrent > Mathf.Epsilon)
+            switch (mode)
+            {
+                case OperatorMode.Add:
+                case OperatorMode.Multiply:
                     {
-                        float accuracyP1 = absCurrent / (absCurrent + diffP1);
-                        float accuracyP2 = absCurrent / (absCurrent + diffP2);
+                        if (current > Mathf.Epsilon)
+                        {
+                            scoreP1 = Mathf.RoundToInt((1f - diffP1 / current) * 1000f);
+                            scoreP2 = Mathf.RoundToInt((1f - diffP2 / current) * 1000f);
+                        }
+                        break;
+                    }
+                case OperatorMode.Minus:
+                case OperatorMode.Divide:
+                    {
+                        float absCurrent = Mathf.Abs(current);
 
-                        scoreP1 = Mathf.RoundToInt(accuracyP1 * 1000f);
-                        scoreP2 = Mathf.RoundToInt(accuracyP2 * 1000f);
+                        if (absCurrent > Mathf.Epsilon)
+                        {
+                            float accuracyP1 = absCurrent / (absCurrent + diffP1);
+                            float accuracyP2 = absCurrent / (absCurrent + diffP2);
+
+                            scoreP1 = Mathf.RoundToInt(accuracyP1 * 1000f);
+                            scoreP2 = Mathf.RoundToInt(accuracyP2 * 1000f);
+                        }
+                        else
+                        {
+                            Debug.LogWarning("Target is zero! Can't calculate score.");
+                        }
+                        break;
                     }
-                    else
-                    {
-                        Debug.LogWarning("Target is zero! Can't calculate score.");
-                        scoreP1 = 0;
-                        scoreP2 = 0;
-                    }
-                    break;
-                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Multiple modes selected - using safe scoring method");
+
+            float absCurrent = Mathf.Abs(current);
+
+            if (absCurrent > Mathf.Epsilon)
+            {
+                float accuracyP1 = absCurrent / (absCurrent + diffP1);
+                float accuracyP2 = absCurrent / (absCurrent + diffP2);
+
+                scoreP1 = Mathf.RoundToInt(accuracyP1 * 1000f);
+                scoreP2 = Mathf.RoundToInt(accuracyP2 * 1000f);
+            }
+            else
+            {
+                Debug.LogWarning("Target is zero! Can't calculate score.");
+            }
         }
 
         scoreP1 = Mathf.Clamp(scoreP1, 0, 1000);

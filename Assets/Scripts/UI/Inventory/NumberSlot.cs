@@ -1,10 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BalloonSlot : MonoBehaviour, IDropHandler
+public class NumberSlot : MonoBehaviour, IDropHandler
 {
     private GameManager gameManager;
     private UIManager uiManager;
+
     private BalloonHitText currentBalloon;
 
     private void Start()
@@ -16,37 +17,71 @@ public class BalloonSlot : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         GameObject droppedObject = eventData.pointerDrag;
+
+        var droppedNumber = droppedObject.GetComponent<BalloonHitText>();
+
+        if (droppedNumber == null)
+        {
+            Debug.LogWarning("NumberSlot: Rejected non-number balloon");
+            return;
+        }
+
         BalloonDragHandler draggedBalloon = droppedObject.GetComponent<BalloonDragHandler>();
 
-        if (transform.childCount == 0)
+        if (transform.childCount == 0 || currentBalloon == null)
         {
+            droppedObject.transform.SetParent(transform);
+            droppedObject.transform.localPosition = Vector3.zero;
+
             draggedBalloon.originalSlot = transform;
+            currentBalloon = droppedNumber;
         }
         else
         {
             Transform existingBalloonTransform = transform.GetChild(0);
             BalloonDragHandler existingBalloon = existingBalloonTransform.GetComponent<BalloonDragHandler>();
 
+            if (existingBalloon == null)
+            {
+                Debug.LogError("Existing balloon doesn't have BalloonDragHandler!");
+                return;
+            }
+
             Transform previousSlot = draggedBalloon.originalSlot;
 
             existingBalloon.originalSlot = previousSlot;
-            existingBalloonTransform.SetParent(previousSlot);
+            draggedBalloon.originalSlot = transform;
 
-            if (previousSlot.TryGetComponent(out BalloonSlot prevSlot))
+            existingBalloonTransform.SetParent(previousSlot);
+            existingBalloonTransform.localPosition = Vector3.zero;
+
+            droppedObject.transform.SetParent(transform);
+            droppedObject.transform.localPosition = Vector3.zero;
+
+            if (previousSlot != null)
             {
-                prevSlot.SetBalloon(existingBalloonTransform.GetComponent<BalloonHitText>());
+                NumberSlot prevSlot = previousSlot.GetComponent<NumberSlot>();
+
+                if (prevSlot != null)
+                {
+                    prevSlot.SetBalloon(existingBalloonTransform.GetComponent<BalloonHitText>());
+                }
             }
 
-            draggedBalloon.originalSlot = transform;
+            currentBalloon = droppedNumber;
         }
 
-        currentBalloon = droppedObject.GetComponent<BalloonHitText>();
         RefreshSum();
     }
 
     public int GetBalloonValue()
     {
         return currentBalloon != null ? currentBalloon.Value : 0;
+    }
+
+    public bool HasNumber()
+    {
+        return currentBalloon != null && transform.childCount > 0;
     }
 
     public void OnBalloonRemoved()
@@ -58,6 +93,13 @@ public class BalloonSlot : MonoBehaviour, IDropHandler
     public void SetBalloon(BalloonHitText balloon)
     {
         currentBalloon = balloon;
+
+        if (balloon != null)
+        {
+            balloon.transform.SetParent(transform);
+            balloon.transform.localPosition = Vector3.zero;
+        }
+
         RefreshSum();
     }
 

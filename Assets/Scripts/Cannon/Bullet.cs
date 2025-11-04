@@ -24,7 +24,16 @@ public class Bullet : MonoBehaviour
         {
             gameManager.CalculateBalloon();
             uiController.RunTransition();
-            uiManager.SubmitButton.interactable = true;
+
+            if (GameData.IsSingleMode())
+            {
+                uiManager.SubmitButton.interactable = true;
+            }
+            else
+            {
+                uiManager.MultiSubmitButton.interactable = true;
+            }
+
             gameManager.SpawnBalloonHitTexts();
             Destroy(gameObject);
         }

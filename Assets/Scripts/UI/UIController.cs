@@ -12,7 +12,7 @@ public class UIController : MonoBehaviour
 
     [Header ("Scene Transition")]
     [SerializeField] private float delayTime = 3f;
-    [SerializeField] private GameObject loadingCover;
+    [SerializeField] public GameObject loadingCover;
     [SerializeField] private Image blackoutScreen;
 
     private AudioManager audioManager;
@@ -38,28 +38,28 @@ public class UIController : MonoBehaviour
     public void OnAddModeSelected()
     {
         isConfirming = true;
-        GameData.SelectedMode = OperatorMode.Add;
+        //GameData.SelectedMode = OperatorMode.Add;
         audioManager.PlaySFX("SFX02");
     }
 
     public void OnMinusModeSelected()
     {
         isConfirming = true;
-        GameData.SelectedMode = OperatorMode.Minus;
+        //GameData.SelectedMode = OperatorMode.Minus;
         audioManager.PlaySFX("SFX02");
     }
 
     public void OnMultiplyModeSelected()
     {
         isConfirming = true;
-        GameData.SelectedMode = OperatorMode.Multiply;
+        //GameData.SelectedMode = OperatorMode.Multiply;
         audioManager.PlaySFX("SFX02");
     }
 
     public void OnDivideModeSelected()
     {
         isConfirming = true;
-        GameData.SelectedMode = OperatorMode.Divide;
+        //GameData.SelectedMode = OperatorMode.Divide;
         audioManager.PlaySFX("SFX02");
     }
 
@@ -200,7 +200,14 @@ public class UIController : MonoBehaviour
 
     public void RunTransition()
     {
-        StartCoroutine(UITransition(showPanel: uiManager.calculationPanel));
+        if (GameData.IsSingleMode())
+        {
+            StartCoroutine(UITransition(showPanel: uiManager.singleModePanel));
+        }
+        else
+        {
+            StartCoroutine(UITransition(showPanel: uiManager.multiModePanel));
+        }
     }
 
     public IEnumerator UITransition(GameObject showPanel = null, params GameObject[] hidePanels)

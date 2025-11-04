@@ -28,11 +28,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<int> balloonHitCounts = new List<int>();
     public List<int> BalloonHitCounts { get { return balloonHitCounts; } }
 
+    [Header("Single-Mode Slots")]
     [SerializeField] private BalloonSlot[] balloonSlots;
+
+    [Header("Multi-Mode Slots")]
+    [SerializeField] private NumberSlot[] numberSlots;
+    [SerializeField] private OperatorSlot[] operatorSlots;
 
     [Header("Balloon UI Prefabs")]
     [SerializeField] private GameObject balloonHitPrefab;
     [SerializeField] private Transform balloonHitParent;
+
+    [Header("Multi-Mode UI Prefabs")]
+    [SerializeField] private Transform numberBalloonParent;
+    [SerializeField] private GameObject operatorBalloonPrefab;
+    [SerializeField] private Transform operatorBalloonParent;
 
     [Header("Spawning Area")]
     public Vector2 areaSize = new Vector2(10f, 5f);
@@ -74,9 +84,19 @@ public class GameManager : MonoBehaviour
 
     private void ResetGameState()
     {
-        DestroyChildren(balloonParent);
-        DestroyChildren(balloonHitParent);
-        ClearBalloonSlots();
+        if (!GameData.IsSingleMode())
+        {
+            DestroyChildren(numberBalloonParent);
+            DestroyChildren(operatorBalloonParent);
+            ClearOperatorSlots();
+            ClearNumberSlots();
+        }
+        else
+        {
+            DestroyChildren(balloonParent);
+            DestroyChildren(balloonHitParent);
+            ClearBalloonSlots();
+        }
 
         if (totalTurns % 2 != 0) balloonList.Clear();
         balloonHitCounts.Clear();
@@ -94,9 +114,31 @@ public class GameManager : MonoBehaviour
             Destroy(child.gameObject);
     }
 
-    public void ClearBalloonSlots()
+    private void ClearBalloonSlots()
     {
         foreach (BalloonSlot slot in balloonSlots)
+        {
+            for (int i = slot.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(slot.transform.GetChild(i).gameObject);
+            }
+        }
+    }
+
+    private void ClearNumberSlots()
+    {
+        foreach (NumberSlot slot in numberSlots)
+        {
+            for (int i = slot.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(slot.transform.GetChild(i).gameObject);
+            }
+        }
+    }
+
+    private void ClearOperatorSlots()
+    {
+        foreach (OperatorSlot slot in operatorSlots)
         {
             for (int i = slot.transform.childCount - 1; i >= 0; i--)
             {
@@ -114,7 +156,15 @@ public class GameManager : MonoBehaviour
 
     private void ResetUI()
     {
-        uiManager.TotalText.text = "0";
+        if (GameData.IsSingleMode())
+        {
+            uiManager.TotalText.text = "0";
+        }
+        else
+        {
+            uiManager.MultiTotalText.text = "0";
+        }
+
         uiManager.RemainingTime = 100;
     }
 
@@ -184,14 +234,27 @@ public class GameManager : MonoBehaviour
 
     private void CalculateTargetSum(TextMeshProUGUI targetText)
     {
+        if (GameData.IsSingleMode())
+        {
+            CalculateTargetSumSingleMode(targetText);
+        }
+        else
+        {
+            CalculateTargetSumMultiMode(targetText);
+        }
+    }
+
+    private void CalculateTargetSumSingleMode(TextMeshProUGUI targetText)
+    {
         float sum = int.Parse(balloonList[0]);
         string resultText = sum.ToString();
+        var mode = GameData.GetSingleMode();
 
         for (int i = 1; i < targetBalloonCount; i++)
         {
             if (int.TryParse(balloonList[i], out int value))
             {
-                switch (GameData.SelectedMode)
+                switch (mode)
                 {
                     case OperatorMode.Add:
                         sum += value;
@@ -209,36 +272,17 @@ public class GameManager : MonoBehaviour
                         targetText.text = sum.ToString();
                         break;
                     case OperatorMode.Divide:
-                        //if (value != 0)
                         sum /= value;
                         resultText += " / " + value;
                         targetText.text = sum.ToString("F2");
-                        /*
-                        float tempSum = sum;
-
-                        if (float.TryParse(balloonList[i], out float fValue) && Mathf.Abs(fValue) > Mathf.Epsilon)
-                        {
-                            tempSum /= fValue;
-                            resultText += " / " + fValue;
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"Skip division by zero or near-zero value: {fValue}");
-                        }
-
-                        //tempSum = Mathf.Clamp(tempSum, -9999f, 9999f);
-                        sum = tempSum;
-                        targetText.text = tempSum.ToString("F2");
-                        */
                         break;
                 }
             }
         }
 
-        if (GameData.SelectedMode == OperatorMode.Divide)
+        if (mode == OperatorMode.Divide)
         {
-            //Debug.Log($"Expression: {balloonList[0]} / {balloonList[targetBalloonCount - 1]} = {(float)sum:F2}");
-            Debug.Log($"Expression: {resultText} = {(float)sum:F2}");
+            Debug.Log($"Expression: {resultText} = {sum:F2}");
         }
         else
         {
@@ -246,13 +290,70 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void CalculateTargetSumMultiMode(TextMeshProUGUI targetText)
+    {
+        float sum = int.Parse(balloonList[0]);
+        string resultText = sum.ToString();
+        bool hasDivide = false;
+        int modeIndex = 0;
+
+        for (int i = 1; i < targetBalloonCount; i++)
+        {
+            if (int.TryParse(balloonList[i], out int value))
+            {
+                var mode = GameData.SelectedModes[modeIndex % GameData.SelectedModes.Count];
+                modeIndex++;
+
+                switch (mode)
+                {
+                    case OperatorMode.Add:
+                        sum += value;
+                        resultText += " + " + value;
+                        break;
+                    case OperatorMode.Minus:
+                        sum -= value;
+                        resultText += $" - ({value})";
+                        break;
+                    case OperatorMode.Multiply:
+                        sum *= value;
+                        resultText += " * " + value;
+                        break;
+                    case OperatorMode.Divide:
+                        if (value != 0)
+                        {
+                            sum /= value;
+                            resultText += " / " + value;
+                            hasDivide = true;
+                        }
+                        break;
+                }
+            }
+        }
+
+        targetText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+        Debug.Log($"Expression: {resultText} = {(hasDivide ? sum.ToString("F2") : sum.ToString())}");
+    }
+
     public void CalculateBalloon()
     {
+        if (GameData.IsSingleMode())
+        {
+            CalculateBalloonSingleMode();
+        }
+        else
+        {
+            CalculateBalloonMultiMode();
+        }
+    }
+
+    private void CalculateBalloonSingleMode()
+    {
         int sum = 0;
+        var mode = GameData.GetSingleMode();
 
         for (int i = 0; i < balloonHitCounts.Count; i++)
         {
-            switch (GameData.SelectedMode)
+            switch (mode)
             {
                 case OperatorMode.Add:
                     sum += balloonHitCounts[i];
@@ -262,7 +363,6 @@ public class GameManager : MonoBehaviour
                     break;
                 case OperatorMode.Multiply:
                     sum *= balloonHitCounts[i];
-                    //sum = (i == 0) ? balloonHitCounts[i] : sum * balloonHitCounts[i];
                     break;
                 case OperatorMode.Divide:
                     if (balloonHitCounts[i] != 0)
@@ -272,17 +372,45 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log("Player Result: " + sum);
+    }
 
-        /*
-        if (GameData.SelectedMode == OperatorMode.Divide)
+    private void CalculateBalloonMultiMode()
+    {
+        float sum = 0;
+        bool isFirst = true;
+        int modeIndex = 0;
+
+        for (int i = 0; i < balloonHitCounts.Count; i++)
         {
-            Debug.Log("Player Result: " + sum.ToString("F3"));
+            if (isFirst)
+            {
+                sum = balloonHitCounts[i];
+                isFirst = false;
+                continue;
+            }
+
+            var mode = GameData.SelectedModes[modeIndex % GameData.SelectedModes.Count];
+            modeIndex++;
+
+            switch (mode)
+            {
+                case OperatorMode.Add:
+                    sum += balloonHitCounts[i];
+                    break;
+                case OperatorMode.Minus:
+                    sum -= balloonHitCounts[i];
+                    break;
+                case OperatorMode.Multiply:
+                    sum *= balloonHitCounts[i];
+                    break;
+                case OperatorMode.Divide:
+                    if (balloonHitCounts[i] != 0)
+                        sum /= balloonHitCounts[i];
+                    break;
+            }
         }
-        else
-        {
-            Debug.Log("Player Result: " + sum);
-        }
-        */
+
+        Debug.Log("Player Result: " + sum);
     }
 
     public void SpawnBalloonHitTexts()
@@ -290,26 +418,78 @@ public class GameManager : MonoBehaviour
         if (hasSpawned) return;
         hasSpawned = true;
 
-        for (int i = 0; i < balloonHitCounts.Count; i++)
+        Debug.Log($"Spawning balloons. IsSingleMode: {GameData.IsSingleMode()}, Selected Modes: {string.Join(", ", GameData.SelectedModes)}");
+
+        if (GameData.IsSingleMode())
         {
-            Instantiate(balloonHitPrefab, transform.position, Quaternion.identity, balloonHitParent);
+            for (int i = 0; i < balloonHitCounts.Count; i++)
+            {
+                Instantiate(balloonHitPrefab, transform.position, Quaternion.identity, balloonHitParent);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < balloonHitCounts.Count; i++)
+            {
+                Instantiate(balloonHitPrefab, transform.position, Quaternion.identity, numberBalloonParent);
+            }
+        }
+
+        if (!GameData.IsSingleMode())
+        {
+            SpawnOperatorBalloons();
+        }
+    }
+
+    private void SpawnOperatorBalloons()
+    {
+        foreach (var mode in GameData.SelectedModes)
+        {
+            Debug.Log($"Creating operator balloon for mode: {mode}");
+
+            GameObject operatorObj = Instantiate(operatorBalloonPrefab, Vector3.zero, Quaternion.identity, operatorBalloonParent);
+            OperatorBalloon operatorBalloon = operatorObj.GetComponent<OperatorBalloon>();
+            operatorBalloon.Initialize(mode);
+        }
+    }
+
+    public void RespawnOperatorBalloon(OperatorMode mode)
+    {
+        if (operatorBalloonPrefab != null && operatorBalloonParent != null)
+        {
+            GameObject operatorObj = Instantiate(operatorBalloonPrefab, Vector3.zero, Quaternion.identity, operatorBalloonParent);
+            OperatorBalloon operatorBalloon = operatorObj.GetComponent<OperatorBalloon>();
+            operatorBalloon.Initialize(mode);
         }
     }
 
     public void UpdateBalloonSum(TextMeshProUGUI totalText)
     {
-        int sum = 0;
+        if (GameData.IsSingleMode())
+        {
+            UpdateBalloonSumSingleMode(totalText);
+        }
+        else
+        {
+            UpdateBalloonSumMultiMode(totalText);
+        }
+    }
 
-        switch (GameData.SelectedMode)
+    private void UpdateBalloonSumSingleMode(TextMeshProUGUI totalText)
+    {
+        int sum = 0;
+        var mode = GameData.GetSingleMode();
+
+        switch (mode)
         {
             case OperatorMode.Add:
                 foreach (var slot in balloonSlots)
                 {
                     sum += slot.GetBalloonValue();
                 }
-
                 totalText.text = sum.ToString();
                 break;
+
             case OperatorMode.Minus:
                 for (int i = 0; i < balloonSlots.Length; i++)
                 {
@@ -317,85 +497,154 @@ public class GameManager : MonoBehaviour
                     if (value == 0) continue;
                     sum = (sum == 0) ? value : sum - value;
                 }
-
                 totalText.text = sum.ToString();
                 break;
+
             case OperatorMode.Multiply:
-            {
-                int sumMultiply = 1;
-                bool hasBalloon = false;
-
-                foreach (var slot in balloonSlots)
                 {
-                    int value = slot.GetBalloonValue();
+                    int sumMultiply = 1;
+                    bool hasBalloon = false;
 
-                    if (value != 0)
+                    foreach (var slot in balloonSlots)
                     {
-                        sumMultiply *= value;
-                        hasBalloon = true;
+                        int value = slot.GetBalloonValue();
+                        if (value != 0)
+                        {
+                            sumMultiply *= value;
+                            hasBalloon = true;
+                        }
+                    }
+                    sum = hasBalloon ? sumMultiply : 0;
+                    totalText.text = sum.ToString();
+                    break;
+                }
+
+            case OperatorMode.Divide:
+                {
+                    float sumDivide = 0;
+                    bool firstFound = false;
+
+                    foreach (var slot in balloonSlots)
+                    {
+                        int value = slot.GetBalloonValue();
+                        if (value == 0) continue;
+
+                        sumDivide = firstFound ? sumDivide / value : value;
+                        firstFound = true;
+                    }
+                    totalText.text = firstFound ? sumDivide.ToString("F2") : "0.00";
+                    break;
+                }
+        }
+    }
+
+    private void UpdateBalloonSumMultiMode(TextMeshProUGUI totalText)
+    {
+        float sum = 0;
+        bool hasValue = false;
+        bool hasDivide = GameData.HasMode(OperatorMode.Divide);
+
+        if (numberSlots == null || numberSlots.Length == 0)
+        {
+            Debug.LogError("NumberSlots not assigned!");
+            totalText.text = "0";
+            return;
+        }
+
+        List<object> sequence = new List<object>();
+
+        for (int i = 0; i < numberSlots.Length; i++)
+        {
+            if (numberSlots[i].HasNumber())
+            {
+                int value = numberSlots[i].GetBalloonValue();
+                sequence.Add(value);
+                Debug.Log($"NumberSlot {i}: Number = {value}");
+            }
+
+            if (operatorSlots != null && i < operatorSlots.Length)
+            {
+                if (operatorSlots[i].HasOperator())
+                {
+                    var op = operatorSlots[i].GetOperatorMode();
+                    if (op.HasValue)
+                    {
+                        sequence.Add(op.Value);
+                        Debug.Log($"OperatorSlot {i}: Operator = {op.Value}");
                     }
                 }
-
-                sum = hasBalloon ? sumMultiply : 0;
-                totalText.text = sum.ToString();
-                break;
-            }
-            case OperatorMode.Divide:
-            {
-                float sumDivide = 0;
-                bool firstFound = false;
-
-                foreach (var slot in balloonSlots)
-                {
-                    int value = slot.GetBalloonValue();
-                    if (value == 0) continue;
-
-                    sumDivide = firstFound ? sumDivide / value : value;
-                    firstFound = true;
-                }
-
-                totalText.text = firstFound ? sumDivide.ToString("F2") : "0.00";
-                break;
             }
         }
-    }
 
-    /*
-    private void CalculateTargetSum()
-    {
-        int sum = 0;
-        string resultText = "";
-        
-        for (int i = 0; i < targetBalloonCount; i++)
+        if (sequence.Count == 0)
         {
-            if (int.TryParse(balloonList[i], out int value))
-            {
-                sum += value;
-                resultText += value;
+            totalText.text = "0";
+            return;
+        }
 
-                if (i < targetBalloonCount - 1)
+        if (sequence[0] is int firstNumber)
+        {
+            sum = firstNumber;
+            hasValue = true;
+            Debug.Log($"Starting with: {sum}");
+
+            int i = 1;
+            while (i < sequence.Count)
+            {
+                if (i < sequence.Count - 1 &&
+                    sequence[i] is OperatorMode op && sequence[i + 1] is int number)
                 {
-                    resultText += " + ";
+                    float oldSum = sum;
+
+                    switch (op)
+                    {
+                        case OperatorMode.Add:
+                            sum += number;
+                            Debug.Log($"{oldSum} + {number} = {sum}");
+                            break;
+                        case OperatorMode.Minus:
+                            sum -= number;
+                            Debug.Log($"{oldSum} - {number} = {sum}");
+                            break;
+                        case OperatorMode.Multiply:
+                            sum *= number;
+                            Debug.Log($"{oldSum} * {number} = {sum}");
+                            break;
+                        case OperatorMode.Divide:
+                            if (number != 0)
+                            {
+                                sum /= number;
+                                Debug.Log($"{oldSum} / {number} = {sum}");
+                            }
+                            else
+                            {
+                                Debug.LogWarning("Division by zero!");
+                            }
+                            break;
+                    }
+
+                    i += 2;
+                }
+                else if (sequence[i] is int nextNumber)
+                {
+                    Debug.LogWarning($"Missing operator before number {nextNumber}!");
+                    i++;
+                }
+                else
+                {
+                    Debug.LogWarning($"Invalid sequence at index {i}");
+                    break;
                 }
             }
         }
-
-        Debug.Log("Result: " + sum);
-        Debug.Log($"Expression: {resultText} = {sum}");
-    }
-
-    public void CalculateBalloon()
-    {
-        int sum = 0;
-
-        for (int i = 0; i < balloonHitCounts.Count; i++)
+        else
         {
-            sum += balloonHitCounts[i];
+            Debug.LogWarning("First element must be a number!");
         }
 
-        Debug.Log(sum);
+        Debug.Log($"Final sum: {sum}");
+        totalText.text = hasValue ? (hasDivide ? sum.ToString("F2") : sum.ToString()) : "0";
     }
-    */
 
     private void OnDrawGizmos()
     {

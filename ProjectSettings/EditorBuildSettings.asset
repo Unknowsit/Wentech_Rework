@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Intro.unity
     guid: d548ca07919e3b342b5a01f9e9b83b48
   - enabled: 1
-    path: Assets/Scenes/Operator.unity
+    path: Assets/Scenes/MultiOperator.unity
     guid: dc857526d36932d45897055f20b09bd9
   - enabled: 1
     path: Assets/Scenes/Gameplay.unity
