@@ -74,6 +74,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button nextButton;
     public Button NextButton => nextButton;
 
+    [Header("Android Button")]
+    [SerializeField] private GameObject shootButton;
+    public GameObject ShootButton => shootButton;
+
     [Header("Useless")]
     public TMP_InputField targetInputField;
 
@@ -100,6 +104,10 @@ public class UIManager : MonoBehaviour
         audioManager = AudioManager.instance;
         gameManager = GameManager.instance;
         uiController = UIController.instance;
+
+#if UNITY_ANDROID
+        shootButton.SetActive(true);
+#endif
 
         UpdateTurnText(turnCountSlider.value);
         turnCountSlider.onValueChanged.AddListener(UpdateTurnText);
@@ -289,6 +297,7 @@ public class UIManager : MonoBehaviour
         shouldReset = false;
 
         yield return new WaitForSecondsRealtime(1f);
+        shootButton.SetActive(true);
 
         resultP1Text.text = "0";
         resultP2Text.text = "0";

@@ -10,17 +10,17 @@ public class Intro : MonoBehaviour
 
     private void Update()
     {
-    #if UNITY_EDITOR || UNITY_STANDALONE
+#if UNITY_STANDALONE
             if (Input.GetMouseButtonDown(0))
             {
                 StartIntro();
             }
-    #elif UNITY_ANDROID
+#elif UNITY_ANDROID
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 StartIntro();
             }
-    #endif
+#endif
     }
 
     private void StartIntro()

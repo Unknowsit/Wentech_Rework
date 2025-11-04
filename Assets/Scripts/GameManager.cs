@@ -769,9 +769,11 @@ public class GameManager : MonoBehaviour
         totalText.text = hasValue ? (hasDivide ? sum.ToString("F2") : sum.ToString()) : "0";
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(Vector2.zero, areaSize);
     }
+#endif
 }
