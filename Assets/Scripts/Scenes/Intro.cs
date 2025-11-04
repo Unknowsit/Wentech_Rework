@@ -10,10 +10,20 @@ public class Intro : MonoBehaviour
 
     private void Update()
     {
-        IntroGame();
+    #if UNITY_EDITOR || UNITY_STANDALONE
+            if (Input.GetMouseButtonDown(0))
+            {
+                StartIntro();
+            }
+    #elif UNITY_ANDROID
+            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                StartIntro();
+            }
+    #endif
     }
 
-    private void IntroGame()
+    private void StartIntro()
     {
         if (Input.GetMouseButtonDown(0))
         {
