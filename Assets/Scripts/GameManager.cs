@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -469,20 +470,46 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < balloonHitCounts.Count; i++)
             {
-                Instantiate(balloonHitPrefab, transform.position, Quaternion.identity, balloonHitParent);
+                GameObject balloon = Instantiate(balloonHitPrefab, transform.position, Quaternion.identity, balloonHitParent);
+                BalloonDragHandler dragHandler = balloon.GetComponent<BalloonDragHandler>();
+
+                if (dragHandler != null)
+                {
+                    dragHandler.originalSlot = balloonHitParent;
+                }
             }
+
+            StartCoroutine(InitializeSlotsAfterLayout());
         }
         else
         {
             for (int i = 0; i < balloonHitCounts.Count; i++)
             {
-                Instantiate(balloonHitPrefab, transform.position, Quaternion.identity, numberBalloonParent);
+                GameObject balloon = Instantiate(balloonHitPrefab, transform.position, Quaternion.identity, numberBalloonParent);
+                BalloonDragHandler dragHandler = balloon.GetComponent<BalloonDragHandler>();
+
+                if (dragHandler != null)
+                {
+                    dragHandler.originalSlot = numberBalloonParent;
+                }
             }
+
+            StartCoroutine(InitializeSlotsAfterLayout());
         }
 
         if (!GameData.IsSingleMode())
         {
             SpawnOperatorBalloons();
+        }
+    }
+
+    private IEnumerator InitializeSlotsAfterLayout()
+    {
+        yield return new WaitForEndOfFrame();
+
+        foreach (var slot in numberSlots)
+        {
+            slot.InitializeBalloon();
         }
     }
 
