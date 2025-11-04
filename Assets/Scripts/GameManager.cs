@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
     {
         ResetGameState();
         GenerateBalloon();
-        CalculateTargetSum(uiManager.TargetText);
+        CalculateTargetSum(uiManager.TargetText, uiManager.ObjectiveText);
         currentBalloonIndex = 0;
     }
 
@@ -240,7 +240,7 @@ public class GameManager : MonoBehaviour
     {
         totalBalloons = Mathf.Clamp(count, 10, 20);
         GenerateBalloon();
-        CalculateTargetSum(uiManager.TargetText);
+        CalculateTargetSum(uiManager.TargetText, uiManager.ObjectiveText);
     }
 
     /*
@@ -278,20 +278,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void CalculateTargetSum(TextMeshProUGUI targetText)
+    private void CalculateTargetSum(TextMeshProUGUI targetText, TextMeshProUGUI objectiveText)
     {
         if (GameData.IsSingleMode())
         {
-            CalculateTargetSumSingleMode(targetText);
+            CalculateTargetSumSingleMode(targetText, objectiveText);
         }
         else
         {
-            CalculateTargetSumMultiMode(targetText);
+            CalculateTargetSumMultiMode(targetText, objectiveText);
         }
     }
 
-    private void CalculateTargetSumSingleMode(TextMeshProUGUI targetText)
+    private void CalculateTargetSumSingleMode(TextMeshProUGUI targetText, TextMeshProUGUI objectiveText)
     {
+        bool hasDivide = false;
         float sum = int.Parse(balloonList[0]);
         string resultText = sum.ToString();
         var mode = GameData.GetSingleMode();
@@ -305,27 +306,31 @@ public class GameManager : MonoBehaviour
                     case OperatorMode.Add:
                         sum += value;
                         resultText += " + " + value;
-                        targetText.text = sum.ToString();
                         break;
                     case OperatorMode.Minus:
                         sum -= value;
                         resultText += $" - ({value})";
-                        targetText.text = sum.ToString();
                         break;
                     case OperatorMode.Multiply:
                         sum *= value;
                         resultText += " * " + value;
-                        targetText.text = sum.ToString();
                         break;
                     case OperatorMode.Divide:
-                        sum /= value;
-                        resultText += " / " + value;
-                        targetText.text = sum.ToString("F2");
+                        if (value != 0)
+                        {
+                            sum /= value;
+                            resultText += " / " + value;
+                            hasDivide = true;
+                        }
                         break;
                 }
             }
         }
 
+        targetText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+        objectiveText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+
+#if UNITY_EDITOR
         if (mode == OperatorMode.Divide)
         {
             Debug.Log($"Expression: {resultText} = {sum:F2}");
@@ -334,13 +339,14 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"Expression: {resultText} = {sum}");
         }
+#endif
     }
 
-    private void CalculateTargetSumMultiMode(TextMeshProUGUI targetText)
+    private void CalculateTargetSumMultiMode(TextMeshProUGUI targetText, TextMeshProUGUI objectiveText)
     {
+        bool hasDivide = false;
         float sum = int.Parse(balloonList[0]);
         string resultText = sum.ToString();
-        bool hasDivide = false;
         int modeIndex = 0;
 
         for (int i = 1; i < targetBalloonCount; i++)
@@ -377,6 +383,7 @@ public class GameManager : MonoBehaviour
         }
 
         targetText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+        objectiveText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
         Debug.Log($"Expression: {resultText} = {(hasDivide ? sum.ToString("F2") : sum.ToString())}");
     }
 

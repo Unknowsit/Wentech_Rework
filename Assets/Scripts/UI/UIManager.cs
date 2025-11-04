@@ -68,6 +68,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreP2Text;
     public TextMeshProUGUI ScoreP2Text => scoreP2Text;
 
+    [SerializeField] private TextMeshProUGUI objectiveText;
+    public TextMeshProUGUI ObjectiveText => objectiveText;
+
     [SerializeField] private Button nextButton;
     public Button NextButton => nextButton;
 
