@@ -13,7 +13,6 @@ public class NumberSlot : MonoBehaviour, IDropHandler
         uiManager = UIManager.instance;
     }
 
-    // ฟังก์ชันนี้เรียกจาก GameManager หลัง spawn เสร็จ
     public void InitializeBalloon()
     {
         if (transform.childCount > 0 && currentBalloon == null)

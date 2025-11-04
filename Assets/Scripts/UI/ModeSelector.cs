@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -145,10 +145,10 @@ public class ModeSelector : MonoBehaviour
                     modeNames.Add("(-)");
                     break;
                 case OperatorMode.Multiply:
-                    modeNames.Add("(*)");
+                    modeNames.Add("(×)");
                     break;
                 case OperatorMode.Divide:
-                    modeNames.Add("(/)");
+                    modeNames.Add("(÷)");
                     break;
             }
         }
