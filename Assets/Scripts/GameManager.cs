@@ -441,9 +441,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private int GetOperatorPriority(OperatorMode mode)
+    {
+        switch (mode)
+        {
+            case OperatorMode.Add:
+                return 0;
+            case OperatorMode.Minus:
+                return 1;
+            case OperatorMode.Multiply:
+                return 2;
+            case OperatorMode.Divide:
+                return 3;
+            default:
+                return -1;
+        }
+    }
+
     private void SpawnOperatorBalloons()
     {
-        foreach (var mode in GameData.SelectedModes)
+        List<OperatorMode> orderedModes = new List<OperatorMode>(GameData.SelectedModes);
+        orderedModes.Sort((a, b) => GetOperatorPriority(a).CompareTo(GetOperatorPriority(b)));
+
+        foreach (var mode in orderedModes)
         {
             Debug.Log($"Creating operator balloon for mode: {mode}");
 

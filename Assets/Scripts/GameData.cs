@@ -38,14 +38,4 @@ public static class GameData
     {
         return SelectedModes != null && SelectedModes.Contains(mode);
     }
-
-    public static bool HasPriorityModes()
-    {
-        return HasMode(OperatorMode.Multiply) || HasMode(OperatorMode.Divide);
-    }
-
-    public static bool HasNonPriorityModes()
-    {
-        return HasMode(OperatorMode.Add) || HasMode(OperatorMode.Minus);
-    }
 }
