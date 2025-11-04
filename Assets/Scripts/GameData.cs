@@ -11,7 +11,7 @@ public enum OperatorMode
 
 public static class GameData
 {
-    public static List<OperatorMode> SelectedModes = new List<OperatorMode> { OperatorMode.Add };
+    public static List<OperatorMode> SelectedModes = new List<OperatorMode> { OperatorMode.Add , OperatorMode.Divide };
 
     public static bool IsSingleMode()
     {
