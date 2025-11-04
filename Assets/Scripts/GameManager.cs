@@ -453,13 +453,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RespawnOperatorBalloon(OperatorMode mode)
+    public void RespawnOperatorBalloon(OperatorMode mode, int insertIndex = -1)
     {
-        if (operatorBalloonPrefab != null && operatorBalloonParent != null)
+        GameObject operatorObj = Instantiate(operatorBalloonPrefab, Vector3.zero, Quaternion.identity, operatorBalloonParent);
+        OperatorBalloon operatorBalloon = operatorObj.GetComponent<OperatorBalloon>();
+        operatorBalloon.Initialize(mode);
+
+        if (insertIndex >= 0 && insertIndex < operatorBalloonParent.childCount)
         {
-            GameObject operatorObj = Instantiate(operatorBalloonPrefab, Vector3.zero, Quaternion.identity, operatorBalloonParent);
-            OperatorBalloon operatorBalloon = operatorObj.GetComponent<OperatorBalloon>();
-            operatorBalloon.Initialize(mode);
+            operatorObj.transform.SetSiblingIndex(insertIndex);
         }
     }
 

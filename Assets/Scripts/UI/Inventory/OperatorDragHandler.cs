@@ -11,6 +11,7 @@ public class OperatorDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
     private GameManager gameManager;
     private OperatorBalloon operatorBalloon;
     private CanvasGroup canvasGroup;
+
     private bool isDraggingFromSource = false;
 
     private void Awake()
@@ -35,11 +36,13 @@ public class OperatorDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
         OperatorSlot operatorSlot = originalSlot.GetComponent<OperatorSlot>();
         isDraggingFromSource = (operatorSlot == null);
 
+        int siblingIndex = transform.GetSiblingIndex();
+
         Debug.Log($"isDraggingFromSource: {isDraggingFromSource}, Parent: {originalSlot.name}");
 
         if (isDraggingFromSource && operatorBalloon != null)
         {
-            gameManager.RespawnOperatorBalloon(operatorBalloon.OperatorMode);
+            gameManager.RespawnOperatorBalloon(operatorBalloon.OperatorMode, siblingIndex);
             Debug.Log($"Respawned {operatorBalloon.OperatorMode} operator");
         }
         else
@@ -92,14 +95,9 @@ public class OperatorDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
             }
         }
 
-        // เปิด raycast กลับ
-        if (balloonImage != null)
-            balloonImage.raycastTarget = true;
+        balloonImage.raycastTarget = true;
         canvasGroup.blocksRaycasts = true;
 
-        if (audioManager != null)
-        {
-            audioManager.PlaySFX("SFX03");
-        }
+        audioManager.PlaySFX("SFX03");
     }
 }
