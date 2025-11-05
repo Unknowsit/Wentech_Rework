@@ -356,25 +356,30 @@ public class GameManager : MonoBehaviour
                 var mode = GameData.SelectedModes[modeIndex % GameData.SelectedModes.Count];
                 modeIndex++;
 
+                string displayValue = value < 0 ? $"({value})" : value.ToString();
+
                 switch (mode)
                 {
                     case OperatorMode.Add:
                         sum += value;
-                        resultText += " + " + value;
+                        resultText += " + " + displayValue;
                         break;
+
                     case OperatorMode.Minus:
                         sum -= value;
-                        resultText += $" - ({value})";
+                        resultText += " - " + displayValue;
                         break;
+
                     case OperatorMode.Multiply:
                         sum *= value;
-                        resultText += " * " + value;
+                        resultText += " * " + displayValue;
                         break;
+
                     case OperatorMode.Divide:
                         if (value != 0)
                         {
                             sum /= value;
-                            resultText += " / " + value;
+                            resultText += " / " + displayValue;
                             hasDivide = true;
                         }
                         break;
