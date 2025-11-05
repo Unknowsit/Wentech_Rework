@@ -25,6 +25,11 @@ public class CannonAim : MonoBehaviour
             if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
             {
                 inputPos = touch.position;
+
+                Ray ray = cam.ScreenPointToRay(inputPos);
+                RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+
+                if (hit.collider != null && hit.collider.CompareTag("Box")) return;
             }
             else
             {
@@ -38,6 +43,7 @@ public class CannonAim : MonoBehaviour
 #endif
         Vector2 worldPos = cam.ScreenToWorldPoint(inputPos);
         Vector2 dir = worldPos - (Vector2)transform.position;
+
         float angle = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         float clampedAngle = Mathf.Clamp(angle, min, max);
         transform.eulerAngles = new Vector3(0f, 0f, clampedAngle);

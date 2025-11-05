@@ -13,21 +13,21 @@ public class CannonShooter : MonoBehaviour
         cam = Camera.main;
     }
 
+#if UNITY_STANDALONE
     private void Update()
     {
-#if UNITY_STANDALONE || UNITY_EDITOR
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Shoot();
         }
-#endif
     }
+#endif
 
     public void Shoot()
     {
 #if UNITY_ANDROID
         UIManager.instance.ShootButton.SetActive(false);
-        Vector2 direction = (Vector2)transform.up;
+        Vector2 direction = (Vector2)transform.right;
 #elif UNITY_STANDALONE || UNITY_EDITOR
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = mousePos - (Vector2)bulletSpawnPos.position;
