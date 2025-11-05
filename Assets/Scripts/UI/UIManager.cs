@@ -206,10 +206,20 @@ public class UIManager : MonoBehaviour
         StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
         gameManager.RestartGame();
 
+#if UNITY_ANDROID
+        StartCoroutine(ShootButtonActive());
+#endif
+
         if (shouldReset)
         {
             StartCoroutine(ClearResultTexts());
         }
+    }
+
+    private IEnumerator ShootButtonActive()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        shootButton.SetActive(true);
     }
 
     public void CountScore(float p1, float p2, bool p1Answered, bool p2Answered)
@@ -297,7 +307,6 @@ public class UIManager : MonoBehaviour
         shouldReset = false;
 
         yield return new WaitForSecondsRealtime(1f);
-        shootButton.SetActive(true);
 
         resultP1Text.text = "0";
         resultP2Text.text = "0";
