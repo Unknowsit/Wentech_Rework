@@ -3856,8 +3856,8 @@ Canvas:
   m_GameObject: {fileID: 927725178}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1484325398}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -5197,7 +5197,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 6.9383}
+  m_AnchoredPosition: {x: 0, y: 6.938301}
   m_SizeDelta: {x: 160, y: 7.8767}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1396594387
@@ -7118,6 +7118,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900225636}
   m_CullTransparentMesh: 1
+--- !u!1 &1901056760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1901056762}
+  - component: {fileID: 1901056761}
+  m_Layer: 0
+  m_Name: VFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1901056761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901056760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa0599ba2f8c1914db0d01edd707aa5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oneShotPrefab: {fileID: 2041370504997863635, guid: 160a0c9c3c439b348a56be686e89b26f, type: 3}
+  trailPrefab: {fileID: 5556136133512694969, guid: b235ab535f38e0e4b9aedc83bc6b9d89, type: 3}
+  oneShotMouseButton: 0
+  dragMouseButton: 0
+  emitPerUnit: 30
+  minDistance: 0.01
+  followMouse: 1
+  desiredMaxParticlesForTrail: 8000
+  trailLifetimeClamp: 1.25
+  runtimeParent: {fileID: 0}
+  camOverride: {fileID: 1484325398}
+--- !u!4 &1901056762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901056760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 520.12317, y: 725.76135, z: -0.8144449}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1954919781
 GameObject:
   m_ObjectHideFlags: 0
@@ -7721,3 +7776,4 @@ SceneRoots:
   - {fileID: 390760818}
   - {fileID: 1110785069}
   - {fileID: 1971172230}
+  - {fileID: 1901056762}

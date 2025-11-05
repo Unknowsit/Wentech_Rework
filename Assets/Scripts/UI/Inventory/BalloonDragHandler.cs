@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 public class BalloonDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [HideInInspector] public Transform originalSlot;
+    RectTransform rect;
+    Canvas canvas;
     public Image balloonImage;
 
     private AudioManager audioManager;
@@ -12,6 +14,8 @@ public class BalloonDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
     private void Awake()
     {
         audioManager = AudioManager.instance;
+        rect = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -32,7 +36,8 @@ public class BalloonDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;
+        //transform.position = Input.mousePosition;
+        rect.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)

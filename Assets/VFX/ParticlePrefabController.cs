@@ -1,50 +1,90 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ParticlePrefabController : MonoBehaviour
 {
-
     [Header("Prefabs")]
-    [SerializeField] private ParticleSystem oneShotPrefab;   // �Ϳ࿡��Ẻǧ/���Դ (����������)
-    [SerializeField] private ParticleSystem trailPrefab;     // �Ϳ࿡��Ẻ�ҡ/�蹤�ҧ (����ҧ�����ҡ)
+    [SerializeField] private ParticleSystem oneShotPrefab;   // เอฟเฟกต์แบบวง/ระเบิด (กดครั้งเดียว)
+    [SerializeField] private ParticleSystem trailPrefab;     // เอฟเฟกต์แบบลาก/พ่นค้าง (กดค้างแล้วลาก)
 
     [Header("Input (Mouse Buttons)")]
-    [Tooltip("0=����, 1=���, 2=��ҧ")]
+    [Tooltip("0=ซ้าย, 1=ขวา, 2=กลาง")]
     [SerializeField] private int oneShotMouseButton = 0;
-    [Tooltip("0=����, 1=���, 2=��ҧ")]
+    [Tooltip("0=ซ้าย, 1=ขวา, 2=กลาง")]
     [SerializeField] private int dragMouseButton = 1;
 
-    [Header("Trail Emit (�ҡ/��ҧ)")]
-    [Tooltip("�ӹǹ͹��Ҥ������зҧ 1 ˹��� (world space)")]
+    [Header("Trail Emit (ลาก/ค้าง)")]
+    [Tooltip("จำนวนอนุภาคต่อระยะทาง 1 หน่วย (world space)")]
     [SerializeField] private float emitPerUnit = 20f;
-    [Tooltip("�ѹ���: ��ͧ��Ѻ���ҧ������ҹ���͹�л����")]
+    [Tooltip("กันสั่น: ต้องขยับอย่างน้อยเท่านี้ก่อนจะปล่อย")]
     [SerializeField] private float minDistance = 0.01f;
-    [Tooltip("��ǻ���µ�����˹�����������ҧ�ҡ")]
+    [Tooltip("หัวปล่อยตามตำแหน่งเมาส์ระหว่างลาก")]
     [SerializeField] private bool followMouse = true;
 
-    [Header("Auto-Config (��ͧ�ѹ��ҧ/��ش�ͧ)")]
-    [Tooltip("maxParticles ����Ѻ�Ϳ࿡���ҡ �ҡ㹾��Ὼ����������Թ�")]
+    [Header("Auto-Config (ป้องกันค้าง/หยุดเอง)")]
+    [Tooltip("maxParticles สำหรับเอฟเฟกต์ลาก หากในพรีแฟบตั้งไว้น้อยเกินไป")]
     [SerializeField] private int desiredMaxParticlesForTrail = 8000;
-    [Tooltip("��� > 0 �кѧ�ѺŴ startLifetime Ẻ constant �������Թ��ҹ�� (����Ŵ�������)")]
+    [Tooltip("ถ้า > 0 จะบังคับลด startLifetime แบบ constant ให้ไม่เกินค่านี้ (ช่วยลดการสะสม)")]
     [SerializeField] private float trailLifetimeClamp = 1.25f;
 
     [Header("Parent (optional)")]
     [SerializeField] private Transform runtimeParent;
 
-    private Camera cam;
+    [Header("Camera (optional)")]
+    [Tooltip("ถ้ากำหนดไว้ จะใช้กล้องนี้แทน Camera.main (แก้เคสหลายกล้อง/ไม่มี Main tag)")]
+    [SerializeField] private Camera camOverride;
+
+    private Camera camCached;           // กล้องที่ใช้จริง (รีเฟรชเมื่อเปลี่ยนซีน)
     private ParticleSystem activeTrail;
     private Vector3 lastPos;
     private bool dragging;
 
+    public static ParticlePrefabController instance;
+
+    // ==================== Singleton + Survive Scenes ====================
     void Awake()
     {
-        cam = Camera.main;
-        if (!cam)
+        if (instance == null)
         {
-            cam = FindAnyObjectByType<Camera>();
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
         }
     }
 
+    void OnEnable()
+    {
+        SceneManager.activeSceneChanged += OnSceneChanged;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.activeSceneChanged -= OnSceneChanged;
+    }
+
+    void OnSceneChanged(Scene prev, Scene next)
+    {
+        // ซีนใหม่ → เคลียร์แคชกล้อง ให้หาใหม่รอบต่อไป
+        camCached = null;
+    }
+
+    // ดึงกล้องที่ถูกต้องทุกครั้ง (มี override มาก่อน, ตามด้วย main, สุดท้ายหาอะไรก็ได้)
+    Camera GetCam()
+    {
+        if (camOverride) return camOverride;
+        if (camCached && camCached.isActiveAndEnabled) return camCached;
+
+        camCached = Camera.main;
+        if (!camCached) camCached = Object.FindFirstObjectByType<Camera>();
+        return camCached;
+    }
+
+    // ==================== Update ====================
     void Update()
     {
         // ==================== One-Shot ====================
@@ -53,13 +93,13 @@ public class ParticlePrefabController : MonoBehaviour
             Vector3 pos = MouseWorldAtPrefabZ(oneShotPrefab);
             var ps = Instantiate(oneShotPrefab, pos, oneShotPrefab.transform.rotation, runtimeParent);
 
-            // ��駤��: ����ٻ + ��ش���� Destroy �ѵ��ѵ�
+            // ตั้งค่า: ไม่ลูป + หยุดแล้ว Destroy อัตโนมัติ
             ConfigureOneShotAutoDestroy(ps);
 
             ps.Clear(true);
             ps.Play(true);
 
-            // ���͡ó� stopAction ���ӧҹ (sub-emitter �š �)
+            // เผื่อกรณี stopAction ไม่ทำงาน (sub-emitter แปลก ๆ)
             StartCoroutine(DestroyWhenDone(ps));
         }
 
@@ -71,7 +111,7 @@ public class ParticlePrefabController : MonoBehaviour
             Vector3 pos = MouseWorldAtPrefabZ(trailPrefab);
             activeTrail = Instantiate(trailPrefab, pos, trailPrefab.transform.rotation, runtimeParent);
 
-            // ��駤��: �Դ�ٻ, stopAction=None, ���� maxParticles, �ҨŴ lifetime
+            // ตั้งค่า: เปิดลูป, stopAction=None, เพิ่ม maxParticles, อาจลด lifetime
             ConfigureTrailHold(activeTrail, desiredMaxParticlesForTrail, trailLifetimeClamp);
 
             var em = activeTrail.emission;
@@ -109,21 +149,21 @@ public class ParticlePrefabController : MonoBehaviour
 
             if (activeTrail)
             {
-                // �Դ��û���� �������͹��Ҥ�������ͤ��� � �Ѻ
+                // ปิดการปล่อย แล้วให้อนุภาคที่เหลือค่อย ๆ ดับ
                 var em = activeTrail.emission;
                 em.enabled = false;
 
-                // ���е�� loop=true + stopAction=None ����� StopEmitting ���ͻ����������ͧ
+                // ตั้ง loop=true + stopAction=None → ใช้ StopEmitting
                 activeTrail.Stop(true, ParticleSystemStopBehavior.StopEmitting);
 
-                // ���������ʹѺ��� (safety)
+                // ทำลายเมื่อดับหมด (safety)
                 StartCoroutine(DestroyWhenDone(activeTrail));
                 activeTrail = null;
             }
         }
     }
 
-    // ---------- Config ����Ѻ One-Shot ----------
+    // ---------- Config สำหรับ One-Shot ----------
     void ConfigureOneShotAutoDestroy(ParticleSystem root)
     {
         if (!root) return;
@@ -131,11 +171,11 @@ public class ParticlePrefabController : MonoBehaviour
         {
             var main = ps.main;
             main.loop = false;
-            main.stopAction = ParticleSystemStopAction.Destroy; // ��ش���Ƿ����
+            main.stopAction = ParticleSystemStopAction.Destroy; // หยุดแล้วทำลาย
         }
     }
 
-    // ---------- Config ����Ѻ Trail/Hold ----------
+    // ---------- Config สำหรับ Trail/Hold ----------
     void ConfigureTrailHold(ParticleSystem root, int desiredMaxParticles = 5000, float lifetimeClamp = -1f)
     {
         if (!root) return;
@@ -144,15 +184,15 @@ public class ParticlePrefabController : MonoBehaviour
         {
             var main = ps.main;
 
-            // �Ӥѭ: ����к��������ʹ�͹�ҡ (�����������ͧ)
+            // สำคัญ: ให้ระบบอยู่ได้ตลอดตอนลาก (ไม่หมดอายุเอง)
             main.loop = true;
             main.stopAction = ParticleSystemStopAction.None;
 
-            // ������͹��Ҥ���������骹 MaxParticles ������ش�ͧ
+            // เพิ่มงบอนุภาคเพื่อไม่ให้ชน MaxParticles แล้วหยุดเอง
             if (main.maxParticles < desiredMaxParticles)
                 main.maxParticles = desiredMaxParticles;
 
-            // Ŵ lifetime (੾�Сó� constant) �������������������
+            // ลด lifetime (เฉพาะกรณี constant) เพื่อไม่ให้สะสมจนเต็ม
             if (lifetimeClamp > 0f && main.startLifetime.mode == ParticleSystemCurveMode.Constant)
             {
                 if (main.startLifetime.constant > lifetimeClamp)
@@ -164,15 +204,15 @@ public class ParticlePrefabController : MonoBehaviour
     // ---------- Mouse to World ----------
     Vector3 MouseWorldAtPrefabZ(ParticleSystem prefabOrInstance)
     {
-        if (!cam)
-            return Vector3.zero;
+        var cam = GetCam();
+        if (!cam) return Vector3.zero; // กันพังชั่วคราวถ้าไม่มีกล้อง
 
         Vector3 m = Input.mousePosition;
         float z = Mathf.Abs(cam.transform.position.z - prefabOrInstance.transform.position.z);
         m.z = z;
 
         Vector3 world = cam.ScreenToWorldPoint(m);
-        world.z = prefabOrInstance.transform.position.z; // ��͡ Z ���ç prefab
+        world.z = prefabOrInstance.transform.position.z; // ล็อก Z ให้ตรง prefab/อินสแตนซ์
         return world;
     }
 
@@ -181,7 +221,7 @@ public class ParticlePrefabController : MonoBehaviour
     {
         if (!ps) yield break;
 
-        // �Դ timeout ����� � �ҡ duration + �����٧�ش�ͧ�١ � + buffer
+        // คิด timeout คร่าว ๆ จาก duration + อายุสูงสุดของลูก ๆ + buffer
         float duration = ps.main.duration;
         float maxLife = 0f;
 
@@ -189,20 +229,15 @@ public class ParticlePrefabController : MonoBehaviour
         {
             var m = p.main;
             float life;
-
             switch (m.startLifetime.mode)
             {
                 case ParticleSystemCurveMode.Constant:
-                    life = m.startLifetime.constant;
-                    break;
+                    life = m.startLifetime.constant; break;
                 case ParticleSystemCurveMode.TwoConstants:
-                    life = Mathf.Max(m.startLifetime.constantMin, m.startLifetime.constantMax);
-                    break;
+                    life = Mathf.Max(m.startLifetime.constantMin, m.startLifetime.constantMax); break;
                 default:
-                    life = 5f; // ������Ͷ���� curve
-                    break;
+                    life = 5f; break; // ค่าเผื่อถ้าเป็น curve
             }
-
             maxLife = Mathf.Max(maxLife, life);
         }
 
