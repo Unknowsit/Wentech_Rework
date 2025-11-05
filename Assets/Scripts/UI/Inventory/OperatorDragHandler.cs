@@ -7,8 +7,9 @@ public class OperatorDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
     [HideInInspector] public Transform originalSlot;
     public Image balloonImage;
 
-    RectTransform rect;
-    Canvas canvas;
+    private RectTransform rect;
+    private Canvas canvas;
+
     private AudioManager audioManager;
     private GameManager gameManager;
     private OperatorBalloon operatorBalloon;
@@ -20,11 +21,12 @@ public class OperatorDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
     {
         audioManager = AudioManager.instance;
         gameManager = GameManager.instance;
+
         operatorBalloon = GetComponent<OperatorBalloon>();
         rect = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
-
         canvasGroup = GetComponent<CanvasGroup>();
+
         if (canvasGroup == null)
         {
             canvasGroup = gameObject.AddComponent<CanvasGroup>();

@@ -5,8 +5,10 @@ using UnityEngine.EventSystems;
 public class BalloonDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [HideInInspector] public Transform originalSlot;
-    RectTransform rect;
-    Canvas canvas;
+
+    private RectTransform rect;
+    private Canvas canvas;
+
     public Image balloonImage;
 
     private AudioManager audioManager;

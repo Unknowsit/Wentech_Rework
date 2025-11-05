@@ -10,8 +10,8 @@ public class Intro : MonoBehaviour
 
     private void Update()
     {
-#if UNITY_STANDALONE
-            if (Input.GetMouseButtonDown(0))
+#if UNITY_STANDALONE || UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0))
             {
                 StartIntro();
             }
