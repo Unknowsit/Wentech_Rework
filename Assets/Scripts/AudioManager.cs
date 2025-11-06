@@ -35,12 +35,12 @@ public class AudioManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "MainMenu")
+        if (scene.name == "Intro")
         {
             PlayBGM("BGM03");
             PlayAmbient("ABG1");
         }
-        else if (scene.name == "TestOperator")
+        else if (scene.name == "MultiOperator")
         {
             StartCoroutine(FadeIn(bgmSource, 3f));
             PlayBGM("BGM01");
