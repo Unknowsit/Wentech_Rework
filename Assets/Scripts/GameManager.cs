@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     public float p1, p2;
     public int totalTurns = 1;
+    private int maxRounds = 1;
 
     [HideInInspector] public int currentBalloonIndex = 0;
 
@@ -76,6 +77,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         uiManager = UIManager.instance;
+        UpdateRoundDisplay();
     }
 
     public void RestartGame()
@@ -84,6 +86,7 @@ public class GameManager : MonoBehaviour
         GenerateBalloon();
         CalculateTargetSum(uiManager.TargetText, uiManager.ObjectiveText);
         currentBalloonIndex = 0;
+        UpdateRoundDisplay();
     }
 
     private void ResetGameState()
@@ -116,6 +119,14 @@ public class GameManager : MonoBehaviour
     private void DestroyChildren(Transform parent)
     {
         foreach (Transform child in parent)
+            Destroy(child.gameObject);
+    }
+
+    public IEnumerator DestroyBalloonsAfterDelay(float delayTime)
+    {
+        yield return new WaitForSecondsRealtime(delayTime);
+
+        foreach (Transform child in balloonParent)
             Destroy(child.gameObject);
     }
 
@@ -206,6 +217,14 @@ public class GameManager : MonoBehaviour
         uiManager.RemainingTime = 100;
     }
 
+    private void UpdateRoundDisplay()
+    {
+        int remainingRounds = Mathf.CeilToInt(totalTurns / 2f);
+        int currentRound = maxRounds - remainingRounds + 1;
+
+        uiManager.RoundText.text = $"{currentRound}/{maxRounds}";
+    }
+
     public void SetPlayerValues(TextMeshProUGUI playerInputText, TextMeshProUGUI playerText)
     {
         if (totalTurns % 2 == 0)
@@ -228,12 +247,16 @@ public class GameManager : MonoBehaviour
 
             p1HasAnswered = false;
             p2HasAnswered = false;
+
+            UpdateRoundDisplay();
         }
     }
 
     public void SetTargetRounds(int count)
     {
         totalTurns = count * 2;
+        maxRounds = count;
+        UpdateRoundDisplay();
     }
 
     public void SetBalloonSpawnCount(int count)

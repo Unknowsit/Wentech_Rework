@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -27,6 +28,9 @@ public class UIManager : MonoBehaviour
     [Header("Gameplay Info")]
     [SerializeField] private TextMeshProUGUI targetText;
     public TextMeshProUGUI TargetText => targetText;
+
+    [SerializeField] private TextMeshProUGUI roundText;
+    public TextMeshProUGUI RoundText => roundText;
 
     [Header("Timer Settings")]
     [SerializeField] private Slider _progressBar;
@@ -73,6 +77,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Button nextButton;
     public Button NextButton => nextButton;
+
+    [Header("Winner Panel")]
+    [SerializeField] private GameObject winnerPanel;
+
+    [SerializeField] private Button exitButton;
 
     [Header("Android Button")]
     [SerializeField] private GameObject shootButton;
@@ -203,24 +212,39 @@ public class UIManager : MonoBehaviour
 
     public void OnTapButtonClicked()
     {
-        StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
-        gameManager.RestartGame();
+        if (gameManager.totalTurns == 1)
+        {
+            StartCoroutine(uiController.UITransition(showPanel: winnerPanel, hidePanels: scorePanel));
+        }
+        else
+        {
+            StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
+            gameManager.RestartGame();
 
 #if UNITY_ANDROID
         StartCoroutine(ShootButtonActive());
 #endif
 
-        if (shouldReset)
-        {
-            StartCoroutine(ClearResultTexts());
+            if (shouldReset)
+            {
+                StartCoroutine(ClearResultTexts());
+            }
         }
     }
 
+    public void OnExitButtonClicked()
+    {
+        StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
+        SceneManager.LoadSceneAsync("MultiOperator");
+    }
+
+#if UNITY_ANDROID
     private IEnumerator ShootButtonActive()
     {
         yield return new WaitForSecondsRealtime(1f);
         shootButton.SetActive(true);
     }
+#endif
 
     public void CountScore(float p1, float p2, bool p1Answered, bool p2Answered)
     {

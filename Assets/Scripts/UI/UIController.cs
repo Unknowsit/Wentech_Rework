@@ -208,6 +208,8 @@ public class UIController : MonoBehaviour
         {
             StartCoroutine(UITransition(showPanel: uiManager.multiModePanel));
         }
+
+        StartCoroutine(GameManager.instance.DestroyBalloonsAfterDelay(1f));
     }
 
     public IEnumerator UITransition(GameObject showPanel = null, params GameObject[] hidePanels)
