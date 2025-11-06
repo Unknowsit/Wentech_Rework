@@ -40,15 +40,16 @@ public class AudioManager : MonoBehaviour
             PlayBGM("BGM03");
             PlayAmbient("ABG1");
         }
-        else if (scene.name == "MultiOperator")
+        else if (scene.name == "Operators")
         {
             StartCoroutine(FadeIn(bgmSource, 3f));
             PlayBGM("BGM01");
-            ambSource.Stop();
+
+            if (ambSource != null) ambSource.Stop();
         }
         else if (scene.name == "Gameplay")
         {
-
+            // Code Here
         }
     }
 

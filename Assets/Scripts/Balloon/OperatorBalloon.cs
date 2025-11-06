@@ -16,7 +16,7 @@ public class OperatorBalloon : MonoBehaviour
 
         switch (mode)
         {
-            case OperatorMode.Add:
+            case OperatorMode.Plus:
                 operatorText.text = "+";
                 break;
             case OperatorMode.Minus:

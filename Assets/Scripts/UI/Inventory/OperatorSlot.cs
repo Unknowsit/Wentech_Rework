@@ -24,14 +24,6 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
         }
     }
 
-    private void OnDestroy()
-    {
-        if (trashButton != null)
-        {
-            trashButton.onClick.RemoveListener(DeleteOperator);
-        }
-    }
-
     public void OnDrop(PointerEventData eventData)
     {
         GameObject droppedObject = eventData.pointerDrag;
@@ -81,6 +73,14 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
         RefreshSum();
     }
 
+    private void OnDestroy()
+    {
+        if (trashButton != null)
+        {
+            trashButton.onClick.RemoveListener(DeleteOperator);
+        }
+    }
+
     public void DeleteOperator()
     {
         if (currentOperator != null)
@@ -92,7 +92,7 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
 
             Destroy(operatorToDelete);
 
-            AudioManager.instance?.PlaySFX("SFX01");
+            AudioManager.instance.PlaySFX("SFX01");
 
             UpdateVisualFeedback();
             RefreshSum();
@@ -143,6 +143,17 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
 
         UpdateVisualFeedback();
         RefreshSum();
+    }
+
+    public void ClearOperator()
+    {
+        if (currentOperator != null)
+        {
+            Destroy(currentOperator.gameObject);
+            currentOperator = null;
+            UpdateVisualFeedback();
+            RefreshSum();
+        }
     }
 
     private void RefreshSum()

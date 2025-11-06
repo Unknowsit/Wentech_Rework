@@ -77,7 +77,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         uiManager = UIManager.instance;
-        UpdateRoundDisplay();
     }
 
     public void RestartGame()
@@ -85,8 +84,8 @@ public class GameManager : MonoBehaviour
         ResetGameState();
         GenerateBalloon();
         CalculateTargetSum(uiManager.TargetText, uiManager.ObjectiveText);
-        currentBalloonIndex = 0;
         UpdateRoundDisplay();
+        currentBalloonIndex = 0;
     }
 
     private void ResetGameState()
@@ -156,10 +155,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (OperatorSlot slot in operatorSlots)
         {
-            for (int i = slot.transform.childCount - 1; i >= 0; i--)
-            {
-                Destroy(slot.transform.GetChild(i).gameObject);
-            }
+            slot.ClearOperator();
         }
     }
 
@@ -326,7 +322,7 @@ public class GameManager : MonoBehaviour
             {
                 switch (mode)
                 {
-                    case OperatorMode.Add:
+                    case OperatorMode.Plus:
                         sum += value;
                         resultText += " + " + value;
                         break;
@@ -383,7 +379,7 @@ public class GameManager : MonoBehaviour
 
                 switch (mode)
                 {
-                    case OperatorMode.Add:
+                    case OperatorMode.Plus:
                         sum += value;
                         resultText += " + " + displayValue;
                         break;
@@ -436,7 +432,7 @@ public class GameManager : MonoBehaviour
         {
             switch (mode)
             {
-                case OperatorMode.Add:
+                case OperatorMode.Plus:
                     sum += balloonHitCounts[i];
                     break;
                 case OperatorMode.Minus:
@@ -475,7 +471,7 @@ public class GameManager : MonoBehaviour
 
             switch (mode)
             {
-                case OperatorMode.Add:
+                case OperatorMode.Plus:
                     sum += balloonHitCounts[i];
                     break;
                 case OperatorMode.Minus:
@@ -552,7 +548,7 @@ public class GameManager : MonoBehaviour
     {
         switch (mode)
         {
-            case OperatorMode.Add:
+            case OperatorMode.Plus:
                 return 0;
             case OperatorMode.Minus:
                 return 1;
@@ -611,7 +607,7 @@ public class GameManager : MonoBehaviour
 
         switch (mode)
         {
-            case OperatorMode.Add:
+            case OperatorMode.Plus:
                 foreach (var slot in balloonSlots)
                 {
                     sum += slot.GetBalloonValue();
@@ -753,7 +749,7 @@ public class GameManager : MonoBehaviour
                     float oldSum = sum;
                     switch (op)
                     {
-                        case OperatorMode.Add:
+                        case OperatorMode.Plus:
                             sum += nextNumber;
                             break;
                         case OperatorMode.Minus:

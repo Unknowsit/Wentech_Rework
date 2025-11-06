@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum OperatorMode
 {
-    Add,
+    Plus,
     Minus,
     Multiply,
     Divide
@@ -11,7 +11,7 @@ public enum OperatorMode
 
 public static class GameData
 {
-    public static List<OperatorMode> SelectedModes = new List<OperatorMode> { OperatorMode.Add , OperatorMode.Divide };
+    public static List<OperatorMode> SelectedModes = new List<OperatorMode> { OperatorMode.Plus };
 
     public static bool IsSingleMode()
     {
@@ -23,13 +23,13 @@ public static class GameData
         if (IsSingleMode())
             return SelectedModes[0];
 
-        return OperatorMode.Add;
+        return OperatorMode.Plus;
     }
 
     public static OperatorMode GetRandomMode()
     {
         if (SelectedModes == null || SelectedModes.Count == 0)
-            return OperatorMode.Add;
+            return OperatorMode.Plus;
 
         return SelectedModes[Random.Range(0, SelectedModes.Count)];
     }

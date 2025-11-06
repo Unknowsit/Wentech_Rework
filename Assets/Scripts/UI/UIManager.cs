@@ -235,7 +235,7 @@ public class UIManager : MonoBehaviour
     public void OnExitButtonClicked()
     {
         StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
-        SceneManager.LoadSceneAsync("MultiOperator");
+        SceneManager.LoadSceneAsync("Operators");
     }
 
 #if UNITY_ANDROID
@@ -263,7 +263,7 @@ public class UIManager : MonoBehaviour
 
             switch (mode)
             {
-                case OperatorMode.Add:
+                case OperatorMode.Plus:
                 case OperatorMode.Multiply:
                     {
                         if (current > Mathf.Epsilon)

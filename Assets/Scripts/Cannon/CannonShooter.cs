@@ -7,10 +7,10 @@ public class CannonShooter : MonoBehaviour
     [SerializeField] Bullet bulletPrefab;
     [SerializeField] Transform bulletSpawnPos;
 
-    // vfx
-    [SerializeField] private ParticleSystem shootVFXPrefab;  // ← ลากพรีแฟบเอฟเฟกต์ปากกระบอก
-    [SerializeField] private Transform vfxSpawnPos;              // (optional) ตั้งพ่อแม่เอฟเฟกต์
-    [SerializeField] private bool vfxAutoDestroy = true;      // ทำลายตัวเองหลังเล่น
+    [Header("VFX Feedback")]
+    [SerializeField] private ParticleSystem shootVFXPrefab;
+    [SerializeField] private Transform vfxSpawnPos;
+    [SerializeField] private bool vfxAutoDestroy = true;
 
     private Camera cam;
 
@@ -48,33 +48,29 @@ public class CannonShooter : MonoBehaviour
         bullet.Shoot(direction.normalized);
         enabled = false;
 
-        // เล่น VFX ที่ปากกระบอก (one-shot + auto destroy)
         PlayShootVFX(direction.normalized);
     }
 
-    // ====== VFX Helpers ======
     private void PlayShootVFX(Vector2 dir)
     {
         if (!shootVFXPrefab) return;
 
-        // ใช้จุด spawn ของ VFX
         Transform anchor = vfxSpawnPos;
 
         float z = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         Quaternion rot = Quaternion.AngleAxis(z, Vector3.forward);
 
-        // ปล่อย "เป็นลูกของ anchor" เพื่อให้อยู่ตรง empty เป๊ะ
         ParticleSystem ps = Instantiate(shootVFXPrefab, anchor.position, rot, anchor);
 
-        // กันบางพรีแฟบมี offset: ย้ำตำแหน่ง/มุมอีกชั้น
         ps.transform.SetPositionAndRotation(anchor.position, rot);
 
-        // one-shot + ทำลายตัวเอง
         var all = ps.GetComponentsInChildren<ParticleSystem>(true);
+
         foreach (var p in all)
         {
             var m = p.main; m.loop = false; m.stopAction = ParticleSystemStopAction.Destroy;
         }
+
         ps.Clear(true);
         ps.Play(true);
 
@@ -86,9 +82,9 @@ public class CannonShooter : MonoBehaviour
     {
         if (!ps) yield break;
 
-        // timeout เผื่อ sub-emitter แปลก ๆ
         float duration = ps.main.duration;
         float maxLife = 0f;
+
         foreach (var p in ps.GetComponentsInChildren<ParticleSystem>(true))
         {
             var m = p.main;

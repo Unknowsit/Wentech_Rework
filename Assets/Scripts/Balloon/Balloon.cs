@@ -39,7 +39,7 @@ public class Balloon : MonoBehaviour
         {
             switch (GameData.GetSingleMode())
             {
-                case OperatorMode.Add:
+                case OperatorMode.Plus:
                     numText.text = Random.Range(1, 101).ToString();
                     break;
                 case OperatorMode.Minus:
@@ -57,7 +57,7 @@ public class Balloon : MonoBehaviour
 
             switch (randomMode)
             {
-                case OperatorMode.Add:
+                case OperatorMode.Plus:
                     numText.text = Random.Range(1, 101).ToString();
                     break;
                 case OperatorMode.Minus:

@@ -31,7 +31,7 @@ public class ModeSelector : MonoBehaviour
 
         LoadCurrentModes();
 
-        addToggle.onValueChanged.AddListener(isOn => UpdateMode(OperatorMode.Add, isOn));
+        addToggle.onValueChanged.AddListener(isOn => UpdateMode(OperatorMode.Plus, isOn));
         minusToggle.onValueChanged.AddListener(isOn => UpdateMode(OperatorMode.Minus, isOn));
         multiplyToggle.onValueChanged.AddListener(isOn => UpdateMode(OperatorMode.Multiply, isOn));
         divideToggle.onValueChanged.AddListener(isOn => UpdateMode(OperatorMode.Divide, isOn));
@@ -54,7 +54,7 @@ public class ModeSelector : MonoBehaviour
 
     private void LoadCurrentModes()
     {
-        addToggle.SetIsOnWithoutNotify(GameData.HasMode(OperatorMode.Add));
+        addToggle.SetIsOnWithoutNotify(GameData.HasMode(OperatorMode.Plus));
         minusToggle.SetIsOnWithoutNotify(GameData.HasMode(OperatorMode.Minus));
         multiplyToggle.SetIsOnWithoutNotify(GameData.HasMode(OperatorMode.Multiply));
         divideToggle.SetIsOnWithoutNotify(GameData.HasMode(OperatorMode.Divide));
@@ -71,7 +71,7 @@ public class ModeSelector : MonoBehaviour
                 GameData.SelectedModes.Clear();
                 GameData.SelectedModes.Add(mode);
 
-                if (mode != OperatorMode.Add) addToggle.SetIsOnWithoutNotify(false);
+                if (mode != OperatorMode.Plus) addToggle.SetIsOnWithoutNotify(false);
                 if (mode != OperatorMode.Minus) minusToggle.SetIsOnWithoutNotify(false);
                 if (mode != OperatorMode.Multiply) multiplyToggle.SetIsOnWithoutNotify(false);
                 if (mode != OperatorMode.Divide) divideToggle.SetIsOnWithoutNotify(false);
@@ -80,7 +80,7 @@ public class ModeSelector : MonoBehaviour
             {
                 switch (mode)
                 {
-                    case OperatorMode.Add: addToggle.SetIsOnWithoutNotify(true); break;
+                    case OperatorMode.Plus: addToggle.SetIsOnWithoutNotify(true); break;
                     case OperatorMode.Minus: minusToggle.SetIsOnWithoutNotify(true); break;
                     case OperatorMode.Multiply: multiplyToggle.SetIsOnWithoutNotify(true); break;
                     case OperatorMode.Divide: divideToggle.SetIsOnWithoutNotify(true); break;
@@ -108,7 +108,7 @@ public class ModeSelector : MonoBehaviour
 
                     switch (mode)
                     {
-                        case OperatorMode.Add:
+                        case OperatorMode.Plus:
                             addToggle.SetIsOnWithoutNotify(true);
                             break;
                         case OperatorMode.Minus:
@@ -138,7 +138,7 @@ public class ModeSelector : MonoBehaviour
         {
             switch (mode)
             {
-                case OperatorMode.Add:
+                case OperatorMode.Plus:
                     modeNames.Add("(+)");
                     break;
                 case OperatorMode.Minus:
@@ -166,7 +166,7 @@ public class ModeSelector : MonoBehaviour
 
     public void OnAddModeSelected()
     {
-        SetSingleMode(OperatorMode.Add);
+        SetSingleMode(OperatorMode.Plus);
         audioManager.PlaySFX("SFX02");
     }
 
