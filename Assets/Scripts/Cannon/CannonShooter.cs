@@ -1,10 +1,16 @@
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.EventSystems;
 
 public class CannonShooter : MonoBehaviour
 {
     [SerializeField] Bullet bulletPrefab;
     [SerializeField] Transform bulletSpawnPos;
+
+    // vfx
+    [SerializeField] private ParticleSystem shootVFXPrefab;  // ← ลากพรีแฟบเอฟเฟกต์ปากกระบอก
+    [SerializeField] private Transform vfxSpawnPos;              // (optional) ตั้งพ่อแม่เอฟเฟกต์
+    [SerializeField] private bool vfxAutoDestroy = true;      // ทำลายตัวเองหลังเล่น
 
     private Camera cam;
 
@@ -41,5 +47,64 @@ public class CannonShooter : MonoBehaviour
         Bullet bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
         bullet.Shoot(direction.normalized);
         enabled = false;
+
+        // เล่น VFX ที่ปากกระบอก (one-shot + auto destroy)
+        PlayShootVFX(direction.normalized);
+    }
+
+    // ====== VFX Helpers ======
+    private void PlayShootVFX(Vector2 dir)
+    {
+        if (!shootVFXPrefab) return;
+
+        // ใช้จุด spawn ของ VFX
+        Transform anchor = vfxSpawnPos;
+
+        float z = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Quaternion rot = Quaternion.AngleAxis(z, Vector3.forward);
+
+        // ปล่อย "เป็นลูกของ anchor" เพื่อให้อยู่ตรง empty เป๊ะ
+        ParticleSystem ps = Instantiate(shootVFXPrefab, anchor.position, rot, anchor);
+
+        // กันบางพรีแฟบมี offset: ย้ำตำแหน่ง/มุมอีกชั้น
+        ps.transform.SetPositionAndRotation(anchor.position, rot);
+
+        // one-shot + ทำลายตัวเอง
+        var all = ps.GetComponentsInChildren<ParticleSystem>(true);
+        foreach (var p in all)
+        {
+            var m = p.main; m.loop = false; m.stopAction = ParticleSystemStopAction.Destroy;
+        }
+        ps.Clear(true);
+        ps.Play(true);
+
+        if (vfxAutoDestroy)
+            StartCoroutine(DestroyWhenDone(ps));
+    }
+
+    private IEnumerator DestroyWhenDone(ParticleSystem ps)
+    {
+        if (!ps) yield break;
+
+        // timeout เผื่อ sub-emitter แปลก ๆ
+        float duration = ps.main.duration;
+        float maxLife = 0f;
+        foreach (var p in ps.GetComponentsInChildren<ParticleSystem>(true))
+        {
+            var m = p.main;
+            float life = m.startLifetime.mode switch
+            {
+                ParticleSystemCurveMode.Constant => m.startLifetime.constant,
+                ParticleSystemCurveMode.TwoConstants => Mathf.Max(m.startLifetime.constantMin, m.startLifetime.constantMax),
+                _ => 3f
+            };
+            maxLife = Mathf.Max(maxLife, life);
+        }
+        float timeout = Time.time + duration + maxLife + 1.5f;
+
+        while (ps && ps.IsAlive(true) && Time.time < timeout)
+            yield return null;
+
+        if (ps) Destroy(ps.gameObject);
     }
 }
