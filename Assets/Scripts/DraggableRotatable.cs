@@ -16,6 +16,11 @@ public class DraggableRotatable : MonoBehaviour
     private float mouseDownTime;
     private bool mouseHeld = false;
 
+    [Header("Visual Feedback")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite selectedSprite;
+
     private enum Mode { None, Rotate, Drag }
     private Mode currentMode = Mode.None;
 
@@ -65,7 +70,10 @@ public class DraggableRotatable : MonoBehaviour
                     EnterDragMode();
                 }
 
-                transform.position = mouseWorld + offset;
+                if (currentMode == Mode.Drag)
+                {
+                    transform.position = mouseWorld + offset;
+                }
             }
         }
 
@@ -73,11 +81,19 @@ public class DraggableRotatable : MonoBehaviour
         {
             float heldTime = Time.time - mouseDownTime;
 
-            if (heldTime < holdThreshold)
+            if (currentMode == Mode.Drag)
             {
-                if (currentMode != Mode.Rotate)
+                currentMode = Mode.None;
+                Deselect();
+            }
+            else
+            {
+                if (heldTime < holdThreshold)
                 {
-                    EnterRotateMode();
+                    if (currentMode != Mode.Rotate)
+                    {
+                        EnterRotateMode();
+                    }
                 }
             }
 
@@ -103,6 +119,7 @@ public class DraggableRotatable : MonoBehaviour
         currentlySelected = this;
         SetCannonActive(false);
         currentMode = Mode.None;
+        UpdateSprite(true);
     }
 
     private void Deselect()
@@ -111,6 +128,7 @@ public class DraggableRotatable : MonoBehaviour
         currentlySelected = null;
         currentMode = Mode.None;
         SetCannonActive(true);
+        UpdateSprite(false);
     }
 
     private void EnterRotateMode()
@@ -125,6 +143,7 @@ public class DraggableRotatable : MonoBehaviour
 
     private void SetCannonActive(bool isActive)
     {
+        gameManager.cannonAim.enabled = isActive;
         gameManager.cannonShooter.enabled = isActive;
     }
 
@@ -133,5 +152,13 @@ public class DraggableRotatable : MonoBehaviour
         Vector3 mouseScreenPos = Input.mousePosition;
         mouseScreenPos.z = transform.position.z - cam.transform.position.z;
         return cam.ScreenToWorldPoint(mouseScreenPos);
+    }
+
+    private void UpdateSprite(bool selected)
+    {
+        if (selected)
+            spriteRenderer.sprite = selectedSprite;
+        else
+            spriteRenderer.sprite = normalSprite;
     }
 }
