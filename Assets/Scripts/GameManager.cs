@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     [Header ("Balloon Properties")]
     [Range(1, 20)] [SerializeField] private int totalBalloons = 10;
-    [SerializeField] private int targetBalloonCount = 3;
+    [Range(2, 8)] [SerializeField] private int targetBalloonCount = 2;
     [SerializeField] private float balloonCollisionRadius = 0.5f;
     [SerializeField] private GameObject balloonPrefab;
     [SerializeField] private Transform balloonParent;
@@ -255,19 +255,17 @@ public class GameManager : MonoBehaviour
         UpdateRoundDisplay();
     }
 
+    public void SetTargetBalloonCount(int count)
+    {
+        targetBalloonCount = Mathf.Clamp(count, 2, totalBalloons);
+    }
+
     public void SetBalloonSpawnCount(int count)
     {
         totalBalloons = Mathf.Clamp(count, 10, 20);
         GenerateBalloon();
         CalculateTargetSum(uiManager.TargetText, uiManager.ObjectiveText);
     }
-
-    /*
-    public void SetTargetBalloonCount(int count)
-    {
-        targetBalloonCount = Mathf.Clamp(count, 1, totalBalloons);
-    }
-    */
 
     public void RegisterBalloonNumber(string num)
     {

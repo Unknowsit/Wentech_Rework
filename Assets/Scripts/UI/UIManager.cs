@@ -17,9 +17,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider turnCountSlider;
     [SerializeField] private TextMeshProUGUI turnCountText;
 
-    [Header("Balloon Setup")]
+    [Header("Total Balloon Setup")]
     [SerializeField] private Slider balloonSpawnSlider;
     [SerializeField] private TextMeshProUGUI balloonSpawnText;
+
+    [Header("Target Amount Setup")]
+    [SerializeField] private Slider targetCountSlider;
+    [SerializeField] private TextMeshProUGUI targetCountText;
 
     [Header("Initialization Phase")]
     [SerializeField] private float delayTime;
@@ -87,9 +91,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject shootButton;
     public GameObject ShootButton => shootButton;
 
-    [Header("Useless")]
-    public TMP_InputField targetInputField;
-
     private AudioManager audioManager;
     private GameManager gameManager;
     private UIController uiController;
@@ -120,6 +121,8 @@ public class UIManager : MonoBehaviour
 
         UpdateTurnText(turnCountSlider.value);
         turnCountSlider.onValueChanged.AddListener(UpdateTurnText);
+        UpdateTargetCountText(targetCountSlider.value);
+        targetCountSlider.onValueChanged.AddListener(UpdateTargetCountText);
         UpdateBalloonCountText(balloonSpawnSlider.value);
         balloonSpawnSlider.onValueChanged.AddListener(UpdateBalloonCountText);
     }
@@ -127,6 +130,7 @@ public class UIManager : MonoBehaviour
     private void OnDestroy()
     {
         turnCountSlider.onValueChanged.RemoveListener(UpdateTurnText);
+        targetCountSlider.onValueChanged.RemoveListener(UpdateBalloonCountText);
         balloonSpawnSlider.onValueChanged.RemoveListener(UpdateBalloonCountText);
     }
 
@@ -134,9 +138,11 @@ public class UIManager : MonoBehaviour
     {
         int targetTurns = Mathf.RoundToInt(turnCountSlider.value);
         int targetBalloons = Mathf.RoundToInt(balloonSpawnSlider.value);
+        int targetCounts = Mathf.RoundToInt(targetCountSlider.value);
 
         audioManager.PlaySFX("SFX04");
         gameManager.SetTargetRounds(targetTurns);
+        gameManager.SetTargetBalloonCount(targetCounts);
         gameManager.SetBalloonSpawnCount(targetBalloons);
 
         StartCoroutine(DelayTimeToStart(delayTime));
@@ -158,6 +164,11 @@ public class UIManager : MonoBehaviour
     private void UpdateBalloonCountText(float value)
     {
         balloonSpawnText.text = Mathf.RoundToInt(value).ToString();
+    }
+
+    private void UpdateTargetCountText(float value)
+    {
+        targetCountText.text = Mathf.RoundToInt(value).ToString();
     }
 
     public void ShowCalculationPanel()
