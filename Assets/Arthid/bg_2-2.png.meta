@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: eb6c13a8d8f7fcf4dbdd16ca2882259d
+guid: d5979ca08880573419bc449cfd3cad71
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3525453149786773092
-    second: bg_1_0
+      213: -3177840838560846364
+    second: bg_2-2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,24 +96,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bg_1_0
+      name: bg_2-2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 466925906fcece030800000000000000
-      internalID: 3525453149786773092
+      spriteID: 4ede9d0289a06e3d0800000000000000
+      internalID: -3177840838560846364
       vertices: []
       indices: 
       edges: []
@@ -147,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      bg_1_0: 3525453149786773092
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
