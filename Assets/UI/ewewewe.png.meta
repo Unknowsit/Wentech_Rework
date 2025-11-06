@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5ddde059cf097994e921e72ab5c470cb
+guid: 2aba735221e570c4c99ee3629ce8dd07
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6745624003978375915
-    second: multiply_0
+      213: 7216113948275356146
+    second: ewewewe_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: multiply_0
+      name: ewewewe_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 274
-        height: 373
+        width: 620
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: be2ba71ba454d9d50800000000000000
-      internalID: 6745624003978375915
+      spriteID: 2f1b1b14769c42460800000000000000
+      internalID: 7216113948275356146
       vertices: []
       indices: 
       edges: []
