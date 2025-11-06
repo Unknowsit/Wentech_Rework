@@ -38,7 +38,6 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
         {
             droppedObject.transform.SetParent(transform);
             droppedObject.transform.localPosition = Vector3.zero;
-
             draggedOperator.originalSlot = transform;
             currentOperator = droppedOperator;
 
@@ -46,7 +45,18 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
         }
         else
         {
-            Debug.LogWarning($"Slot already has {currentOperator.OperatorMode}. Operator locked!");
+            Debug.Log($"Replacing {currentOperator.OperatorMode} with {droppedOperator.OperatorMode}");
+
+            GameObject oldOperator = currentOperator.gameObject;
+            currentOperator = null;
+            Destroy(oldOperator);
+
+            droppedObject.transform.SetParent(transform);
+            droppedObject.transform.localPosition = Vector3.zero;
+            draggedOperator.originalSlot = transform;
+            currentOperator = droppedOperator;
+
+            Debug.Log($"Replaced with {droppedOperator.OperatorMode} in {gameObject.name}");
         }
 
         RefreshSum();
