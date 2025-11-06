@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class OperatorSlot : MonoBehaviour, IDropHandler
 {
+    [Header("Visual Feedback")]
+    [SerializeField] private GameObject warningIcon;
+    [SerializeField] private Button trashButton;
+
     private GameManager gameManager;
     private UIManager uiManager;
 
@@ -12,6 +17,19 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
     {
         gameManager = GameManager.instance;
         uiManager = UIManager.instance;
+
+        if (trashButton != null)
+        {
+            trashButton.onClick.AddListener(DeleteOperator);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (trashButton != null)
+        {
+            trashButton.onClick.RemoveListener(DeleteOperator);
+        }
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -59,7 +77,41 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
             Debug.Log($"Replaced with {droppedOperator.OperatorMode} in {gameObject.name}");
         }
 
+        UpdateVisualFeedback();
         RefreshSum();
+    }
+
+    public void DeleteOperator()
+    {
+        if (currentOperator != null)
+        {
+            Debug.Log($"Deleting operator: {currentOperator.OperatorMode}");
+
+            GameObject operatorToDelete = currentOperator.gameObject;
+            currentOperator = null;
+
+            Destroy(operatorToDelete);
+
+            AudioManager.instance?.PlaySFX("SFX01");
+
+            UpdateVisualFeedback();
+            RefreshSum();
+        }
+    }
+
+    private void UpdateVisualFeedback()
+    {
+        bool hasOperator = (currentOperator != null);
+
+        if (warningIcon != null)
+        {
+            warningIcon.SetActive(!hasOperator);
+        }
+
+        if (trashButton != null)
+        {
+            trashButton.gameObject.SetActive(hasOperator);
+        }
     }
 
     public OperatorMode? GetOperatorMode()
@@ -75,6 +127,7 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
     public void OnOperatorRemoved()
     {
         currentOperator = null;
+        UpdateVisualFeedback();
         RefreshSum();
     }
 
@@ -88,6 +141,7 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
             operatorBalloon.transform.localPosition = Vector3.zero;
         }
 
+        UpdateVisualFeedback();
         RefreshSum();
     }
 
