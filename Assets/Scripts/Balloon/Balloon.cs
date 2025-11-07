@@ -5,6 +5,8 @@ public class Balloon : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI numText;
 
+    [SerializeField] private BalloonRangeData rangeSettings;
+
     private GameManager gameManager;
 
     private void Awake()
@@ -33,6 +35,27 @@ public class Balloon : MonoBehaviour
         }
     }
 
+    private void RandomNumber()
+    {
+        if (GameData.IsSingleMode())
+        {
+            GenerateRandomNumber(GameData.GetSingleMode());
+        }
+        else
+        {
+            GenerateRandomNumber(GameData.GetRandomMode());
+        }
+    }
+
+    private void GenerateRandomNumber(OperatorMode mode)
+    {
+        int min = rangeSettings.GetMinValue(mode);
+        int max = rangeSettings.GetMaxValue(mode);
+
+        numText.text = Random.Range(min, max + 1).ToString();
+    }
+
+    /*
     private void RandomNumber()
     {
         if (GameData.IsSingleMode())
@@ -70,4 +93,5 @@ public class Balloon : MonoBehaviour
             }
         }
     }
+    */
 }
