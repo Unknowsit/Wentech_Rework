@@ -162,6 +162,13 @@ public class UIManager : MonoBehaviour
         gameManager.timer.enabled = true;
     }
 
+    private IEnumerator DelayTimeToRestart()
+    {
+        yield return new WaitForSecondsRealtime(delayTime);
+        gameManager.cannonShooter.enabled = true;
+        gameManager.timer.isCounting = true;
+    }
+
     private void UpdateTurnText(float value)
     {
         turnCountText.text = Mathf.RoundToInt(value).ToString();
@@ -238,6 +245,7 @@ public class UIManager : MonoBehaviour
         {
             StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
             gameManager.RestartGame();
+            StartCoroutine(DelayTimeToRestart());
 
 #if UNITY_ANDROID
         StartCoroutine(ShootButtonActive());

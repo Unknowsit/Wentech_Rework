@@ -112,7 +112,6 @@ public class GameManager : MonoBehaviour
 
         totalTurns--;
         hasSpawned = false;
-        cannonShooter.enabled = true;
         ResetUI();
     }
 
@@ -211,7 +210,8 @@ public class GameManager : MonoBehaviour
             uiManager.MultiTotalText.text = "0";
         }
 
-        uiManager.RemainingTime = 100;
+        uiManager.RemainingTime = uiManager._ProgressBar.maxValue;
+        uiManager._ProgressBar.value = uiManager.RemainingTime;
     }
 
     private void UpdateRoundDisplay()

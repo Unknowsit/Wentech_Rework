@@ -4135,7 +4135,7 @@ MonoBehaviour:
   targetText: {fileID: 546067631}
   roundText: {fileID: 1344540275}
   _progressBar: {fileID: 1678100011}
-  remainingTime: 100
+  remainingTime: 60
   singleModePanel: {fileID: 1875996110}
   totalText: {fileID: 1782179549}
   submitButton: {fileID: 1367298436}
@@ -12340,7 +12340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineOfSight: {fileID: 1415511495}
-  reflections: 0
+  reflections: 20
   MaxRayDistance: 100
   LayerDetection:
     serializedVersion: 2
@@ -15476,6 +15476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9528f409e4ac73d41bd4364a351e705e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCounting: 1
 --- !u!114 &1678100011
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -44,6 +44,7 @@ public class CannonShooter : MonoBehaviour
             return;
 #endif
         AudioManager.instance.PlaySFX("SFX01");
+        GameManager.instance.timer.isCounting = false;
         Bullet bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
         bullet.Shoot(direction.normalized);
         enabled = false;
