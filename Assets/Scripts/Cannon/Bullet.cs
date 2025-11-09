@@ -39,13 +39,15 @@ public class Bullet : MonoBehaviour
         }
 
         var firstContact = collision.contacts[0];
-        Vector2 newVelocity = Vector2.Reflect(direction.normalized, firstContact.normal);
-        Shoot(newVelocity.normalized);
+        Vector2 incoming = rb.linearVelocity.normalized;
+        Vector2 reflected = Vector2.Reflect(incoming, firstContact.normal).normalized;
+
+        transform.position = firstContact.point + reflected * 0.05f;
+        rb.linearVelocity = reflected * speed;
     }
 
     public void Shoot(Vector2 direction)
     {
-        this.direction = direction;
-        rb.linearVelocity = this.direction * speed;
+        rb.linearVelocity = direction * speed;
     }
 }
