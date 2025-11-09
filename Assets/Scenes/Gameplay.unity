@@ -1760,7 +1760,7 @@ GameObject:
   - component: {fileID: 182325764}
   - component: {fileID: 182325763}
   m_Layer: 5
-  m_Name: Score (TMP)
+  m_Name: ScoreLabel (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2975,7 +2975,7 @@ GameObject:
   - component: {fileID: 347758388}
   - component: {fileID: 347758387}
   m_Layer: 5
-  m_Name: PLAYER (TMP)
+  m_Name: PlayerText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2998,7 +2998,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -150}
-  m_SizeDelta: {x: 550, y: 140}
+  m_SizeDelta: {x: 650, y: 140}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &347758387
 MonoBehaviour:
@@ -3020,7 +3020,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'PLAYER
+  m_text: 'PLAYER 2
 
 '
   m_isRightToLeft: 0
@@ -3113,7 +3113,7 @@ GameObject:
   - component: {fileID: 356221919}
   - component: {fileID: 356221918}
   m_Layer: 5
-  m_Name: WINNER
+  m_Name: Winner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3134,8 +3134,8 @@ RectTransform:
   - {fileID: 852984833}
   - {fileID: 347758386}
   - {fileID: 182325762}
-  - {fileID: 1847147101}
   - {fileID: 1398715061}
+  - {fileID: 1847147101}
   m_Father: {fileID: 70784516}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
@@ -3975,7 +3975,11 @@ MonoBehaviour:
   scoreP2Text: {fileID: 610736170}
   objectiveText: {fileID: 1436717632}
   nextButton: {fileID: 228492812}
-  winnerPanel: {fileID: 1713729103}
+  resultUI: {fileID: 1713729103}
+  p1ResultText: {fileID: 1683428863}
+  p1ScoreText: {fileID: 696929385}
+  p2ResultText: {fileID: 852984834}
+  p2ScoreText: {fileID: 1398715062}
   exitButton: {fileID: 1745656087}
   shootButton: {fileID: 1136634028}
 --- !u!4 &510688863
@@ -5635,7 +5639,7 @@ GameObject:
   - component: {fileID: 661863125}
   - component: {fileID: 661863124}
   m_Layer: 5
-  m_Name: Score (TMP)
+  m_Name: ScoreLabel (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5980,7 +5984,7 @@ GameObject:
   - component: {fileID: 696929386}
   - component: {fileID: 696929385}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ScoreText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7533,7 +7537,7 @@ GameObject:
   - component: {fileID: 852984835}
   - component: {fileID: 852984834}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11797,7 +11801,7 @@ GameObject:
   - component: {fileID: 1398715063}
   - component: {fileID: 1398715062}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ScoreText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15361,7 +15365,7 @@ GameObject:
   - component: {fileID: 1683428864}
   - component: {fileID: 1683428863}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16089,7 +16093,7 @@ GameObject:
   - component: {fileID: 1713729106}
   - component: {fileID: 1713729105}
   m_Layer: 5
-  m_Name: WinnerPanel
+  m_Name: ResultPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18017,7 +18021,7 @@ GameObject:
   - component: {fileID: 1847556230}
   - component: {fileID: 1847556229}
   m_Layer: 5
-  m_Name: PLAYER (TMP)
+  m_Name: PlayerText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18040,7 +18044,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -150}
-  m_SizeDelta: {x: 550, y: 140}
+  m_SizeDelta: {x: 650, y: 140}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1847556229
 MonoBehaviour:
@@ -18062,7 +18066,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'PLAYER
+  m_text: 'PLAYER 1
 
 '
   m_isRightToLeft: 0
@@ -19651,7 +19655,7 @@ MonoBehaviour:
   totalTurns: 0
   currentBalloonIndex: 0
   totalBalloons: 10
-  targetBalloonCount: 2
+  targetBalloonCount: 4
   balloonCollisionRadius: 0.5
   balloonPrefab: {fileID: 1476127773447772888, guid: 0064a8ec3ba17604fa9297613da22a4c, type: 3}
   balloonParent: {fileID: 1152949959}
@@ -20568,7 +20572,7 @@ GameObject:
   - component: {fileID: 2141885672}
   - component: {fileID: 2141885671}
   m_Layer: 5
-  m_Name: LOSE
+  m_Name: Lose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

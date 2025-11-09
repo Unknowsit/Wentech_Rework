@@ -82,8 +82,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button nextButton;
     public Button NextButton => nextButton;
 
-    [Header("Winner Panel")]
-    [SerializeField] private GameObject winnerPanel;
+    [Header("Result Panel UI")]
+    [SerializeField] private GameObject resultUI;
+
+    [SerializeField] private TextMeshProUGUI p1ResultText;
+    [SerializeField] private TextMeshProUGUI p1ScoreText;
+
+    [SerializeField] private TextMeshProUGUI p2ResultText;
+    [SerializeField] private TextMeshProUGUI p2ScoreText;
 
     [SerializeField] private Button exitButton;
 
@@ -225,7 +231,8 @@ public class UIManager : MonoBehaviour
     {
         if (gameManager.totalTurns == 1)
         {
-            StartCoroutine(uiController.UITransition(showPanel: winnerPanel, hidePanels: scorePanel));
+            UpdateWinnerPanel();
+            StartCoroutine(uiController.UITransition(showPanel: resultUI, hidePanels: scorePanel));
         }
         else
         {
@@ -240,6 +247,31 @@ public class UIManager : MonoBehaviour
             {
                 StartCoroutine(ClearResultTexts());
             }
+        }
+    }
+
+    public void UpdateWinnerPanel()
+    {
+        int finalScoreP1 = scoreP1;
+        int finalScoreP2 = scoreP2;
+
+        p1ScoreText.text = finalScoreP1.ToString();
+        p2ScoreText.text = finalScoreP2.ToString();
+
+        if (finalScoreP1 > finalScoreP2)
+        {
+            p1ResultText.text = "WINNER";
+            p2ResultText.text = "LOSE";
+        }
+        else if (finalScoreP2 > finalScoreP1)
+        {
+            p1ResultText.text = "LOSE";
+            p2ResultText.text = "WINNER";
+        }
+        else
+        {
+            p1ResultText.text = "DRAW";
+            p2ResultText.text = "DRAW";
         }
     }
 

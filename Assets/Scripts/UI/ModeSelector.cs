@@ -16,9 +16,6 @@ public class ModeSelector : MonoBehaviour
     [Header("Optional - Display Selected Modes")]
     [SerializeField] private TextMeshProUGUI selectedModesText;
 
-    [Header("Settings")]
-    [SerializeField] private bool allowMultipleModes = true;
-
     [Header("Confirmation")]
     [SerializeField] private Button confirmButton;
     [SerializeField] private float delayTime = 0.5f;
@@ -64,63 +61,37 @@ public class ModeSelector : MonoBehaviour
     {
         audioManager.PlaySFX("SFX02");
 
-        if (!allowMultipleModes)
+        if (isOn)
         {
-            if (isOn)
+            if (!GameData.SelectedModes.Contains(mode))
             {
-                GameData.SelectedModes.Clear();
                 GameData.SelectedModes.Add(mode);
-
-                if (mode != OperatorMode.Plus) addToggle.SetIsOnWithoutNotify(false);
-                if (mode != OperatorMode.Minus) minusToggle.SetIsOnWithoutNotify(false);
-                if (mode != OperatorMode.Multiply) multiplyToggle.SetIsOnWithoutNotify(false);
-                if (mode != OperatorMode.Divide) divideToggle.SetIsOnWithoutNotify(false);
-            }
-            else
-            {
-                switch (mode)
-                {
-                    case OperatorMode.Plus: addToggle.SetIsOnWithoutNotify(true); break;
-                    case OperatorMode.Minus: minusToggle.SetIsOnWithoutNotify(true); break;
-                    case OperatorMode.Multiply: multiplyToggle.SetIsOnWithoutNotify(true); break;
-                    case OperatorMode.Divide: divideToggle.SetIsOnWithoutNotify(true); break;
-                }
             }
         }
         else
         {
-            if (isOn)
+            if (GameData.SelectedModes.Count > 1)
             {
-                if (!GameData.SelectedModes.Contains(mode))
-                {
-                    GameData.SelectedModes.Add(mode);
-                }
+                GameData.SelectedModes.Remove(mode);
             }
             else
             {
-                if (GameData.SelectedModes.Count > 1)
-                {
-                    GameData.SelectedModes.Remove(mode);
-                }
-                else
-                {
-                    // Debug.LogWarning("Cannot remove the last mode! At least one mode must be selected.");
+                // Debug.LogWarning("Cannot remove the last mode! At least one mode must be selected.");
 
-                    switch (mode)
-                    {
-                        case OperatorMode.Plus:
-                            addToggle.SetIsOnWithoutNotify(true);
-                            break;
-                        case OperatorMode.Minus:
-                            minusToggle.SetIsOnWithoutNotify(true);
-                            break;
-                        case OperatorMode.Multiply:
-                            multiplyToggle.SetIsOnWithoutNotify(true);
-                            break;
-                        case OperatorMode.Divide:
-                            divideToggle.SetIsOnWithoutNotify(true);
-                            break;
-                    }
+                switch (mode)
+                {
+                    case OperatorMode.Plus:
+                        addToggle.SetIsOnWithoutNotify(true);
+                        break;
+                    case OperatorMode.Minus:
+                        minusToggle.SetIsOnWithoutNotify(true);
+                        break;
+                    case OperatorMode.Multiply:
+                        multiplyToggle.SetIsOnWithoutNotify(true);
+                        break;
+                    case OperatorMode.Divide:
+                        divideToggle.SetIsOnWithoutNotify(true);
+                        break;
                 }
             }
         }
