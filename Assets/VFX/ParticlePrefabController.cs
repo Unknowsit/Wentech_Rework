@@ -8,6 +8,10 @@ public class ParticlePrefabController : MonoBehaviour
     [SerializeField] private ParticleSystem oneShotPrefab;   // เอฟเฟกต์แบบวง/ระเบิด (กดครั้งเดียว)
     [SerializeField] private ParticleSystem trailPrefab;     // เอฟเฟกต์แบบลาก/พ่นค้าง (กดค้างแล้วลาก)
 
+    // ให้ UI เรียกเปลี่ยนพรีแฟบได้ตอนรัน
+    public void SetOneShotPrefab(ParticleSystem prefab) => oneShotPrefab = prefab;
+    public void SetTrailPrefab(ParticleSystem prefab) => trailPrefab = prefab;
+
     [Header("Input (Mouse Buttons)")]
     [Tooltip("0=ซ้าย, 1=ขวา, 2=กลาง")]
     [SerializeField] private int oneShotMouseButton = 0;
