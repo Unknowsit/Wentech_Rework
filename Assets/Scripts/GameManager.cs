@@ -52,9 +52,10 @@ public class GameManager : MonoBehaviour
     [Header("Spawning Area")]
     public Vector2 areaSize = new Vector2(10f, 5f);
 
-    [Header("Other Settings")]
+    [Header("Wall Control Setting")]
     public float rotationSpeed = 50f;
 
+    [Header("Component References")]
     public CannonAim cannonAim;
     public CannonShooter cannonShooter;
     public Timer timer;

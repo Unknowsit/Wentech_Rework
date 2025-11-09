@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 637428506251056097}
   - component: {fileID: 1320797420344460617}
   - component: {fileID: 8362475455791161392}
+  - component: {fileID: -6361797320801331188}
   - component: {fileID: -1215232350437760906}
-  - component: {fileID: 5506721000369715627}
   m_Layer: 0
   m_Name: Balloon
   m_TagString: Balloon
@@ -105,6 +105,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numText: {fileID: 8837511056176129270}
   rangeSettings: {fileID: 11400000, guid: 3c05b63ab37dab240bc3ccd8d9142ded, type: 2}
+--- !u!114 &-6361797320801331188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476127773447772888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35b8ae4b39bc17478fb7eeb5918cf06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatAmplitude: 0.3
+  floatSpeed: 1
+  randomizeStart: 1
+  enableSway: 1
+  swayAmplitude: 0.1
+  swaySpeed: 0.3
+  enableRotation: 1
+  rotationAmount: 5
+  rotationSpeed: 0.5
 --- !u!58 &-1215232350437760906
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -141,20 +162,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &5506721000369715627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476127773447772888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c71ec55b8d403e4dab685f7eb306d6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amplitude: 0.5
-  speed: 0.5
 --- !u!1 &4197552682849787798
 GameObject:
   m_ObjectHideFlags: 0
