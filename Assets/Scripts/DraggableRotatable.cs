@@ -10,11 +10,13 @@ public class DraggableRotatable : MonoBehaviour
     private Camera cam;
     private GameManager gameManager;
 
+#if UNITY_STANDALONE
     [Header("Input Settings")]
     [SerializeField] private float holdThreshold = 0.2f;
 
     private float mouseDownTime;
     private bool mouseHeld = false;
+#endif
 
     [Header("Visual Feedback")]
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -23,6 +25,12 @@ public class DraggableRotatable : MonoBehaviour
 
     private enum Mode { None, Rotate, Drag }
     private Mode currentMode = Mode.None;
+
+#if UNITY_ANDROID
+    private float lastTapTime = 0f;
+    private float doubleTapThreshold = 0.3f;
+    private Vector3 lastTouchPosition;
+#endif
 
     private void Start()
     {
@@ -37,12 +45,6 @@ public class DraggableRotatable : MonoBehaviour
 #elif UNITY_ANDROID
         HandleAndroidInput();
 #endif
-
-        if (currentMode == Mode.Rotate && isSelected)
-        {
-            Vector3 inputWorld = GetInputWorldPosition();
-            RotateTowardMouse(inputWorld);
-        }
     }
 
 #if UNITY_STANDALONE
@@ -121,7 +123,8 @@ public class DraggableRotatable : MonoBehaviour
 #if UNITY_ANDROID
     private void HandleAndroidInput()
     {
-        if (Input.touchCount == 0) return;
+        if (Input.touchCount == 0)
+            return;
 
         Touch touch = Input.GetTouch(0);
         Vector3 touchWorld = GetTouchWorldPosition(touch);
@@ -135,61 +138,55 @@ public class DraggableRotatable : MonoBehaviour
                 if (currentlySelected != null && currentlySelected != this)
                     return;
 
-                if (!isSelected)
-                    Select();
+                float timeSinceLastTap = Time.time - lastTapTime;
+                bool isDoubleTap = timeSinceLastTap <= doubleTapThreshold;
 
-                mouseDownTime = Time.time;
-                mouseHeld = true;
-                offset = transform.position - touchWorld;
+                if (!isSelected)
+                {
+                    Select();
+                    EnterRotateMode();
+                    lastTapTime = Time.time;
+                }
+                else if (isDoubleTap)
+                {
+                    EnterDragMode();
+                    offset = transform.position - touchWorld;
+                    lastTapTime = 0f;
+                }
+                else
+                {
+                    EnterRotateMode();
+                    lastTapTime = Time.time;
+                }
+
+                lastTouchPosition = touchWorld;
             }
             else
             {
                 if (isSelected)
                 {
                     Deselect();
+                    lastTapTime = 0f;
                 }
             }
         }
 
-        if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary) && mouseHeld && isSelected)
+        if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary) && isSelected)
         {
-            float heldTime = Time.time - mouseDownTime;
-
-            if (heldTime >= holdThreshold)
+            if (currentMode == Mode.Rotate)
             {
-                if (currentMode != Mode.Drag)
-                {
-                    EnterDragMode();
-                }
-
-                if (currentMode == Mode.Drag)
-                {
-                    transform.position = touchWorld + offset;
-                }
+                RotateTowardMouse(touchWorld);
             }
+            else if (currentMode == Mode.Drag)
+            {
+                transform.position = touchWorld + offset;
+            }
+
+            lastTouchPosition = touchWorld;
         }
 
-        if (touch.phase == TouchPhase.Ended && mouseHeld && isSelected)
+        if (touch.phase == TouchPhase.Ended && isSelected)
         {
-            float heldTime = Time.time - mouseDownTime;
-
-            if (currentMode == Mode.Drag)
-            {
-                currentMode = Mode.None;
-                Deselect();
-            }
-            else
-            {
-                if (heldTime < holdThreshold)
-                {
-                    if (currentMode != Mode.Rotate)
-                    {
-                        EnterRotateMode();
-                    }
-                }
-            }
-
-            mouseHeld = false;
         }
     }
 
@@ -240,22 +237,6 @@ public class DraggableRotatable : MonoBehaviour
     {
         gameManager.cannonAim.enabled = isActive;
         gameManager.cannonShooter.enabled = isActive;
-    }
-
-    private Vector3 GetInputWorldPosition()
-    {
-#if UNITY_STANDALONE
-        return GetMouseWorldPosition();
-#elif UNITY_ANDROID
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            return GetTouchWorldPosition(touch);
-        }
-        return transform.position;
-#else
-        return GetMouseWorldPosition();
-#endif
     }
 
 #if UNITY_STANDALONE
