@@ -32,6 +32,22 @@ public class DraggableRotatable : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_STANDALONE
+        HandleStandaloneInput();
+#elif UNITY_ANDROID
+        HandleAndroidInput();
+#endif
+
+        if (currentMode == Mode.Rotate && isSelected)
+        {
+            Vector3 inputWorld = GetInputWorldPosition();
+            RotateTowardMouse(inputWorld);
+        }
+    }
+
+#if UNITY_STANDALONE
+    private void HandleStandaloneInput()
+    {
         Vector3 mouseWorld = GetMouseWorldPosition();
         Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
@@ -99,12 +115,91 @@ public class DraggableRotatable : MonoBehaviour
 
             mouseHeld = false;
         }
+    }
+#endif
 
-        if (currentMode == Mode.Rotate && isSelected)
+#if UNITY_ANDROID
+    private void HandleAndroidInput()
+    {
+        if (Input.touchCount == 0) return;
+
+        Touch touch = Input.GetTouch(0);
+        Vector3 touchWorld = GetTouchWorldPosition(touch);
+        Vector3 touchPos = cam.ScreenToWorldPoint(touch.position);
+        touchPos.z = 0;
+
+        if (touch.phase == TouchPhase.Began)
         {
-            RotateTowardMouse(mouseWorld);
+            if (Vector2.Distance(touchPos, transform.position) < 0.5f)
+            {
+                if (currentlySelected != null && currentlySelected != this)
+                    return;
+
+                if (!isSelected)
+                    Select();
+
+                mouseDownTime = Time.time;
+                mouseHeld = true;
+                offset = transform.position - touchWorld;
+            }
+            else
+            {
+                if (isSelected)
+                {
+                    Deselect();
+                }
+            }
+        }
+
+        if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary) && mouseHeld && isSelected)
+        {
+            float heldTime = Time.time - mouseDownTime;
+
+            if (heldTime >= holdThreshold)
+            {
+                if (currentMode != Mode.Drag)
+                {
+                    EnterDragMode();
+                }
+
+                if (currentMode == Mode.Drag)
+                {
+                    transform.position = touchWorld + offset;
+                }
+            }
+        }
+
+        if (touch.phase == TouchPhase.Ended && mouseHeld && isSelected)
+        {
+            float heldTime = Time.time - mouseDownTime;
+
+            if (currentMode == Mode.Drag)
+            {
+                currentMode = Mode.None;
+                Deselect();
+            }
+            else
+            {
+                if (heldTime < holdThreshold)
+                {
+                    if (currentMode != Mode.Rotate)
+                    {
+                        EnterRotateMode();
+                    }
+                }
+            }
+
+            mouseHeld = false;
         }
     }
+
+    private Vector3 GetTouchWorldPosition(Touch touch)
+    {
+        Vector3 touchScreenPos = touch.position;
+        touchScreenPos.z = transform.position.z - cam.transform.position.z;
+        return cam.ScreenToWorldPoint(touchScreenPos);
+    }
+#endif
 
     private void RotateTowardMouse(Vector3 targetPos)
     {
@@ -147,12 +242,30 @@ public class DraggableRotatable : MonoBehaviour
         gameManager.cannonShooter.enabled = isActive;
     }
 
+    private Vector3 GetInputWorldPosition()
+    {
+#if UNITY_STANDALONE
+        return GetMouseWorldPosition();
+#elif UNITY_ANDROID
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            return GetTouchWorldPosition(touch);
+        }
+        return transform.position;
+#else
+        return GetMouseWorldPosition();
+#endif
+    }
+
+#if UNITY_STANDALONE
     private Vector3 GetMouseWorldPosition()
     {
         Vector3 mouseScreenPos = Input.mousePosition;
         mouseScreenPos.z = transform.position.z - cam.transform.position.z;
         return cam.ScreenToWorldPoint(mouseScreenPos);
     }
+#endif
 
     private void UpdateSprite(bool selected)
     {
