@@ -4971,6 +4971,10 @@ PrefabInstance:
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 7.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6323075496595658006, guid: 521859c893136d6499fa85627624f4a8, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6690601624901967647, guid: 521859c893136d6499fa85627624f4a8, type: 3}
       propertyPath: m_Name
       value: boomStar 1
