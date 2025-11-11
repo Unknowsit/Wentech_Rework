@@ -10,12 +10,14 @@ public class Bullet : MonoBehaviour
     private GameManager gameManager;
     private UIController uiController;
     private UIManager uiManager;
+    private AudioManager audioManager;
 
     private void Awake()
     {
         gameManager = GameManager.instance;
         uiController = UIController.instance;
         uiManager = UIManager.instance;
+        audioManager = AudioManager.instance;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -36,6 +38,11 @@ public class Bullet : MonoBehaviour
 
             gameManager.SpawnBalloonHitTexts();
             Destroy(gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Box"))
+        {
+            audioManager.PlaySFX("SFX06");
         }
 
         var firstContact = collision.contacts[0];

@@ -216,6 +216,7 @@ public class UIManager : MonoBehaviour
 
     public void OnSubmitButtonClicked()
     {
+        audioManager.PlaySFX("SFX04");
         if (GameData.IsSingleMode())
         {
             StartCoroutine(uiController.UITransition(scorePanel, singleModePanel));
@@ -242,6 +243,7 @@ public class UIManager : MonoBehaviour
 
     public void OnTapButtonClicked()
     {
+        audioManager.PlaySFX("SFX04");
         if (gameManager.totalTurns == 1)
         {
             UpdateWinnerPanel();
@@ -272,6 +274,8 @@ public class UIManager : MonoBehaviour
         p1ScoreText.text = finalScoreP1.ToString();
         p2ScoreText.text = finalScoreP2.ToString();
 
+        audioManager.PlayAmbient("ABS02");
+
         if (finalScoreP1 > finalScoreP2)
         {
             p1ResultText.text = "WINNER";
@@ -291,6 +295,7 @@ public class UIManager : MonoBehaviour
 
     public void OnExitButtonClicked()
     {
+        audioManager.PlaySFX("SFX04");
         StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
         SceneManager.LoadSceneAsync("Operators");
     }

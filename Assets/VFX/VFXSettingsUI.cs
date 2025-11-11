@@ -15,6 +15,8 @@ public class VFXSettingsUI : MonoBehaviour
     [SerializeField] List<ParticleSystem> oneShotOptions;
     [SerializeField] List<ParticleSystem> trailOptions;
 
+    private AudioManager audioManager;
+
     const string KEY_ONESHOT = "vfx.oneshot.index";
     const string KEY_TRAIL = "vfx.trail.index";
 
@@ -36,6 +38,7 @@ public class VFXSettingsUI : MonoBehaviour
 
     void Awake()
     {
+        audioManager = AudioManager.instance;
         ResolveController();
     }
 
@@ -85,6 +88,7 @@ public class VFXSettingsUI : MonoBehaviour
         var prefab = oneShotOptions[index];
         if (controller) controller.SetOneShotPrefab(prefab);
         PlayerPrefs.SetInt(KEY_ONESHOT, index);
+        //audioManager.PlaySFX("SFX04");
     }
 
     public void ApplyTrail(int index)
@@ -93,5 +97,6 @@ public class VFXSettingsUI : MonoBehaviour
         var prefab = trailOptions[index];
         if (controller) controller.SetTrailPrefab(prefab);
         PlayerPrefs.SetInt(KEY_TRAIL, index);
+        //audioManager.PlaySFX("SFX04");
     }
 }

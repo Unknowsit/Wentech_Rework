@@ -10,6 +10,7 @@ public class DraggableRotatable : MonoBehaviour
 
     private Camera cam;
     private GameManager gameManager;
+    private AudioManager audioManager;
 
 #if UNITY_STANDALONE
     [Header("Input Settings")]
@@ -33,8 +34,14 @@ public class DraggableRotatable : MonoBehaviour
     private Vector3 lastTouchPosition;
 #endif
 
+    private void Awake()
+    {
+        audioManager = AudioManager.instance;
+    }
+
     private void Start()
     {
+                audioManager = AudioManager.instance;
         cam = Camera.main;
         gameManager = GameManager.instance;
     }
@@ -238,11 +245,13 @@ public class DraggableRotatable : MonoBehaviour
 
     private void EnterRotateMode()
     {
+        audioManager.PlaySFX("SFX05");
         currentMode = Mode.Rotate;
     }
 
     private void EnterDragMode()
     {
+        audioManager.PlaySFX("SFX05");
         currentMode = Mode.Drag;
     }
 

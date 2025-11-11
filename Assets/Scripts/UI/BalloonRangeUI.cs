@@ -31,8 +31,11 @@ public class BalloonRangeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI divideMinText;
     [SerializeField] private TextMeshProUGUI divideMaxText;
 
+    private AudioManager audioManager;
+
     private void Start()
     {
+        audioManager = AudioManager.instance;
         InitializeSliders();
         AddListeners();
     }
@@ -237,6 +240,7 @@ public class BalloonRangeUI : MonoBehaviour
 
     public void ResetToDefault()
     {
+        audioManager.PlaySFX("SFX04");
         rangeSettings.SetRange(OperatorMode.Plus, 1, 100);
         rangeSettings.SetRange(OperatorMode.Minus, -100, -1);
         rangeSettings.SetRange(OperatorMode.Multiply, 2, 12);
