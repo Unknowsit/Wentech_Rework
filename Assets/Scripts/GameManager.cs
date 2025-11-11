@@ -609,7 +609,15 @@ public class GameManager : MonoBehaviour
             case OperatorMode.Plus:
                 foreach (var slot in balloonSlots)
                 {
-                    sum += slot.GetBalloonValue();
+                    if (slot.transform.childCount > 0)
+                    {
+                        BalloonHitText balloon = slot.transform.GetChild(0).GetComponent<BalloonHitText>();
+
+                        if (balloon != null)
+                        {
+                            sum += balloon.Value;
+                        }
+                    }
                 }
                 totalText.text = sum.ToString();
                 break;
@@ -617,9 +625,16 @@ public class GameManager : MonoBehaviour
             case OperatorMode.Minus:
                 for (int i = 0; i < balloonSlots.Length; i++)
                 {
-                    int value = balloonSlots[i].GetBalloonValue();
-                    if (value == 0) continue;
-                    sum = (sum == 0) ? value : sum - value;
+                    if (balloonSlots[i].transform.childCount > 0)
+                    {
+                        BalloonHitText balloon = balloonSlots[i].transform.GetChild(0).GetComponent<BalloonHitText>();
+
+                        if (balloon != null)
+                        {
+                            int value = balloon.Value;
+                            sum = (sum == 0) ? value : sum - value;
+                        }
+                    }
                 }
                 totalText.text = sum.ToString();
                 break;
@@ -631,11 +646,15 @@ public class GameManager : MonoBehaviour
 
                     foreach (var slot in balloonSlots)
                     {
-                        int value = slot.GetBalloonValue();
-                        if (value != 0)
+                        if (slot.transform.childCount > 0)
                         {
-                            sumMultiply *= value;
-                            hasBalloon = true;
+                            BalloonHitText balloon = slot.transform.GetChild(0).GetComponent<BalloonHitText>();
+
+                            if (balloon != null)
+                            {
+                                sumMultiply *= balloon.Value;
+                                hasBalloon = true;
+                            }
                         }
                     }
                     sum = hasBalloon ? sumMultiply : 0;
@@ -650,11 +669,17 @@ public class GameManager : MonoBehaviour
 
                     foreach (var slot in balloonSlots)
                     {
-                        int value = slot.GetBalloonValue();
-                        if (value == 0) continue;
+                        if (slot.transform.childCount > 0)
+                        {
+                            BalloonHitText balloon = slot.transform.GetChild(0).GetComponent<BalloonHitText>();
 
-                        sumDivide = firstFound ? sumDivide / value : value;
-                        firstFound = true;
+                            if (balloon != null)
+                            {
+                                int value = balloon.Value;
+                                sumDivide = firstFound ? sumDivide / value : value;
+                                firstFound = true;
+                            }
+                        }
                     }
                     totalText.text = firstFound ? sumDivide.ToString("F2") : "0.00";
                     break;
