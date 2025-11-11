@@ -124,7 +124,7 @@ public class ModeSelector : MonoBehaviour
             }
         }
 
-        selectedModesText.text = "Selected: " + string.Join(", ", modeNames);
+        selectedModesText.text = string.Join(", ", modeNames);
     }
 
     public void SetSingleMode(OperatorMode mode)

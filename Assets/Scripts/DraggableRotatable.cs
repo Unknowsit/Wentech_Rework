@@ -121,6 +121,11 @@ public class DraggableRotatable : MonoBehaviour
 
             mouseHeld = false;
         }
+
+        if (currentMode == Mode.Rotate && isSelected)
+        {
+            RotateTowardMouse(mouseWorld);
+        }
     }
 #endif
 

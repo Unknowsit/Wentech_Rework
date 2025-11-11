@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Operators
+  m_Name: SelectMode
   m_Shader: {fileID: -6465566751694194690, guid: 6555c86c411ee3e459ea0fe7d82d00bf, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -66,7 +66,7 @@ Material:
     - _OffsetPoint: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Rotateion: 1
+    - _Rotateion: 0
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
@@ -74,7 +74,7 @@ Material:
     - _StencilWriteMask: 255
     - _UIMaskSoftnessX: 1
     - _UIMaskSoftnessY: 1
-    - _WaveSpeed: 2
+    - _WaveSpeed: 0.5
     m_Colors:
     - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
     - _EmisionColor: {r: 0.78926414, g: 0.6232156, b: 0, a: 1}

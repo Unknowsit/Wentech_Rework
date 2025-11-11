@@ -8,6 +8,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadSceneAsync("Gameplay"); // Transition Screen
     }
 
+    public void Back()
+    {
+        SceneManager.LoadSceneAsync(0);
+    }
+
     public void ExitGame()
     {
         Application.Quit();

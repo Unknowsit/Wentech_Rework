@@ -80,8 +80,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -2
-  m_Sprite: {fileID: 21300000, guid: dbc6912a5b2fe3b41b8ab46cb03d2022, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: -3766580788358279276, guid: 529637eb5a4f535458268f9b6bee804f, type: 3}
+  m_Color: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   enableSway: 1
   swayAmplitude: 0.1
   swaySpeed: 0.3
-  enableRotation: 1
+  enableRotation: 0
   rotationAmount: 5
   rotationSpeed: 0.5
 --- !u!58 &-1215232350437760906
