@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
 {
     private bool shouldReset = false;
 
+    private int currentRound = 1;
     private int scoreP1 = 0, scoreP2 = 0;
 
     [Header("Player Info")]
@@ -81,6 +82,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Button nextButton;
     public Button NextButton => nextButton;
+
+    [Header("Score History UI")]
+    [SerializeField] private GameObject scoreHistoryPrefab;
+    [SerializeField] private Transform p1HistoryContent;
+    [SerializeField] private Transform p2HistoryContent;
 
     [Header("Result Panel UI")]
     [SerializeField] private GameObject resultUI;
@@ -374,7 +380,25 @@ public class UIManager : MonoBehaviour
         scoreP1Text.text = this.scoreP1.ToString();
         scoreP2Text.text = this.scoreP2.ToString();
 
+        AddScoreHistory(currentRound, p1, scoreP1, p2, scoreP2, current);
+        currentRound++;
+
         shouldReset = true;
+    }
+
+    private void AddScoreHistory(int round, float p1Answer, int p1Score, float p2Answer, int p2Score, float target)
+    {
+        // Player 1 History
+        GameObject p1History = Instantiate(scoreHistoryPrefab, p1HistoryContent);
+        TextMeshProUGUI p1Text = p1History.GetComponent<TextMeshProUGUI>();
+
+        p1Text.text = $"Round {round}\nScore : +{p1Score}\nTarget : {target}\nAnswer : {p1Answer}";
+
+        // Player 2 History
+        GameObject p2History = Instantiate(scoreHistoryPrefab, p2HistoryContent);
+        TextMeshProUGUI p2Text = p2History.GetComponent<TextMeshProUGUI>();
+
+        p2Text.text = $"Round {round}\nScore : +{p2Score}\nTarget : {target}\nAnswer : {p2Answer}";
     }
 
     private IEnumerator ClearResultTexts()
