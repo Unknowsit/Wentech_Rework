@@ -159,7 +159,7 @@ public class UIManager : MonoBehaviour
 
         StartCoroutine(DelayTimeToStart(delayTime));
     }
-
+  
     private IEnumerator DelayTimeToStart(float delayTime)
     {
         yield return new WaitForSecondsRealtime(delayTime);
