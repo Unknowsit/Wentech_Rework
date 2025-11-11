@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 5ddde059cf097994e921e72ab5c470cb
+guid: a6f429725fafb0743863d757c939c93e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6745624003978375915
-    second: multiply_0
+      213: -7246530631187433706
+    second: Exit-3_0
+  - first:
+      213: -271289146339891708
+    second: Exit-3_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,23 +116,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: multiply_0
+      name: Exit-3_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 274
-        height: 373
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: be2ba71ba454d9d50800000000000000
-      internalID: 6745624003978375915
+      spriteID: 3ad96dde7f68c954d940b4f2ca8b03e3
+      internalID: 1732143141
       vertices: []
       indices: 
       edges: []
@@ -138,7 +141,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a50967c4f38646c469e2ed8e5436bc09
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +151,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      multiply_0: 6745624003978375915
+      Exit-3_0: 1732143141
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
