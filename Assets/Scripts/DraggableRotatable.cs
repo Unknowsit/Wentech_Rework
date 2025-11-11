@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class DraggableRotatable : MonoBehaviour
 {
@@ -56,6 +57,9 @@ public class DraggableRotatable : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+                return;
+
             if (Vector2.Distance(mousePos, transform.position) < 0.5f)
             {
                 if (currentlySelected != null && currentlySelected != this)
@@ -127,6 +131,10 @@ public class DraggableRotatable : MonoBehaviour
             return;
 
         Touch touch = Input.GetTouch(0);
+
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+            return;
+
         Vector3 touchWorld = GetTouchWorldPosition(touch);
         Vector3 touchPos = cam.ScreenToWorldPoint(touch.position);
         touchPos.z = 0;
