@@ -14,12 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Gameplay.unity
     guid: 41fd8ccba13bd7c4f87c08f33e50707d
-  - enabled: 1
-    path: Assets/Scenes/TestMek.unity
-    guid: 8485daf6659e9a34886ecf924e3a4d34
-  - enabled: 1
-    path: Assets/Scenes/TestsceneVFX.unity
-    guid: 481613fa23148134891d373929ce56e4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -93,9 +93,15 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI p1ResultText;
     [SerializeField] private TextMeshProUGUI p1ScoreText;
+    [SerializeField] private Image p1Image;
 
     [SerializeField] private TextMeshProUGUI p2ResultText;
     [SerializeField] private TextMeshProUGUI p2ScoreText;
+    [SerializeField] private Image p2Image;
+
+    [Header("Sprite Renderer")]
+    [SerializeField] private Sprite loseRabbit;
+    [SerializeField] private Sprite winRabbit;
 
     [SerializeField] private Button exitButton;
 
@@ -280,16 +286,22 @@ public class UIManager : MonoBehaviour
         {
             p1ResultText.text = "WINNER";
             p2ResultText.text = "LOSE";
+            p1Image.sprite = winRabbit;
+            p2Image.sprite = loseRabbit;
         }
         else if (finalScoreP2 > finalScoreP1)
         {
             p1ResultText.text = "LOSE";
             p2ResultText.text = "WINNER";
+            p1Image.sprite = loseRabbit;
+            p2Image.sprite = winRabbit;
         }
         else
         {
             p1ResultText.text = "DRAW";
             p2ResultText.text = "DRAW";
+            p1Image.sprite = winRabbit;
+            p2Image.sprite = winRabbit;
         }
     }
 
