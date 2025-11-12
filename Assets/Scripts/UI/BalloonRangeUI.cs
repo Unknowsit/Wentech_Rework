@@ -36,6 +36,8 @@ public class BalloonRangeUI : MonoBehaviour
     private void Start()
     {
         audioManager = AudioManager.instance;
+        rangeSettings.LoadFromPlayerPrefs();
+
         InitializeSliders();
         AddListeners();
     }

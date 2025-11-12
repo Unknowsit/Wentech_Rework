@@ -16,6 +16,23 @@ public class BalloonRangeData : ScriptableObject
     public ModeRange multiplyRange = new ModeRange { mode = OperatorMode.Multiply, minValue = 2, maxValue = 12 };
     public ModeRange divideRange = new ModeRange { mode = OperatorMode.Divide, minValue = 2, maxValue = 12 };
 
+    public void LoadFromPlayerPrefs()
+    {
+        plusRange.minValue = PlayerPrefs.GetInt("PlusMin", 1);
+        plusRange.maxValue = PlayerPrefs.GetInt("PlusMax", 100);
+
+        minusRange.minValue = PlayerPrefs.GetInt("MinusMin", -100);
+        minusRange.maxValue = PlayerPrefs.GetInt("MinusMax", -1);
+
+        multiplyRange.minValue = PlayerPrefs.GetInt("MultiplyMin", 2);
+        multiplyRange.maxValue = PlayerPrefs.GetInt("MultiplyMax", 12);
+
+        divideRange.minValue = PlayerPrefs.GetInt("DivideMin", 2);
+        divideRange.maxValue = PlayerPrefs.GetInt("DivideMax", 12);
+
+        Debug.Log("BalloonRangeData loaded from PlayerPrefs");
+    }
+
     public int GetMinValue(OperatorMode mode)
     {
         switch (mode)
