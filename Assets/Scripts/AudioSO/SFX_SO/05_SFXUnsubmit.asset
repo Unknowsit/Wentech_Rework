@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79a962ced6f32af44aa00c1c7a7309a1, type: 3}
-  m_Name: 05_SFXUnsubmit
+  m_Name: SFX05
   m_EditorClassIdentifier: 
   audioName: SFX05
   clip: {fileID: 8300000, guid: 6e4a621e7c857b04eb2a8aa232c845dd, type: 3}

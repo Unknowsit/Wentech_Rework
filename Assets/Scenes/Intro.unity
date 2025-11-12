@@ -7255,8 +7255,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dfcba681f7420ef478a695aea9cdd05d, type: 2}
   - {fileID: 11400000, guid: fd4e1daa9a5a1d8448569ef0c8cb7c89, type: 2}
   - {fileID: 11400000, guid: 18972ba4d0c31ca41a11fd31b0761231, type: 2}
+  - {fileID: 11400000, guid: c019e912ee6c75a458bc1dd813dd727a, type: 2}
+  - {fileID: 11400000, guid: 01bc6dcbce501f14281c3ec1eb9fdb15, type: 2}
   ambData:
   - {fileID: 11400000, guid: 3e404cd5c79d4434c9e5b91ebd345b1a, type: 2}
+  - {fileID: 11400000, guid: 1af524b048442064f92312d275ce97e0, type: 2}
   bgmSource: {fileID: 1606824449}
   sfxSource: {fileID: 2080730324}
   ambSource: {fileID: 38569226}
