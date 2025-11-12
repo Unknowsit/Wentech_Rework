@@ -64,19 +64,37 @@ public class BalloonRangeData : ScriptableObject
             case OperatorMode.Plus:
                 plusRange.minValue = min;
                 plusRange.maxValue = max;
+                PlayerPrefs.SetInt("PlusMin", min);
+                PlayerPrefs.SetInt("PlusMax", max);
                 break;
             case OperatorMode.Minus:
                 minusRange.minValue = min;
                 minusRange.maxValue = max;
+                PlayerPrefs.SetInt("MinusMin", min);
+                PlayerPrefs.SetInt("MinusMax", max);
                 break;
             case OperatorMode.Multiply:
                 multiplyRange.minValue = min;
                 multiplyRange.maxValue = max;
+                PlayerPrefs.SetInt("MultiplyMin", min);
+                PlayerPrefs.SetInt("MultiplyMax", max);
                 break;
             case OperatorMode.Divide:
                 divideRange.minValue = min;
                 divideRange.maxValue = max;
+                PlayerPrefs.SetInt("DivideMin", min);
+                PlayerPrefs.SetInt("DivideMax", max);
                 break;
         }
+
+        PlayerPrefs.Save();
+    }
+
+    public void ResetToDefault()
+    {
+        SetRange(OperatorMode.Plus, 1, 100);
+        SetRange(OperatorMode.Minus, -100, -1);
+        SetRange(OperatorMode.Multiply, 2, 12);
+        SetRange(OperatorMode.Divide, 2, 12);
     }
 }

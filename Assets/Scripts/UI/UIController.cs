@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    private bool isConfirming = false;
     private bool isGamePaused = false;
 
     public Slider _bgmSlider, _sfxSlider;
@@ -15,7 +14,6 @@ public class UIController : MonoBehaviour
     [SerializeField] public GameObject loadingCover;
     [SerializeField] private Image blackoutScreen;
 
-    private AudioManager audioManager;
     private UIManager uiManager;
 
     public static UIController instance;
@@ -31,74 +29,8 @@ public class UIController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        audioManager = AudioManager.instance;
         uiManager = UIManager.instance;
     }
-
-    public void OnAddModeSelected()
-    {
-        isConfirming = true;
-        //GameData.SelectedMode = OperatorMode.Add;
-        audioManager.PlaySFX("SFX02");
-    }
-
-    public void OnMinusModeSelected()
-    {
-        isConfirming = true;
-        //GameData.SelectedMode = OperatorMode.Minus;
-        audioManager.PlaySFX("SFX02");
-    }
-
-    public void OnMultiplyModeSelected()
-    {
-        isConfirming = true;
-        //GameData.SelectedMode = OperatorMode.Multiply;
-        audioManager.PlaySFX("SFX02");
-    }
-
-    public void OnDivideModeSelected()
-    {
-        isConfirming = true;
-        //GameData.SelectedMode = OperatorMode.Divide;
-        audioManager.PlaySFX("SFX02");
-    }
-
-    public void CancelConfirming()
-    {
-        isConfirming = false;
-        audioManager.PlaySFX("SFX03");
-    }
-
-    public void OnConfirmButtonClicked()
-    {
-        if (isConfirming)
-        {
-            audioManager.PlaySFX("SFX04");
-            StartCoroutine(TransitionToNextScene(delayTime));           
-        }
-    }
-
-    /*
-    public void SetTurnCount()
-    {
-        if (int.TryParse(uiManager.targetInputField.text, out int target))
-        {
-            audioManager.PlaySFX("SFX04");
-            GameManager.instance.SetTargetRounds(target);
-            Time.timeScale = 1f;
-        }
-    }
-    */
-
-    /*
-    public void ConfirmTargetCount()
-    {
-        if (int.TryParse(uiManager.targetInputField.text, out int target))
-        {
-            GameManager.instance.SetTargetBalloonCount(target);
-        }
-    }
-    */
 
     public void ToggleBGM()
     {
@@ -132,14 +64,6 @@ public class UIController : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
-    }
-
-    private IEnumerator TransitionToNextScene(float delayTime)
-    {
-        loadingCover.SetActive(true);
-        StartCoroutine(audioManager.FadeOut(audioManager.bgmSource, delayTime));
-        yield return new WaitForSeconds(delayTime);
-        SceneManager.LoadScene("Gameplay");
     }
 
     public IEnumerator FadeInUI(float duration)

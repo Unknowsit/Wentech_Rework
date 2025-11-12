@@ -36,6 +36,7 @@ public class BalloonRangeUI : MonoBehaviour
     private void Start()
     {
         audioManager = AudioManager.instance;
+
         rangeSettings.LoadFromPlayerPrefs();
 
         InitializeSliders();
@@ -243,11 +244,7 @@ public class BalloonRangeUI : MonoBehaviour
     public void ResetToDefault()
     {
         audioManager.PlaySFX("SFX04");
-        rangeSettings.SetRange(OperatorMode.Plus, 1, 100);
-        rangeSettings.SetRange(OperatorMode.Minus, -100, -1);
-        rangeSettings.SetRange(OperatorMode.Multiply, 2, 12);
-        rangeSettings.SetRange(OperatorMode.Divide, 2, 12);
-
+        rangeSettings.ResetToDefault();
         InitializeSliders();
     }
 }
