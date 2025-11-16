@@ -13,6 +13,10 @@ public class ModeSelector : MonoBehaviour
     [SerializeField] private Toggle multiplyToggle;
     [SerializeField] private Toggle divideToggle;
 
+    [Header("Parenthesis Settings")]
+    [SerializeField] private Toggle parenthesisToggle;
+    [SerializeField] private GameObject parenthesisPanel;
+
     [Header("Optional - Display Selected Modes")]
     [SerializeField] private TextMeshProUGUI selectedModesText;
 
@@ -27,18 +31,18 @@ public class ModeSelector : MonoBehaviour
         audioManager = AudioManager.instance;
 
         LoadCurrentModes();
+        LoadParenthesisSetting();
 
         addToggle.onValueChanged.AddListener(isOn => UpdateMode(OperatorMode.Plus, isOn));
         minusToggle.onValueChanged.AddListener(isOn => UpdateMode(OperatorMode.Minus, isOn));
         multiplyToggle.onValueChanged.AddListener(isOn => UpdateMode(OperatorMode.Multiply, isOn));
         divideToggle.onValueChanged.AddListener(isOn => UpdateMode(OperatorMode.Divide, isOn));
 
-        if (confirmButton != null)
-        {
-            confirmButton.onClick.AddListener(OnConfirmButtonClicked);
-        }
+        parenthesisToggle.onValueChanged.AddListener(OnParenthesesToggleChanged);
+        confirmButton.onClick.AddListener(OnConfirmButtonClicked);
 
         UpdateSelectedModesDisplay();
+        UpdateParenthesisAvailability();
     }
 
     private void OnDestroy()
@@ -97,6 +101,7 @@ public class ModeSelector : MonoBehaviour
         }
 
         UpdateSelectedModesDisplay();
+        UpdateParenthesisAvailability();
     }
 
     private void UpdateSelectedModesDisplay()
@@ -125,6 +130,31 @@ public class ModeSelector : MonoBehaviour
         }
 
         selectedModesText.text = string.Join(", ", modeNames);
+    }
+
+    private void LoadParenthesisSetting()
+    {
+        parenthesisToggle.SetIsOnWithoutNotify(GameData.UseParentheses);
+    }
+
+    public void OnParenthesesToggleChanged(bool isOn)
+    {
+        GameData.UseParentheses = isOn;
+        audioManager.PlaySFX("SFX02");
+    }
+
+    private void UpdateParenthesisAvailability()
+    {
+        bool isMultiMode = GameData.SelectedModes.Count > 1;
+
+        parenthesisPanel.SetActive(isMultiMode);
+        parenthesisToggle.interactable = isMultiMode;
+
+        if (!isMultiMode)
+        {
+            GameData.UseParentheses = false;
+            parenthesisToggle.SetIsOnWithoutNotify(false);
+        }
     }
 
     public void SetSingleMode(OperatorMode mode)

@@ -99,11 +99,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI p2ScoreText;
     [SerializeField] private Image p2Image;
 
+    [SerializeField] private Button exitButton;
+
     [Header("Sprite Renderer")]
     [SerializeField] private Sprite loseRabbit;
     [SerializeField] private Sprite winRabbit;
-
-    [SerializeField] private Button exitButton;
 
     [Header("Android Button")]
     [SerializeField] private GameObject shootButton;
@@ -307,6 +307,7 @@ public class UIManager : MonoBehaviour
 
     public void OnExitButtonClicked()
     {
+        exitButton.interactable = false;
         audioManager.PlaySFX("SFX04");
         StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
         SceneManager.LoadSceneAsync("Operators");

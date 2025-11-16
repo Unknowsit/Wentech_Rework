@@ -87,6 +87,8 @@ public class GameManager : MonoBehaviour
         CalculateTargetSum(uiManager.TargetText, uiManager.ObjectiveText);
         UpdateRoundDisplay();
         currentBalloonIndex = 0;
+
+        RefreshAllParenthesisUI();
     }
 
     private void ResetGameState()
@@ -144,11 +146,35 @@ public class GameManager : MonoBehaviour
     {
         foreach (NumberSlot slot in numberSlots)
         {
+            if (slot == null) continue;
+
+            for (int i = slot.transform.childCount - 1; i >= 0; i--)
+            {
+                Transform child = slot.transform.GetChild(i);
+
+                if (child.GetComponent<BalloonHitText>() != null)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+
+            Parenthesis parenthesis = slot.GetComponent<Parenthesis>();
+
+            if (parenthesis != null)
+            {
+                parenthesis.ResetType();
+            }
+        }
+
+        /*
+        foreach (NumberSlot slot in numberSlots)
+        {
             for (int i = slot.transform.childCount - 1; i >= 0; i--)
             {
                 Destroy(slot.transform.GetChild(i).gameObject);
             }
         }
+        */
     }
 
     private void ClearOperatorSlots()
@@ -197,6 +223,26 @@ public class GameManager : MonoBehaviour
         spawnedCount = 0;
         attempts = 0;
         currentBalloonIndex = 0;
+    }
+
+    public void RefreshAllParenthesisUI()
+    {
+        if (!GameData.ShouldUseParentheses() || numberSlots == null)
+        {
+            return;
+        }
+
+        foreach (var slot in numberSlots)
+        {
+            if (slot == null) continue;
+
+            Parenthesis parenthesis = slot.GetComponent<Parenthesis>();
+
+            if (parenthesis != null && parenthesis.enabled)
+            {
+                parenthesis.RefreshUI();
+            }
+        }
     }
 
     private void ResetUI()
@@ -595,7 +641,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            UpdateBalloonSumMultiMode(totalText);
+            if (GameData.ShouldUseParentheses())
+            {
+                UpdateBalloonSumMultiModeWithParentheses(totalText);
+            }
+            else
+            {
+                UpdateBalloonSumMultiMode(totalText);
+            }
         }
     }
 
@@ -815,6 +868,335 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"Final sum: {sum}");
         totalText.text = hasValue ? (hasDivide ? sum.ToString("F2") : sum.ToString()) : "0";
+    }
+
+    public void ValidateParentheses()
+    {
+        if (!GameData.ShouldUseParentheses() || numberSlots == null) return;
+
+        int openCount = 0;
+        bool hasError = false;
+
+        foreach (var slot in numberSlots)
+        {
+            if (slot == null) continue;
+
+            Parenthesis parenthesis = slot.GetComponent<Parenthesis>();
+
+            if (parenthesis == null) continue;
+
+            var type = parenthesis.CurrentType;
+
+            if (type == ParenthesisType.Open)
+            {
+                openCount++;
+            }
+            else if (type == ParenthesisType.Close)
+            {
+                openCount--;
+
+                if (openCount < 0)
+                {
+                    hasError = true;
+                    parenthesis.SetErrorState(true);
+                }
+                else
+                {
+                    parenthesis.SetErrorState(false);
+                }
+            }
+        }
+
+        if (openCount != 0)
+        {
+            hasError = true;
+
+            foreach (var slot in numberSlots)
+            {
+                if (slot == null) continue;
+
+                Parenthesis parenthesis = slot.GetComponent<Parenthesis>();
+
+                if (parenthesis != null && parenthesis.CurrentType == ParenthesisType.Open)
+                {
+                    parenthesis.SetErrorState(true);
+                }
+            }
+        }
+        else if (!hasError)
+        {
+            foreach (var slot in numberSlots)
+            {
+                if (slot == null) continue;
+
+                Parenthesis parenthesis = slot.GetComponent<Parenthesis>();
+
+                if (parenthesis != null)
+                {
+                    parenthesis.SetErrorState(false);
+                }
+            }
+        }
+    }
+
+    private void UpdateBalloonSumMultiModeWithParentheses(TextMeshProUGUI totalText)
+    {
+        if (numberSlots == null)
+        {
+            totalText.text = "0";
+            return;
+        }
+
+        bool hasDivide = GameData.HasMode(OperatorMode.Divide);
+        List<object> sequence = BuildSequenceWithParentheses();
+
+        if (sequence.Count == 0)
+        {
+            totalText.text = "0";
+            return;
+        }
+
+        float sum = EvaluateExpressionWithParentheses(sequence);
+        totalText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+    }
+
+    private List<object> BuildSequenceWithParentheses()
+    {
+        List<object> sequence = new List<object>();
+
+        for (int i = 0; i < numberSlots.Length; i++)
+        {
+            if (numberSlots[i] == null) continue;
+
+            Parenthesis parenthesis = numberSlots[i].GetComponent<Parenthesis>();
+
+            if (parenthesis != null && parenthesis.enabled && parenthesis.CurrentType == ParenthesisType.Open)
+            {
+                sequence.Add(ParenthesisType.Open);
+            }
+
+            if (numberSlots[i].HasNumber())
+            {
+                int value = numberSlots[i].GetBalloonValue();
+                sequence.Add((float)value);
+            }
+
+            if (parenthesis != null && parenthesis.enabled && parenthesis.CurrentType == ParenthesisType.Close)
+            {
+                sequence.Add(ParenthesisType.Close);
+            }
+
+            if (operatorSlots != null && i < operatorSlots.Length)
+            {
+                if (operatorSlots[i] != null && operatorSlots[i].HasOperator())
+                {
+                    var op = operatorSlots[i].GetOperatorMode();
+
+                    if (op.HasValue)
+                    {
+                        sequence.Add(op.Value);
+                    }
+                }
+            }
+        }
+
+        int idx = 0;
+
+        while (idx < sequence.Count)
+        {
+            if (idx + 1 < sequence.Count)
+            {
+                object current = sequence[idx];
+                object next = sequence[idx + 1];
+
+                bool shouldRemoveCurrent = false;
+                bool shouldRemoveNext = false;
+                bool shouldRemoveNextGroup = false;
+                int groupEndIndex = -1;
+
+                if (current is float && next is float)
+                {
+                    shouldRemoveNext = true;
+                    Debug.Log($"Pattern: Number-Number at [{idx}]-[{idx + 1}] Remove [{idx + 1}]");
+                }
+                else if (current is ParenthesisType cType && cType == ParenthesisType.Close && next is float)
+                {
+                    shouldRemoveNext = true;
+                    Debug.Log($"Pattern: )-Number at [{idx}]-[{idx + 1}] Remove [{idx + 1}]");
+                }
+                else if (current is float && next is ParenthesisType nType && nType == ParenthesisType.Open)
+                {
+                    shouldRemoveCurrent = true;
+                    Debug.Log($"Pattern: Number-( at [{idx}]-[{idx + 1}] Remove [{idx}]");
+                }
+                else if (current is ParenthesisType cType2 && cType2 == ParenthesisType.Close &&
+                         next is ParenthesisType nType2 && nType2 == ParenthesisType.Open)
+                {
+                    groupEndIndex = FindMatchingCloseParen(sequence, idx + 1);
+                    if (groupEndIndex > idx + 1)
+                    {
+                        shouldRemoveNextGroup = true;
+                        Debug.Log($"Pattern: )-( at [{idx}]-[{idx + 1}] Remove [{idx + 1}] to [{groupEndIndex}]");
+                    }
+                }
+
+                if (shouldRemoveCurrent)
+                {
+                    sequence.RemoveAt(idx);
+                }
+                else if (shouldRemoveNextGroup && groupEndIndex > idx)
+                {
+                    int removeCount = groupEndIndex - idx;
+                    sequence.RemoveRange(idx + 1, removeCount);
+                }
+                else if (shouldRemoveNext)
+                {
+                    sequence.RemoveAt(idx + 1);
+                }
+                else
+                {
+                    idx++;
+                }
+            }
+            else
+            {
+                idx++;
+            }
+        }
+
+        while (sequence.Count > 0 && sequence[sequence.Count - 1] is OperatorMode)
+        {
+            Debug.Log($"Removing trailing operator");
+            sequence.RemoveAt(sequence.Count - 1);
+        }
+
+        return sequence;
+    }
+
+    private float EvaluateExpressionWithParentheses(List<object> sequence)
+    {
+        while (HasParenthesisInSequence(sequence))
+        {
+            int openIdx = FindInnermostOpenParen(sequence);
+            int closeIdx = FindMatchingCloseParen(sequence, openIdx);
+
+            if (closeIdx == -1) break;
+
+            List<object> subExpr = sequence.GetRange(openIdx + 1, closeIdx - openIdx - 1);
+            float subResult = EvaluateSimpleExpression(subExpr);
+
+            sequence.RemoveRange(openIdx, closeIdx - openIdx + 1);
+            sequence.Insert(openIdx, subResult);
+        }
+
+        return EvaluateSimpleExpression(sequence);
+    }
+
+    private bool HasParenthesisInSequence(List<object> sequence)
+    {
+        foreach (var item in sequence)
+        {
+            if (item is ParenthesisType)
+                return true;
+        }
+        return false;
+    }
+
+    private int FindInnermostOpenParen(List<object> sequence)
+    {
+        int lastOpen = -1;
+
+        for (int i = 0; i < sequence.Count; i++)
+        {
+            if (sequence[i] is ParenthesisType type && type == ParenthesisType.Open)
+            {
+                lastOpen = i;
+            }
+            else if (sequence[i] is ParenthesisType closeType && closeType == ParenthesisType.Close)
+            {
+                return lastOpen;
+            }
+        }
+
+        return lastOpen;
+    }
+
+    private int FindMatchingCloseParen(List<object> sequence, int openIndex)
+    {
+        if (openIndex < 0) return -1;
+
+        int depth = 0;
+
+        for (int i = openIndex; i < sequence.Count; i++)
+        {
+            if (sequence[i] is ParenthesisType type)
+            {
+                if (type == ParenthesisType.Open)
+                    depth++;
+                else if (type == ParenthesisType.Close)
+                {
+                    depth--;
+                    if (depth == 0)
+                        return i;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    private float EvaluateSimpleExpression(List<object> sequence)
+    {
+        if (sequence.Count == 0) return 0;
+
+        List<object> seq = new List<object>(sequence);
+
+        for (int i = 1; i < seq.Count - 1; i += 2)
+        {
+            if (seq[i] is OperatorMode op && seq[i - 1] is float left && seq[i + 1] is float right)
+            {
+                if (op == OperatorMode.Multiply || op == OperatorMode.Divide)
+                {
+                    if (op == OperatorMode.Divide && Mathf.Approximately(right, 0f))
+                    {
+                        seq.RemoveAt(i + 1);
+                        seq.RemoveAt(i);
+                        i -= 2;
+                        continue;
+                    }
+
+                    float result = (op == OperatorMode.Multiply) ? left * right : left / right;
+
+                    seq[i - 1] = result;
+                    seq.RemoveAt(i + 1);
+                    seq.RemoveAt(i);
+                    i -= 2;
+                }
+            }
+        }
+
+        if (seq.Count == 0) return 0;
+        if (!(seq[0] is float)) return 0;
+
+        float sum = (float)seq[0];
+
+        for (int i = 1; i < seq.Count - 1; i += 2)
+        {
+            if (seq[i] is OperatorMode op && seq[i + 1] is float nextNum)
+            {
+                switch (op)
+                {
+                    case OperatorMode.Plus:
+                        sum += nextNum;
+                        break;
+                    case OperatorMode.Minus:
+                        sum -= nextNum;
+                        break;
+                }
+            }
+        }
+
+        return sum;
     }
 
 #if UNITY_EDITOR

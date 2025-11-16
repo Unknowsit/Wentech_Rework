@@ -9,9 +9,17 @@ public enum OperatorMode
     Divide
 }
 
+public enum ParenthesisType
+{
+    None,
+    Open,
+    Close,
+}
+
 public static class GameData
 {
     public static List<OperatorMode> SelectedModes = new List<OperatorMode> { OperatorMode.Plus };
+    public static bool UseParentheses = false;
 
     public static bool IsSingleMode()
     {
@@ -37,5 +45,10 @@ public static class GameData
     public static bool HasMode(OperatorMode mode)
     {
         return SelectedModes != null && SelectedModes.Contains(mode);
+    }
+
+    public static bool ShouldUseParentheses()
+    {
+        return UseParentheses && !IsSingleMode();
     }
 }

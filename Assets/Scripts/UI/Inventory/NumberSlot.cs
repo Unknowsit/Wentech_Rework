@@ -13,24 +13,6 @@ public class NumberSlot : MonoBehaviour, IDropHandler
         uiManager = UIManager.instance;
     }
 
-    public void InitializeBalloon()
-    {
-        if (transform.childCount > 0 && currentBalloon == null)
-        {
-            BalloonHitText childBalloon = transform.GetChild(0).GetComponent<BalloonHitText>();
-            if (childBalloon != null)
-            {
-                currentBalloon = childBalloon;
-                BalloonDragHandler dragHandler = childBalloon.GetComponent<BalloonDragHandler>();
-
-                if (dragHandler != null)
-                {
-                    dragHandler.originalSlot = transform;
-                }
-            }
-        }
-    }
-
     public void OnDrop(PointerEventData eventData)
     {
         GameObject droppedObject = eventData.pointerDrag;
@@ -44,7 +26,9 @@ public class NumberSlot : MonoBehaviour, IDropHandler
 
         BalloonDragHandler draggedBalloon = droppedObject.GetComponent<BalloonDragHandler>();
 
-        if (transform.childCount == 0)
+        int balloonCount = GetBalloonChildCount();
+
+        if (balloonCount == 0)
         {
             droppedObject.transform.SetParent(transform);
             droppedObject.transform.localPosition = Vector3.zero;
@@ -53,7 +37,7 @@ public class NumberSlot : MonoBehaviour, IDropHandler
         }
         else
         {
-            Transform existingBalloonTransform = transform.GetChild(0);
+            Transform existingBalloonTransform = GetBalloonInChildren().transform;
             BalloonDragHandler existingBalloon = existingBalloonTransform.GetComponent<BalloonDragHandler>();
 
             Transform previousSlot = draggedBalloon.originalSlot;
@@ -90,14 +74,73 @@ public class NumberSlot : MonoBehaviour, IDropHandler
         RefreshSum();
     }
 
+    public void InitializeBalloon()
+    {
+        if (currentBalloon == null)
+        {
+            currentBalloon = GetBalloonInChildren();
+
+            if (currentBalloon != null)
+            {
+                BalloonDragHandler dragHandler = currentBalloon.GetComponent<BalloonDragHandler>();
+
+                if (dragHandler != null)
+                {
+                    dragHandler.originalSlot = transform;
+                }
+            }
+        }
+    }
+
+    private BalloonHitText GetBalloonInChildren()
+    {
+        foreach (Transform child in transform)
+        {
+            BalloonHitText balloon = child.GetComponent<BalloonHitText>();
+
+            if (balloon != null)
+            {
+                return balloon;
+            }
+        }
+
+        return null;
+    }
+
+    private int GetBalloonChildCount()
+    {
+        int count = 0;
+
+        foreach (Transform child in transform)
+        {
+            if (child.GetComponent<BalloonHitText>() != null)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
     public int GetBalloonValue()
     {
+        if (currentBalloon == null || currentBalloon.transform.parent != transform)
+        {
+            currentBalloon = GetBalloonInChildren();
+        }
+
         return currentBalloon != null ? currentBalloon.Value : 0;
     }
 
     public bool HasNumber()
     {
-        return currentBalloon != null && transform.childCount > 0;
+        if (currentBalloon != null && currentBalloon.transform.parent == transform)
+        {
+            return true;
+        }
+
+        currentBalloon = GetBalloonInChildren();
+        return currentBalloon != null;
     }
 
     public void OnBalloonRemoved()
