@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            gameManager.CalculateBalloon();
+            //gameManager.CalculateBalloon();
             uiController.RunTransition();
 
             if (GameData.IsSingleMode())
