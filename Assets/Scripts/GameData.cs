@@ -14,6 +14,8 @@ public enum ParenthesisType
     None,
     Open,
     Close,
+    DoubleOpen,
+    DoubleClose
 }
 
 public static class GameData

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Reflection;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -18,8 +19,15 @@ public class Parenthesis : MonoBehaviour
     private ParenthesisType currentType = ParenthesisType.None;
     private GameManager gameManager;
     private bool isInitialized = false;
+    private int slotIndex = -1;
 
     public ParenthesisType CurrentType => currentType;
+    public int SlotIndex => slotIndex;
+
+    private void Awake()
+    {
+        FindSlotIndex();
+    }
 
     private void OnEnable()
     {
@@ -51,13 +59,116 @@ public class Parenthesis : MonoBehaviour
         isInitialized = true;
     }
 
+    private void FindSlotIndex()
+    {
+        var numberSlotsField = typeof(GameManager).GetField("numberSlots", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        if (numberSlotsField != null)
+        {
+            var numberSlots = numberSlotsField.GetValue(GameManager.instance) as NumberSlot[];
+
+            if (numberSlots != null)
+            {
+                NumberSlot mySlot = GetComponent<NumberSlot>();
+
+                for (int i = 0; i < numberSlots.Length; i++)
+                {
+                    if (numberSlots[i] == mySlot)
+                    {
+                        slotIndex = i;
+                        //Debug.Log($"[Parenthesis] Found slot index: {slotIndex} for {gameObject.name}");
+                        return;
+                    }
+                }
+            }
+        }
+
+        Transform parent = transform.parent;
+
+        if (parent != null)
+        {
+            int numberSlotCount = 0;
+
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                Transform child = parent.GetChild(i);
+
+                if (child.GetComponent<NumberSlot>() != null)
+                {
+                    if (child == transform)
+                    {
+                        slotIndex = numberSlotCount;
+                        //Debug.Log($"[Parenthesis] Fallback - Found slot index: {slotIndex}");
+                        return;
+                    }
+                    numberSlotCount++;
+                }
+            }
+        }
+
+        //Debug.LogWarning($"[Parenthesis] Could not find slot index for {gameObject.name}");
+    }
+
     public void CycleParenthesis()
     {
         if (!GameData.ShouldUseParentheses()) return;
 
-        currentType = (ParenthesisType)(((int)currentType + 1) % 3);
-        UpdateVisual();
+        //Debug.Log($"Cycling parenthesis for slot {slotIndex}, current type: {currentType}");
 
+        if (slotIndex == 0)
+        {
+            switch (currentType)
+            {
+                case ParenthesisType.None:
+                    currentType = ParenthesisType.Open;
+                    break;
+                case ParenthesisType.Open:
+                    currentType = ParenthesisType.DoubleOpen;
+                    break;
+                default:
+                    currentType = ParenthesisType.None;
+                    break;
+            }
+        }
+        else if (slotIndex == 3)
+        {
+            switch (currentType)
+            {
+                case ParenthesisType.None:
+                    currentType = ParenthesisType.Close;
+                    break;
+                case ParenthesisType.Close:
+                    currentType = ParenthesisType.DoubleClose;
+                    break;
+                default:
+                    currentType = ParenthesisType.None;
+                    break;
+            }
+        }
+        else
+        {
+            switch (currentType)
+            {
+                case ParenthesisType.None:
+                    currentType = ParenthesisType.Open;
+                    break;
+                case ParenthesisType.Open:
+                    currentType = ParenthesisType.Close;
+                    break;
+                case ParenthesisType.Close:
+                case ParenthesisType.DoubleOpen:
+                case ParenthesisType.DoubleClose:
+                    currentType = ParenthesisType.None;
+                    break;
+                default:
+                    currentType = ParenthesisType.None;
+                    break;
+            }
+        }
+
+        //Debug.Log($"New type: {currentType}");
+
+        UpdateVisual();
         gameManager.ValidateParentheses();
         gameManager.UpdateBalloonSum(UIManager.instance.MultiTotalText);
         AudioManager.instance.PlaySFX("SFX04");
@@ -83,6 +194,14 @@ public class Parenthesis : MonoBehaviour
                 break;
             case ParenthesisType.Close:
                 parenthesisText.text = ")";
+                parenthesisImage.color = closeColor;
+                break;
+            case ParenthesisType.DoubleOpen:
+                parenthesisText.text = "((";
+                parenthesisImage.color = openColor;
+                break;
+            case ParenthesisType.DoubleClose:
+                parenthesisText.text = "))";
                 parenthesisImage.color = closeColor;
                 break;
         }

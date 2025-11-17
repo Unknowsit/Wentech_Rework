@@ -870,6 +870,67 @@ public class GameManager : MonoBehaviour
         totalText.text = hasValue ? (hasDivide ? sum.ToString("F2") : sum.ToString()) : "0";
     }
 
+    private void UpdateBalloonSumMultiModeWithParentheses(TextMeshProUGUI totalText)
+    {
+        if (numberSlots == null)
+        {
+            totalText.text = "0";
+            return;
+        }
+
+        bool hasDivide = GameData.HasMode(OperatorMode.Divide);
+        List<object> sequence = BuildSequenceWithParentheses();
+
+        if (sequence.Count == 0)
+        {
+            totalText.text = "0";
+            return;
+        }
+
+        if (!IsParenthesesBalanced(sequence))
+        {
+            totalText.text = "0";
+            return;
+        }
+
+        float sum = EvaluateExpressionWithParentheses(sequence);
+        totalText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+    }
+
+    private bool IsParenthesesBalanced(List<object> sequence)
+    {
+        int openCount = 0;
+
+        foreach (var item in sequence)
+        {
+            if (item is ParenthesisType type)
+            {
+                if (type == ParenthesisType.Open)
+                {
+                    openCount++;
+                }
+                else if (type == ParenthesisType.Close)
+                {
+                    openCount--;
+
+                    if (openCount < 0)
+                    {
+                        //Debug.LogWarning("Found closing parenthesis without matching opening parenthesis");
+                        return false;
+                    }
+                }
+            }
+        }
+
+        if (openCount != 0)
+        {
+            //Debug.LogWarning($"Unbalanced parentheses: {openCount} unclosed opening parenthesis");
+            return false;
+        }
+
+        return true;
+    }
+
     public void ValidateParentheses()
     {
         if (!GameData.ShouldUseParentheses() || numberSlots == null) return;
@@ -891,9 +952,27 @@ public class GameManager : MonoBehaviour
             {
                 openCount++;
             }
+            else if (type == ParenthesisType.DoubleOpen)
+            {
+                openCount += 2;
+            }
             else if (type == ParenthesisType.Close)
             {
                 openCount--;
+
+                if (openCount < 0)
+                {
+                    hasError = true;
+                    parenthesis.SetErrorState(true);
+                }
+                else
+                {
+                    parenthesis.SetErrorState(false);
+                }
+            }
+            else if (type == ParenthesisType.DoubleClose)
+            {
+                openCount -= 2;
 
                 if (openCount < 0)
                 {
@@ -917,7 +996,7 @@ public class GameManager : MonoBehaviour
 
                 Parenthesis parenthesis = slot.GetComponent<Parenthesis>();
 
-                if (parenthesis != null && parenthesis.CurrentType == ParenthesisType.Open)
+                if (parenthesis != null && (parenthesis.CurrentType == ParenthesisType.Open || parenthesis.CurrentType == ParenthesisType.DoubleOpen))
                 {
                     parenthesis.SetErrorState(true);
                 }
@@ -939,27 +1018,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void UpdateBalloonSumMultiModeWithParentheses(TextMeshProUGUI totalText)
-    {
-        if (numberSlots == null)
-        {
-            totalText.text = "0";
-            return;
-        }
-
-        bool hasDivide = GameData.HasMode(OperatorMode.Divide);
-        List<object> sequence = BuildSequenceWithParentheses();
-
-        if (sequence.Count == 0)
-        {
-            totalText.text = "0";
-            return;
-        }
-
-        float sum = EvaluateExpressionWithParentheses(sequence);
-        totalText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
-    }
-
     private List<object> BuildSequenceWithParentheses()
     {
         List<object> sequence = new List<object>();
@@ -970,9 +1028,17 @@ public class GameManager : MonoBehaviour
 
             Parenthesis parenthesis = numberSlots[i].GetComponent<Parenthesis>();
 
-            if (parenthesis != null && parenthesis.enabled && parenthesis.CurrentType == ParenthesisType.Open)
+            if (parenthesis != null && parenthesis.enabled)
             {
-                sequence.Add(ParenthesisType.Open);
+                if (parenthesis.CurrentType == ParenthesisType.Open)
+                {
+                    sequence.Add(ParenthesisType.Open);
+                }
+                else if (parenthesis.CurrentType == ParenthesisType.DoubleOpen)
+                {
+                    sequence.Add(ParenthesisType.Open);
+                    sequence.Add(ParenthesisType.Open);
+                }
             }
 
             if (numberSlots[i].HasNumber())
@@ -981,9 +1047,17 @@ public class GameManager : MonoBehaviour
                 sequence.Add((float)value);
             }
 
-            if (parenthesis != null && parenthesis.enabled && parenthesis.CurrentType == ParenthesisType.Close)
+            if (parenthesis != null && parenthesis.enabled)
             {
-                sequence.Add(ParenthesisType.Close);
+                if (parenthesis.CurrentType == ParenthesisType.Close)
+                {
+                    sequence.Add(ParenthesisType.Close);
+                }
+                else if (parenthesis.CurrentType == ParenthesisType.DoubleClose)
+                {
+                    sequence.Add(ParenthesisType.Close);
+                    sequence.Add(ParenthesisType.Close);
+                }
             }
 
             if (operatorSlots != null && i < operatorSlots.Length)
@@ -1017,26 +1091,26 @@ public class GameManager : MonoBehaviour
                 if (current is float && next is float)
                 {
                     shouldRemoveNext = true;
-                    Debug.Log($"Pattern: Number-Number at [{idx}]-[{idx + 1}] Remove [{idx + 1}]");
+                    //Debug.Log($"Pattern: Number-Number at [{idx}]-[{idx + 1}]  Remove [{idx + 1}]");
                 }
                 else if (current is ParenthesisType cType && cType == ParenthesisType.Close && next is float)
                 {
                     shouldRemoveNext = true;
-                    Debug.Log($"Pattern: )-Number at [{idx}]-[{idx + 1}] Remove [{idx + 1}]");
+                    //Debug.Log($"Pattern: )-Number at [{idx}]-[{idx + 1}]  Remove [{idx + 1}]");
                 }
                 else if (current is float && next is ParenthesisType nType && nType == ParenthesisType.Open)
                 {
                     shouldRemoveCurrent = true;
-                    Debug.Log($"Pattern: Number-( at [{idx}]-[{idx + 1}] Remove [{idx}]");
+                    //Debug.Log($"Pattern: Number-( at [{idx}]-[{idx + 1}]  Remove [{idx}]");
                 }
-                else if (current is ParenthesisType cType2 && cType2 == ParenthesisType.Close &&
-                         next is ParenthesisType nType2 && nType2 == ParenthesisType.Open)
+                else if (current is ParenthesisType cType2 && cType2 == ParenthesisType.Close && next is ParenthesisType nType2 && nType2 == ParenthesisType.Open)
                 {
                     groupEndIndex = FindMatchingCloseParen(sequence, idx + 1);
+
                     if (groupEndIndex > idx + 1)
                     {
                         shouldRemoveNextGroup = true;
-                        Debug.Log($"Pattern: )-( at [{idx}]-[{idx + 1}] Remove [{idx + 1}] to [{groupEndIndex}]");
+                        //Debug.Log($"Pattern: )-( at [{idx}]-[{idx + 1}]  Remove [{idx + 1}] to [{groupEndIndex}]");
                     }
                 }
 
@@ -1066,7 +1140,7 @@ public class GameManager : MonoBehaviour
 
         while (sequence.Count > 0 && sequence[sequence.Count - 1] is OperatorMode)
         {
-            Debug.Log($"Removing trailing operator");
+            //Debug.Log($"Removing trailing operator");
             sequence.RemoveAt(sequence.Count - 1);
         }
 
