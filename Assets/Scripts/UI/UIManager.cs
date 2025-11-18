@@ -258,11 +258,12 @@ public class UIManager : MonoBehaviour
         else
         {
             StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
+            gameManager.SwitchCannonSide();
             gameManager.RestartGame();
             StartCoroutine(DelayTimeToRestart());
 
 #if UNITY_ANDROID
-        StartCoroutine(ShootButtonActive());
+            StartCoroutine(ShootButtonActive());
 #endif
 
             if (shouldReset)

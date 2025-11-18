@@ -55,6 +55,19 @@ public class GameManager : MonoBehaviour
     [Header("Wall Control Setting")]
     public float rotationSpeed = 50f;
 
+    [Header("Cannon Switch Settings")]
+    [SerializeField] private Transform cannonTransform;
+    [SerializeField] private Vector3 leftCannonPosition = new Vector3(-6.965f, -3.33f, 0f);
+    [SerializeField] private Vector3 rightCannonPosition = new Vector3(6.965f, -3.33f, 0f);
+    [SerializeField] private bool isCannonOnLeft = true;
+
+#if UNITY_ANDROID || UNITY_EDITOR
+    [Header("Android ShootButton")]
+    [SerializeField] private RectTransform shootButtonRect;
+    [SerializeField] private float shootButtonLeftX = -1554f;
+    [SerializeField] private float shootButtonRightX = 1554f;
+#endif
+
     [Header("Component References")]
     public CannonAim cannonAim;
     public CannonShooter cannonShooter;
@@ -293,6 +306,32 @@ public class GameManager : MonoBehaviour
 
             UpdateRoundDisplay();
         }
+    }
+
+    public void SwitchCannonSide()
+    {
+        isCannonOnLeft = !isCannonOnLeft;
+
+        if (isCannonOnLeft)
+        {
+            cannonTransform.position = leftCannonPosition;
+            cannonTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+
+#if UNITY_ANDROID
+            shootButtonRect.anchoredPosition = new Vector2(shootButtonLeftX, shootButtonRect.anchoredPosition.y);
+#endif
+        }
+        else
+        {
+            cannonTransform.position = rightCannonPosition;
+            cannonTransform.rotation = Quaternion.Euler(0f, 180f, 0f);
+
+#if UNITY_ANDROID
+            shootButtonRect.anchoredPosition = new Vector2(shootButtonRightX, shootButtonRect.anchoredPosition.y);
+#endif
+        }
+
+        cannonAim.transform.localEulerAngles = new Vector3(0f, 0f, 25f);
     }
 
     public void SetTargetRounds(int count)

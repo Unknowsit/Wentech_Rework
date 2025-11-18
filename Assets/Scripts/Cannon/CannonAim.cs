@@ -46,11 +46,11 @@ public class CannonAim : MonoBehaviour
         }
 #endif
         Vector2 worldPos = cam.ScreenToWorldPoint(inputPos);
-        Vector2 dir = worldPos - (Vector2)transform.position;
+        Vector2 localDir = transform.parent.InverseTransformPoint(worldPos) - transform.localPosition;
 
-        float angle = (Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+        float angle = Mathf.Atan2(localDir.y, localDir.x) * Mathf.Rad2Deg;
         float clampedAngle = Mathf.Clamp(angle, min, max);
-        transform.eulerAngles = new Vector3(0f, 0f, clampedAngle);
+        transform.localEulerAngles = new Vector3(0f, 0f, clampedAngle);
     }
 
 #if UNITY_EDITOR

@@ -18,10 +18,7 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
         gameManager = GameManager.instance;
         uiManager = UIManager.instance;
 
-        if (trashButton != null)
-        {
-            trashButton.onClick.AddListener(DeleteOperator);
-        }
+        trashButton.onClick.AddListener(DeleteOperator);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -75,10 +72,7 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
 
     private void OnDestroy()
     {
-        if (trashButton != null)
-        {
-            trashButton.onClick.RemoveListener(DeleteOperator);
-        }
+        trashButton.onClick.RemoveListener(DeleteOperator);
     }
 
     public void DeleteOperator()
@@ -103,15 +97,8 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
     {
         bool hasOperator = (currentOperator != null);
 
-        if (warningIcon != null)
-        {
-            warningIcon.SetActive(!hasOperator);
-        }
-
-        if (trashButton != null)
-        {
-            trashButton.gameObject.SetActive(hasOperator);
-        }
+        warningIcon.SetActive(!hasOperator);
+        trashButton.gameObject.SetActive(hasOperator);
     }
 
     public OperatorMode? GetOperatorMode()
