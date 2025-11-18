@@ -189,7 +189,7 @@ public class DraggableRotatable : MonoBehaviour
             }
             else
             {
-                if (isSelected && currentMode != Mode.Rotate)
+                if (isSelected)
                 {
                     Deselect();
                     lastTapTime = 0f;

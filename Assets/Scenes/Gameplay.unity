@@ -18046,13 +18046,13 @@ MonoBehaviour:
   emptyColor: {r: 1, g: 1, b: 1, a: 0.3}
   wallPrefab: {fileID: 389884227234984734, guid: c50fdfff0e8710c44b3ee6e4b4820768, type: 3}
   wallParent: {fileID: 991218526}
-  ghostSprite: {fileID: 1269875925}
+  ghostSprite: {fileID: 8246554495318191692, guid: c50fdfff0e8710c44b3ee6e4b4820768, type: 3}
   ghostColor: {r: 1, g: 1, b: 1, a: 0.5}
   validColor: {r: 0, g: 1, b: 0, a: 0.5}
   invalidColor: {r: 1, g: 0, b: 0, a: 0.5}
   gridSize: 1
-  placementAreaMin: {x: -8.2, y: 3.48}
-  placementAreaMax: {x: 8.2, y: 4.95}
+  placementAreaMin: {x: -8, y: 5.27}
+  placementAreaMax: {x: 8, y: -4.15}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -19335,11 +19335,6 @@ MonoBehaviour:
 --- !u!4 &1269875922 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2143966680718105550, guid: c50fdfff0e8710c44b3ee6e4b4820768, type: 3}
-  m_PrefabInstance: {fileID: 1659640634}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &1269875925 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8246554495318191692, guid: c50fdfff0e8710c44b3ee6e4b4820768, type: 3}
   m_PrefabInstance: {fileID: 1659640634}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1270705201
@@ -31136,7 +31131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1815260579
 Transform:
   m_ObjectHideFlags: 0
