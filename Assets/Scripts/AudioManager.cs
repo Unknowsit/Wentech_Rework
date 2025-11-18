@@ -51,6 +51,10 @@ public class AudioManager : MonoBehaviour
         {
             // Code Here
         }
+        else if (scene.name == "Mainmenu")
+        {
+            PlayBGM("BGM03");
+        }
     }
 
     public void PlayBGM(string name)

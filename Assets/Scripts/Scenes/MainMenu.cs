@@ -5,12 +5,12 @@ public class MainMenu : MonoBehaviour
 {
     public void NewGame()
     {
-        SceneManager.LoadSceneAsync("Gameplay"); // Transition Screen
+        SceneManager.LoadSceneAsync("Operators"); // Transition Screen
     }
 
     public void Back()
     {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadSceneAsync("Mainmenu");
     }
 
     public void ExitGame()

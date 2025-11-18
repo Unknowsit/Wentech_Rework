@@ -147,7 +147,7 @@ public class ModeSelector : MonoBehaviour
     {
         bool isMultiMode = GameData.SelectedModes.Count > 1;
 
-        parenthesisPanel.SetActive(isMultiMode);
+        //parenthesisPanel.SetActive(isMultiMode);
         parenthesisToggle.interactable = isMultiMode;
 
         if (!isMultiMode)
