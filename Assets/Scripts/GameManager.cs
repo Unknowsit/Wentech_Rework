@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform cannonTransform;
     [SerializeField] private Vector3 leftCannonPosition = new Vector3(-6.965f, -3.33f, 0f);
     [SerializeField] private Vector3 rightCannonPosition = new Vector3(6.965f, -3.33f, 0f);
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite leftCannonSprite;
+    [SerializeField] private Sprite rightCannonSprite;
     [SerializeField] private bool isCannonOnLeft = true;
 
 #if UNITY_ANDROID || UNITY_EDITOR
@@ -316,6 +319,7 @@ public class GameManager : MonoBehaviour
         {
             cannonTransform.position = leftCannonPosition;
             cannonTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            spriteRenderer.sprite = leftCannonSprite;
 
 #if UNITY_ANDROID
             shootButtonRect.anchoredPosition = new Vector2(shootButtonLeftX, shootButtonRect.anchoredPosition.y);
@@ -325,6 +329,7 @@ public class GameManager : MonoBehaviour
         {
             cannonTransform.position = rightCannonPosition;
             cannonTransform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            spriteRenderer.sprite = rightCannonSprite;
 
 #if UNITY_ANDROID
             shootButtonRect.anchoredPosition = new Vector2(shootButtonRightX, shootButtonRect.anchoredPosition.y);
