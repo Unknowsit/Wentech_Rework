@@ -62,6 +62,12 @@ public class DraggableRotatable : MonoBehaviour
         Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
 
+        if (Input.GetMouseButtonDown(1) && isSelected && currentMode == Mode.Rotate)
+        {
+            Deselect();
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
@@ -81,7 +87,7 @@ public class DraggableRotatable : MonoBehaviour
             }
             else
             {
-                if (isSelected)
+                if (isSelected && currentMode != Mode.Rotate)
                 {
                     Deselect();
                 }
@@ -183,7 +189,7 @@ public class DraggableRotatable : MonoBehaviour
             }
             else
             {
-                if (isSelected)
+                if (isSelected && currentMode != Mode.Rotate)
                 {
                     Deselect();
                     lastTapTime = 0f;
@@ -207,6 +213,7 @@ public class DraggableRotatable : MonoBehaviour
 
         if (touch.phase == TouchPhase.Ended && isSelected)
         {
+            // Android: Does nothing because double tap is used instead.
         }
     }
 

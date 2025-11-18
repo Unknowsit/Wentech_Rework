@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
     public CannonAim cannonAim;
     public CannonShooter cannonShooter;
     public Timer timer;
+    public WallInventory wallInventory;
 
     public static GameManager instance;
     private UIManager uiManager;
@@ -105,6 +106,7 @@ public class GameManager : MonoBehaviour
         currentBalloonIndex = 0;
 
         RefreshAllParenthesisUI();
+        wallInventory.ResetWalls();
     }
 
     private void ResetGameState()
