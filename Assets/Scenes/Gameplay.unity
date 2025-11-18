@@ -18051,8 +18051,8 @@ MonoBehaviour:
   validColor: {r: 0, g: 1, b: 0, a: 0.5}
   invalidColor: {r: 1, g: 0, b: 0, a: 0.5}
   gridSize: 1
-  placementAreaMin: {x: -8, y: 5.27}
-  placementAreaMax: {x: 8, y: -4.15}
+  placementAreaMin: {x: -8, y: -3.63}
+  placementAreaMax: {x: 8, y: 4.44}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -21534,7 +21534,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1395210764
 RectTransform:
   m_ObjectHideFlags: 0
