@@ -52,18 +52,46 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
         }
         else
         {
-            Debug.Log($"Replacing {currentOperator.OperatorMode} with {droppedOperator.OperatorMode}");
+            Debug.Log($"Swapping {currentOperator.OperatorMode} with {droppedOperator.OperatorMode}");
 
-            GameObject oldOperator = currentOperator.gameObject;
-            currentOperator = null;
-            Destroy(oldOperator);
+            Transform sourceSlot = draggedOperator.originalSlot;
+            OperatorBalloon oldOperator = currentOperator;
 
             droppedObject.transform.SetParent(transform);
             droppedObject.transform.localPosition = Vector3.zero;
             draggedOperator.originalSlot = transform;
             currentOperator = droppedOperator;
 
-            Debug.Log($"Replaced with {droppedOperator.OperatorMode} in {gameObject.name}");
+            if (sourceSlot != null)
+            {
+                OperatorSlot sourceOperatorSlot = sourceSlot.GetComponent<OperatorSlot>();
+
+                if (sourceOperatorSlot != null)
+                {
+                    oldOperator.transform.SetParent(sourceSlot);
+                    oldOperator.transform.localPosition = Vector3.zero;
+
+                    OperatorDragHandler oldDragHandler = oldOperator.GetComponent<OperatorDragHandler>();
+
+                    if (oldDragHandler != null)
+                    {
+                        oldDragHandler.originalSlot = sourceSlot;
+                    }
+
+                    sourceOperatorSlot.SetOperator(oldOperator);
+                    Debug.Log($"Swapped: Moved {oldOperator.OperatorMode} to {sourceSlot.name}");
+                }
+                else
+                {
+                    Destroy(oldOperator.gameObject);
+                    Debug.Log($"Replaced (not swapped): Destroyed {oldOperator.OperatorMode}");
+                }
+            }
+            else
+            {
+                Destroy(oldOperator.gameObject);
+                Debug.LogWarning("No source slot found, destroyed old operator");
+            }
         }
 
         UpdateVisualFeedback();

@@ -43,7 +43,6 @@ public class OperatorDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
         isDraggingFromSource = (operatorSlot == null);
 
         int siblingIndex = transform.GetSiblingIndex();
-
         Debug.Log($"isDraggingFromSource: {isDraggingFromSource}, Parent: {originalSlot.name}");
 
         if (isDraggingFromSource && operatorBalloon != null)
@@ -88,7 +87,10 @@ public class OperatorDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
             if (!isDraggingFromSource)
             {
                 transform.SetParent(originalSlot);
+                transform.localPosition = Vector3.zero;
+
                 OperatorSlot slot = originalSlot.GetComponent<OperatorSlot>();
+
                 if (slot != null)
                 {
                     slot.SetOperator(operatorBalloon);
