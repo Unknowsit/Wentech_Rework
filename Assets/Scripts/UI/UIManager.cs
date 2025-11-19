@@ -104,6 +104,7 @@ public class UIManager : MonoBehaviour
     [Header("Sprite Renderer")]
     [SerializeField] private Sprite loseRabbit;
     [SerializeField] private Sprite winRabbit;
+    [SerializeField] private Sprite drawRabbit;
 
     [Header("Android Button")]
     [SerializeField] private GameObject shootButton;
@@ -301,8 +302,8 @@ public class UIManager : MonoBehaviour
         {
             p1ResultText.text = "DRAW";
             p2ResultText.text = "DRAW";
-            p1Image.sprite = winRabbit;
-            p2Image.sprite = winRabbit;
+            p1Image.sprite = drawRabbit;
+            p2Image.sprite = drawRabbit;
         }
     }
 
