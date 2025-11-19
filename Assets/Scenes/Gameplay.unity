@@ -15447,9 +15447,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 656387498}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: BGMVolume
+        m_MethodName: SFXVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16726,7 +16726,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 656387498}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: BGMVolume
         m_Mode: 1
@@ -21646,7 +21646,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 656387498}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: ToggleBGM
         m_Mode: 1
@@ -29880,7 +29880,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 656387498}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: ToggleSFX
         m_Mode: 1
