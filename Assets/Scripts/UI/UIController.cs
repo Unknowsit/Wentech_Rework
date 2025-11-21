@@ -29,22 +29,22 @@ public class UIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        audioManager = AudioManager.instance;
-        uiManager = UIManager.instance;
     }
 
     private void Start()
     {
+        audioManager = AudioManager.instance;
+        uiManager = UIManager.instance;
+
         LoadSliderValues();
     }
 
     private void LoadSliderValues()
     {
-        _bgmSlider.value = audioManager.bgmSource.volume;
+        _bgmSlider.value = audioManager.savedBGMVolume;
         Debug.Log($"BGM Slider loaded: {_bgmSlider.value}");
 
-        _sfxSlider.value = audioManager.sfxSource.volume;
+        _sfxSlider.value = audioManager.savedSFXVolume;
         Debug.Log($"SFX Slider loaded: {_sfxSlider.value}");
     }
 
