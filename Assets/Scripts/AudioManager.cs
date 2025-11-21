@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
+    [HideInInspector] public float savedBGMVolume = 1f;
+    [HideInInspector] public float savedSFXVolume = 1f;
+
     public AudioData[] bgmData, sfxData, ambData;
     public AudioSource bgmSource, sfxSource, ambSource;
 
@@ -16,6 +19,7 @@ public class AudioManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            LoadAudioSettingsOnStart();
         }
         else
         {
@@ -40,21 +44,38 @@ public class AudioManager : MonoBehaviour
             PlayBGM("BGM03");
             PlayAmbient("ABG1");
         }
-        else if (scene.name == "Operators")
+        else if (scene.name == "Mainmenu")
         {
             StartCoroutine(FadeIn(bgmSource, 3f));
             PlayBGM("BGM01");
 
             if (ambSource != null) ambSource.Stop();
         }
+        else if (scene.name == "Operators")
+        {
+            // Code Here
+        }
         else if (scene.name == "Gameplay")
         {
             // Code Here
         }
-        else if (scene.name == "Mainmenu")
-        {
-            PlayBGM("BGM03");
-        }
+    }
+
+    private void LoadAudioSettingsOnStart()
+    {
+        savedBGMVolume = PlayerPrefs.GetFloat("BGMVolume", 1.0f);
+        savedSFXVolume = PlayerPrefs.GetFloat("SFXVolume", 1.0f);
+
+        bgmSource.volume = savedBGMVolume;
+        sfxSource.volume = savedSFXVolume;
+
+        bool bgmMute = PlayerPrefs.GetInt("BGMMute", 0) == 1;
+        bool sfxMute = PlayerPrefs.GetInt("SFXMute", 0) == 1;
+
+        bgmSource.mute = bgmMute;
+        sfxSource.mute = sfxMute;
+
+        Debug.Log($"Audio settings loaded! BGM Vol: {savedBGMVolume}, SFX Vol: {savedSFXVolume}, BGM Mute: {bgmMute}, SFX Mute: {sfxMute}");
     }
 
     public void PlayBGM(string name)
@@ -113,14 +134,48 @@ public class AudioManager : MonoBehaviour
 
     public void BGMVolume(float volume)
     {
+        savedBGMVolume = volume;
         bgmSource.volume = volume;
     }
 
     public void SFXVolume(float volume)
     {
+        savedSFXVolume = volume;
         sfxSource.volume = volume;
     }
 
+    public IEnumerator FadeIn(AudioSource source, float duration)
+    {
+        float targetVolume = (source == bgmSource) ? savedBGMVolume : savedSFXVolume;
+
+        source.volume = 0f;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            source.volume = Mathf.Lerp(0f, targetVolume, t / duration);
+            yield return null;
+        }
+
+        source.volume = targetVolume;
+    }
+
+    public IEnumerator FadeOut(AudioSource source, float duration)
+    {
+        float startVolume = source.volume;
+
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            source.volume = Mathf.Lerp(startVolume, 0f, t / duration);
+            yield return null;
+        }
+
+        source.volume = 0f;
+
+        float targetVolume = (source == bgmSource) ? savedBGMVolume : savedSFXVolume;
+        source.volume = targetVolume;
+    }
+
+    /*
     public IEnumerator FadeIn(AudioSource source, float duration)
     {
         source.volume = 0f;
@@ -147,4 +202,5 @@ public class AudioManager : MonoBehaviour
 
         source.volume = 1f;
     }
+    */
 }

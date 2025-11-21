@@ -10127,6 +10127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c1a0a2df3473a489e5981d0664a1da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  savedBGMVolume: 1
+  savedSFXVolume: 1
   bgmData:
   - {fileID: 11400000, guid: cf7aa06aea184c544b58b1fa95f83195, type: 2}
   - {fileID: 11400000, guid: 82f55833832429844813c357b51be6ed, type: 2}
@@ -14883,7 +14885,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 362180440}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: BGMVolume
+        m_MethodName: SFXVolume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -9,11 +9,12 @@ public class UIController : MonoBehaviour
 
     public Slider _bgmSlider, _sfxSlider;
 
-    [Header ("Scene Transition")]
+    [Header("Scene Transition")]
     [SerializeField] private float delayTime = 3f;
     [SerializeField] public GameObject loadingCover;
     [SerializeField] private Image blackoutScreen;
 
+    private AudioManager audioManager;
     private UIManager uiManager;
 
     public static UIController instance;
@@ -29,27 +30,57 @@ public class UIController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        audioManager = AudioManager.instance;
         uiManager = UIManager.instance;
+    }
+
+    private void Start()
+    {
+        LoadSliderValues();
+    }
+
+    private void LoadSliderValues()
+    {
+        _bgmSlider.value = audioManager.bgmSource.volume;
+        Debug.Log($"BGM Slider loaded: {_bgmSlider.value}");
+
+        _sfxSlider.value = audioManager.sfxSource.volume;
+        Debug.Log($"SFX Slider loaded: {_sfxSlider.value}");
     }
 
     public void ToggleBGM()
     {
-        AudioManager.instance.ToggleBGM();
+        audioManager.ToggleBGM();
+        SaveSettings();
     }
 
     public void ToggleSFX()
     {
-        AudioManager.instance.ToggleSFX();
+        audioManager.ToggleSFX();
+        SaveSettings();
     }
 
     public void BGMVolume()
     {
-        AudioManager.instance.BGMVolume(_bgmSlider.value);
+        audioManager.BGMVolume(_bgmSlider.value);
+        SaveSettings();
     }
 
     public void SFXVolume()
     {
-        AudioManager.instance.SFXVolume(_sfxSlider.value);
+        audioManager.SFXVolume(_sfxSlider.value);
+        SaveSettings();
+    }
+
+    private void SaveSettings()
+    {
+        PlayerPrefs.SetFloat("BGMVolume", audioManager.savedBGMVolume);
+        PlayerPrefs.SetFloat("SFXVolume", audioManager.savedSFXVolume);
+        PlayerPrefs.SetInt("BGMMute", audioManager.bgmSource.mute ? 1 : 0);
+        PlayerPrefs.SetInt("SFXMute", audioManager.sfxSource.mute ? 1 : 0);
+        PlayerPrefs.Save();
+
+        Debug.Log($"Settings saved! BGM: {audioManager.savedBGMVolume}, SFX: {audioManager.savedSFXVolume}");
     }
 
     public void PauseGame()
