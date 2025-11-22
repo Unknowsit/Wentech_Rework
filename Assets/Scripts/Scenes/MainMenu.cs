@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     private AudioManager audioManager;
+    private Animation anim;
 
     private void Start()
     {
         audioManager = AudioManager.instance;
+        anim = GetComponent<Animation>();
     }
 
     public void NewGame()
@@ -17,6 +19,11 @@ public class MainMenu : MonoBehaviour
     }
 
     public void Setting()
+    {
+        audioManager.PlaySFX("SFX04");
+    }
+
+    public void SoundButtotInTutorial()
     {
         audioManager.PlaySFX("SFX04");
     }
@@ -37,4 +44,6 @@ public class MainMenu : MonoBehaviour
         audioManager.PlaySFX("SFX04");
         Application.Quit();
     }
+
+
 }

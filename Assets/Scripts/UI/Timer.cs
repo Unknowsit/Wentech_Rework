@@ -44,7 +44,7 @@ public class Timer : MonoBehaviour
 
     private void PlayWarningMusic()
     {
-        audioManager.PlaySFX("SFXA");
+        audioManager.PlaySFX("SFX07");
         isWarningPlaying = true;
     }
 
