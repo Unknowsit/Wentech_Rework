@@ -3,14 +3,20 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     public bool isCounting = true;
+    private bool isWarningPlaying = false;
 
-    private UIManager ui;
+    [Header("Warning Settings")]
+    [SerializeField] private float warningThreshold = 10f;
+
+    private AudioManager audioManager;
     private GameManager gameManager;
+    private UIManager ui;
 
     private void Start()
     {
-        ui = UIManager.instance;
+        audioManager = AudioManager.instance;
         gameManager = GameManager.instance;
+        ui = UIManager.instance;
 
         ui._ProgressBar.maxValue = ui.RemainingTime;
         ui._ProgressBar.value = ui.RemainingTime;
@@ -24,11 +30,28 @@ public class Timer : MonoBehaviour
         {
             ui.RemainingTime = Mathf.Max(0, ui.RemainingTime - Time.deltaTime);
             ui._ProgressBar.value = ui.RemainingTime;
+
+            if (ui.RemainingTime <= warningThreshold && !isWarningPlaying)
+            {
+                PlayWarningMusic();
+            }
         }
         else if (ui.RemainingTime == 0)
         {
             ForceShoot();
         }
+    }
+
+    private void PlayWarningMusic()
+    {
+        audioManager.PlaySFX("SFXA");
+        isWarningPlaying = true;
+    }
+
+    public void StopWarningMusic()
+    {
+        audioManager.sfxSource.Stop();
+        isWarningPlaying = false;
     }
 
     private void ForceShoot()

@@ -12,6 +12,9 @@ public class CannonShooter : MonoBehaviour
     [SerializeField] private Transform vfxSpawnPos;
     [SerializeField] private bool vfxAutoDestroy = true;
 
+    [Header("Component Reference")]
+    [SerializeField] private Timer timer;
+
     private Camera cam;
 
     private void Awake()
@@ -31,6 +34,7 @@ public class CannonShooter : MonoBehaviour
 
     public void Shoot()
     {
+        timer.StopWarningMusic();
 #if UNITY_ANDROID
         UIManager.instance.ShootButton.SetActive(false);
         Vector2 direction = (Vector2)transform.right;
