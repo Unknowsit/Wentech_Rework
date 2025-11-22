@@ -4,26 +4,36 @@ using UnityEngine.UI;
 public class ToggleChecker : MonoBehaviour
 {
     public Toggle[] toggles;        // จำนวน toggle ที่ใช้เช็ค
-    public GameObject objectA;      // เปิดจากปุ่ม
+    public GameObject objectA;      // เปิด/ปิดจากปุ่ม
     public GameObject objectB;      // อัปเดต realtime
 
     // เรียกจาก Button
     public void ToggleObjectA()
     {
-        objectA.SetActive(!objectA.activeSelf);
+        if (objectA != null)
+            objectA.SetActive(!objectA.activeSelf);
     }
 
-    public void Delects()
+    // ปุ่มลบ Object B
+    public void DeleteObjectB()
     {
-        Destroy(objectB);
+        if (objectB != null)
+        {
+            Destroy(objectB);
+            objectB = null;  // กัน error ใน Update
+        }
     }
 
     void Update()
     {
-        int count = 0;
+        if (objectB == null) return; // objectB ถูกลบแล้ว ไม่ต้องทำต่อ
 
+        int count = 0;
         foreach (var t in toggles)
-            if (t.isOn) count++;
+        {
+            if (t != null && t.isOn)
+                count++;
+        }
 
         // objectB อัปเดตแบบ realtime
         objectB.SetActive(count > 1);
