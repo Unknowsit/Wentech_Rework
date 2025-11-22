@@ -5,7 +5,8 @@ public class ToggleChecker : MonoBehaviour
 {
     public Toggle[] toggles;        // จำนวน toggle ที่ใช้เช็ค
     public GameObject objectA;      // เปิด/ปิดจากปุ่ม
-    public GameObject objectB;      // อัปเดต realtime
+    public GameObject objectB;      // อัปเดต realtime (count > 1)
+    public GameObject objectC;      // เปิดเมื่อ count == 1
 
     // เรียกจาก Button
     public void ToggleObjectA()
@@ -23,11 +24,17 @@ public class ToggleChecker : MonoBehaviour
             objectB = null;  // กัน error ใน Update
         }
     }
+    public void DeleteObjectC()
+    {
+        if (objectC != null)
+        {
+            Destroy(objectC);
+            objectC = null;  // กัน error ใน Update
+        }
+    }
 
     void Update()
     {
-        if (objectB == null) return; // objectB ถูกลบแล้ว ไม่ต้องทำต่อ
-
         int count = 0;
         foreach (var t in toggles)
         {
@@ -35,7 +42,17 @@ public class ToggleChecker : MonoBehaviour
                 count++;
         }
 
-        // objectB อัปเดตแบบ realtime
-        objectB.SetActive(count > 1);
+        // --------------------------
+        // ObjectB: เปิดเมื่อ count > 1
+        // --------------------------
+        if (objectB != null)
+            objectB.SetActive(count > 1);
+
+        // --------------------------
+        // ObjectC: เปิดเมื่อ count == 1
+        // ปิดเมื่อ count != 1 (รวม 0 และ 2)
+        // --------------------------
+        if (objectC != null)
+            objectC.SetActive(count == 1);
     }
 }
