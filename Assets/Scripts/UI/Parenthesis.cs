@@ -7,8 +7,16 @@ public class Parenthesis : MonoBehaviour
 {
     [Header("Parenthesis Button")]
     [SerializeField] private Button parenthesisButton;
-    [SerializeField] private TextMeshProUGUI parenthesisText;
+    //[SerializeField] private TextMeshProUGUI parenthesisText;
     [SerializeField] private Image parenthesisImage;
+    [SerializeField] private Image parenthesisBackground;
+
+    [Header("Parenthesis Sprites")]
+    [SerializeField] private Sprite parenthesisNone;
+    [SerializeField] private Sprite parenthesisOpen;
+    [SerializeField] private Sprite parenthesisDoubleOpen;
+    [SerializeField] private Sprite parenthesisClose;
+    [SerializeField] private Sprite parenthesisDoubleClose;
 
     [Header("Parenthesis Colors")]
     [SerializeField] private Color noneColor = new Color(0.5f, 0.5f, 0.5f, 0.8f);
@@ -185,24 +193,29 @@ public class Parenthesis : MonoBehaviour
         switch (currentType)
         {
             case ParenthesisType.None:
-                parenthesisText.text = "X";
-                parenthesisImage.color = noneColor;
+                //parenthesisText.text = "X";
+                parenthesisImage.sprite = parenthesisNone;
+                parenthesisBackground.color = noneColor;
                 break;
             case ParenthesisType.Open:
-                parenthesisText.text = "(";
-                parenthesisImage.color = openColor;
+                //parenthesisText.text = "(";
+                parenthesisImage.sprite = parenthesisOpen;
+                parenthesisBackground.color = openColor;
                 break;
             case ParenthesisType.Close:
-                parenthesisText.text = ")";
-                parenthesisImage.color = closeColor;
+                //parenthesisText.text = ")";
+                parenthesisImage.sprite = parenthesisClose;
+                parenthesisBackground.color = closeColor;
                 break;
             case ParenthesisType.DoubleOpen:
-                parenthesisText.text = "((";
-                parenthesisImage.color = openColor;
+                //parenthesisText.text = "((";
+                parenthesisImage.sprite = parenthesisDoubleOpen;
+                parenthesisBackground.color = openColor;
                 break;
             case ParenthesisType.DoubleClose:
-                parenthesisText.text = "))";
-                parenthesisImage.color = closeColor;
+                //parenthesisText.text = "))";
+                parenthesisImage.sprite = parenthesisDoubleClose;
+                parenthesisBackground.color = closeColor;
                 break;
         }
     }
@@ -211,7 +224,7 @@ public class Parenthesis : MonoBehaviour
     {
         if (isError)
         {
-            parenthesisImage.color = errorColor;
+            parenthesisBackground.color = errorColor;
         }
         else
         {
