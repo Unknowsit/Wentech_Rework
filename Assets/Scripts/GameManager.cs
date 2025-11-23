@@ -293,7 +293,8 @@ public class GameManager : MonoBehaviour
             p1 = float.Parse(playerInputText.text);
             p1HasAnswered = HasAnswer(p1);
             //Debug.Log($"[P1] Answer: {p1}, HasBalloon: {PlayerHasBalloon()}, p1HasAnswered: {p1HasAnswered}");
-            uiManager.ResultP1Text.text = $"{p1.ToString()}";
+            //uiManager.ResultP1Text.text = $"{p1.ToString()}";
+            uiManager.ResultP1Text.text = NumberFormatter.FormatSmart(p1);
             playerText.text = "P2";
         }
         else
@@ -302,7 +303,8 @@ public class GameManager : MonoBehaviour
             p2HasAnswered = HasAnswer(p2);
             //Debug.Log($"[P2] Answer: {p2}, HasBalloon: {PlayerHasBalloon()}, p2HasAnswered: {p2HasAnswered}");
             //Debug.Log($"[CountScore] Calling with P1:{p1} ({p1HasAnswered}), P2:{p2} ({p2HasAnswered})");
-            uiManager.ResultP2Text.text = $"{p2.ToString()}";
+            //uiManager.ResultP2Text.text = $"{p2.ToString()}";
+            uiManager.ResultP2Text.text = NumberFormatter.FormatSmart(p2);
             playerText.text = "P1";
             uiManager.CountScore(p1, p2, p1HasAnswered, p2HasAnswered);
 
@@ -437,8 +439,11 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        targetText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
-        objectiveText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+        //targetText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+        //objectiveText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+
+        targetText.text = hasDivide ? NumberFormatter.FormatWithCommas(sum, 2) : NumberFormatter.FormatWithCommas((int)sum);
+        objectiveText.text = hasDivide ? NumberFormatter.FormatWithCommas(sum, 2) : NumberFormatter.FormatWithCommas((int)sum);
 
 #if UNITY_EDITOR
         if (mode == OperatorMode.Divide)
@@ -490,8 +495,11 @@ public class GameManager : MonoBehaviour
 
         float sum = EvaluateSequence(sequence);
 
-        targetText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
-        objectiveText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+        //targetText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+        //objectiveText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+
+        targetText.text = hasDivide ? NumberFormatter.FormatWithCommas(sum, 2) : NumberFormatter.FormatWithCommas((int)sum);
+        objectiveText.text = hasDivide ? NumberFormatter.FormatWithCommas(sum, 2) : NumberFormatter.FormatWithCommas((int)sum);
 
         Debug.Log($"Expression: {resultText} = {(hasDivide ? sum.ToString("F2") : sum.ToString())}");
     }
@@ -696,7 +704,8 @@ public class GameManager : MonoBehaviour
                         }
                     }
                 }
-                totalText.text = sum.ToString();
+                //totalText.text = sum.ToString();
+                totalText.text = NumberFormatter.FormatWithCommas(sum);
                 break;
 
             case OperatorMode.Minus:
@@ -713,7 +722,8 @@ public class GameManager : MonoBehaviour
                         }
                     }
                 }
-                totalText.text = sum.ToString();
+                //totalText.text = sum.ToString();
+                totalText.text = NumberFormatter.FormatWithCommas(sum);
                 break;
 
             case OperatorMode.Multiply:
@@ -735,7 +745,8 @@ public class GameManager : MonoBehaviour
                         }
                     }
                     sum = hasBalloon ? sumMultiply : 0;
-                    totalText.text = sum.ToString();
+                    //totalText.text = sum.ToString();
+                    totalText.text = NumberFormatter.FormatWithCommas(sum);
                     break;
                 }
 
@@ -758,7 +769,8 @@ public class GameManager : MonoBehaviour
                             }
                         }
                     }
-                    totalText.text = firstFound ? sumDivide.ToString("F2") : "0.00";
+                    //totalText.text = firstFound ? sumDivide.ToString("F2") : "0.00";
+                    totalText.text = firstFound ? NumberFormatter.FormatWithCommas(sumDivide, 2) : "0.00";
                     break;
                 }
         }
@@ -891,7 +903,8 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log($"Final sum: {sum}");
-        totalText.text = hasValue ? (hasDivide ? sum.ToString("F2") : sum.ToString()) : "0";
+        //totalText.text = hasValue ? (hasDivide ? sum.ToString("F2") : sum.ToString()) : "0";
+        totalText.text = hasValue ? (hasDivide ? NumberFormatter.FormatWithCommas(sum, 2) : NumberFormatter.FormatWithCommas((int)sum)) : "0";
     }
 
     private void UpdateBalloonSumMultiModeWithParentheses(TextMeshProUGUI totalText)
@@ -918,7 +931,8 @@ public class GameManager : MonoBehaviour
         }
 
         float sum = EvaluateExpressionWithParentheses(sequence);
-        totalText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+        //totalText.text = hasDivide ? sum.ToString("F2") : sum.ToString();
+        totalText.text = hasDivide ? NumberFormatter.FormatWithCommas(sum, 2) : NumberFormatter.FormatWithCommas((int)sum);
     }
 
     private bool IsParenthesesBalanced(List<object> sequence)

@@ -279,8 +279,11 @@ public class UIManager : MonoBehaviour
         int finalScoreP1 = scoreP1;
         int finalScoreP2 = scoreP2;
 
-        p1ScoreText.text = finalScoreP1.ToString();
-        p2ScoreText.text = finalScoreP2.ToString();
+        //p1ScoreText.text = finalScoreP1.ToString();
+        //p2ScoreText.text = finalScoreP2.ToString();
+
+        p1ScoreText.text = NumberFormatter.FormatWithCommas(finalScoreP1);
+        p2ScoreText.text = NumberFormatter.FormatWithCommas(finalScoreP2);
 
         audioManager.PlayAmbient("ABS02");
 
@@ -397,8 +400,11 @@ public class UIManager : MonoBehaviour
 
         //Debug.Log($"[CountScore] Total Score - P1:{this.scoreP1}, P2:{this.scoreP2}");
 
-        scoreP1Text.text = this.scoreP1.ToString();
-        scoreP2Text.text = this.scoreP2.ToString();
+        //scoreP1Text.text = this.scoreP1.ToString();
+        //scoreP2Text.text = this.scoreP2.ToString();
+
+        scoreP1Text.text = NumberFormatter.FormatWithCommas(this.scoreP1);
+        scoreP2Text.text = NumberFormatter.FormatWithCommas(this.scoreP2);
 
         AddScoreHistory(currentRound, p1, scoreP1, p2, scoreP2, current);
         currentRound++;
@@ -412,13 +418,15 @@ public class UIManager : MonoBehaviour
         GameObject p1History = Instantiate(scoreHistoryPrefab, p1HistoryContent);
         TextMeshProUGUI p1Text = p1History.GetComponent<TextMeshProUGUI>();
 
-        p1Text.text = $"Round {round}\nScore : +{p1Score}\nTarget : {target}\nAnswer : {p1Answer}";
+        //p1Text.text = $"Round {round}\nScore : +{p1Score}\nTarget : {target}\nAnswer : {p1Answer}";
+        p1Text.text = $"Round {round}\nScore : +{NumberFormatter.FormatWithCommas(p1Score)}\nTarget : {NumberFormatter.FormatSmart(target)}\nAnswer : {NumberFormatter.FormatSmart(p1Answer)}";
 
         // Player 2 History
         GameObject p2History = Instantiate(scoreHistoryPrefab, p2HistoryContent);
         TextMeshProUGUI p2Text = p2History.GetComponent<TextMeshProUGUI>();
 
-        p2Text.text = $"Round {round}\nScore : +{p2Score}\nTarget : {target}\nAnswer : {p2Answer}";
+        //p2Text.text = $"Round {round}\nScore : +{p2Score}\nTarget : {target}\nAnswer : {p2Answer}";
+        p2Text.text = $"Round {round}\nScore : +{NumberFormatter.FormatWithCommas(p2Score)}\nTarget : {NumberFormatter.FormatSmart(target)}\nAnswer : {NumberFormatter.FormatSmart(p2Answer)}";
     }
 
     private IEnumerator ClearResultTexts()
