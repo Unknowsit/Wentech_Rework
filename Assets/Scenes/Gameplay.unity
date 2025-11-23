@@ -6565,7 +6565,7 @@ MonoBehaviour:
   targetText: {fileID: 546067631}
   roundText: {fileID: 1344540275}
   _progressBar: {fileID: 1678100011}
-  remainingTime: 20
+  remainingTime: 60
   singleModePanel: {fileID: 1875996110}
   totalText: {fileID: 1782179549}
   submitButton: {fileID: 1367298436}

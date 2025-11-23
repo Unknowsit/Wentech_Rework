@@ -31,6 +31,7 @@ public class MainMenu : MonoBehaviour
     public void Tutorial()
     {
         audioManager.PlaySFX("SFX04");
+        SceneManager.LoadSceneAsync("Tutorial");
     }
 
     public void Back()

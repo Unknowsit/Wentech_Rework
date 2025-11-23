@@ -17511,7 +17511,7 @@ MonoBehaviour:
   parenthesisToggle: {fileID: 924706356}
   parenthesisPanel: {fileID: 950948096}
   selectedModesText: {fileID: 1748716300}
-  confirmButton: {fileID: 0}
+  confirmButton: {fileID: 898660132}
   delayTime: 1.3
 --- !u!114 &980784955
 MonoBehaviour:
@@ -18756,7 +18756,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1047935116
 MonoBehaviour:
@@ -18778,7 +18778,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: -178849255, guid: dd94b2e270f799d428ca1ae56f8046f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19292,7 +19292,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 1750341277904360825, guid: f23aec0624ad3454091d64f08a71b02a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -19301,7 +19301,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.1
+  m_PixelsPerUnitMultiplier: 2
 --- !u!222 &1085445387
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20150,7 +20150,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 1750341277904360825, guid: f23aec0624ad3454091d64f08a71b02a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20159,7 +20159,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.1
+  m_PixelsPerUnitMultiplier: 2
 --- !u!222 &1134028201
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31461,7 +31461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1691427811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36334,7 +36334,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1957144794
 MonoBehaviour:
@@ -36356,7 +36356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: -178849255, guid: dd94b2e270f799d428ca1ae56f8046f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
