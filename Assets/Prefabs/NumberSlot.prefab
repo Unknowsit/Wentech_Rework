@@ -365,5 +365,5 @@ MonoBehaviour:
   parenthesisDoubleClose: {fileID: 21300000, guid: d61c64b05259eea4aa7bb306604049c3, type: 3}
   noneColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.8}
   openColor: {r: 0, g: 0.5283019, b: 0, a: 0.8}
-  closeColor: {r: 0.5471698, g: 0.2746578, b: 0, a: 0.8}
+  closeColor: {r: 0, g: 0.5294118, b: 0, a: 0.8}
   errorColor: {r: 0.49056602, g: 0, b: 0, a: 0.8}

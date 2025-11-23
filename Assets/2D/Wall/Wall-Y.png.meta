@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8d2b018da6b8c5b4a90b7d2343fd92db
+guid: 860cd6fb90db6f14abfed3818e5c0971
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8727193593822486383
-    second: UI-011_0
+      213: -499883928709142528
+    second: Wall-Y_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,12 +46,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  alignment: 9
+  spritePivot: {x: 0.5, y: 0.2801673}
+  spritePixelsToUnits: 170
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI-011_0
+      name: Wall-Y_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1000
-        height: 200
+        width: 293
+        height: 158
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6f9addb5583d1970800000000000000
-      internalID: 8727193593822486383
+      spriteID: 0086d50273e0019f0800000000000000
+      internalID: -499883928709142528
       vertices: []
       indices: 
       edges: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UI-011_0: 8727193593822486383
+      Wall-Y_0: -499883928709142528
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
