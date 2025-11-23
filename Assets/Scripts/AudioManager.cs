@@ -107,21 +107,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void StopSFX(string name)
-    {
-        AudioData audioData = Array.Find(sfxData, element => element.audioName == name);
-
-        if (audioData == null)
-        {
-            Debug.Log("SFX source not found");
-        }
-        else
-        {
-            StartCoroutine(FadeOut(sfxSource, 2f));
-            //sfxSource.Stop();
-        }
-    }
-
     public void PlayAmbient(string name)
     {
         AudioData audioData = Array.Find(ambData, element => element.audioName == name);
