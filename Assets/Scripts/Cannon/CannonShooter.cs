@@ -37,16 +37,18 @@ public class CannonShooter : MonoBehaviour
         timer.StopWarningMusic();
 #if UNITY_ANDROID
         UIManager.instance.ShootButton.SetActive(false);
-        Vector2 direction = (Vector2)transform.right;
 #elif UNITY_STANDALONE || UNITY_EDITOR
-        Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = mousePos - (Vector2)bulletSpawnPos.position;
+        //Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        //Vector2 direction = mousePos - (Vector2)bulletSpawnPos.position;
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+
         if (hit.collider != null && hit.collider.CompareTag("Box"))
             return;
 #endif
+        Vector2 direction = (Vector2)transform.right;
+
         AudioManager.instance.PlaySFX("SFX01");
         GameManager.instance.timer.isCounting = false;
         Bullet bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
