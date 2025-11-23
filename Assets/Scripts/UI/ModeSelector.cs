@@ -192,14 +192,20 @@ public class ModeSelector : MonoBehaviour
     public void OnConfirmButtonClicked()
     {
         audioManager.PlaySFX("SFX04");
-        StartCoroutine(TransitionToNextScene(delayTime));
+        StartCoroutine(TransitionToNextScene(delayTime, "Gameplay"));
     }
 
-    private IEnumerator TransitionToNextScene(float delayTime)
+    public void OnConfirmToTutorial()
+    {
+        audioManager.PlaySFX("SFX04");
+        StartCoroutine(TransitionToNextScene(delayTime, "NameHere"));
+    }
+
+    private IEnumerator TransitionToNextScene(float delayTime, string sceneName)
     {
         UIController.instance.loadingCover.SetActive(true);
         StartCoroutine(audioManager.FadeOut(audioManager.bgmSource, delayTime));
         yield return new WaitForSeconds(delayTime);
-        SceneManager.LoadScene("Gameplay");
+        SceneManager.LoadScene(sceneName);
     }
 }

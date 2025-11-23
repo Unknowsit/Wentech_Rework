@@ -973,14 +973,26 @@ public class GameManager : MonoBehaviour
     {
         if (!GameData.ShouldUseParentheses() || numberSlots == null) return;
 
-        int openCount = 0;
-        bool hasError = false;
-
         foreach (var slot in numberSlots)
         {
             if (slot == null) continue;
 
             Parenthesis parenthesis = slot.GetComponent<Parenthesis>();
+
+            if (parenthesis != null)
+            {
+                parenthesis.SetErrorState(false);
+            }
+        }
+
+        Stack<int> openStack = new Stack<int>();
+        List<int> errorIndices = new List<int>();
+
+        for (int i = 0; i < numberSlots.Length; i++)
+        {
+            if (numberSlots[i] == null) continue;
+
+            Parenthesis parenthesis = numberSlots[i].GetComponent<Parenthesis>();
 
             if (parenthesis == null) continue;
 
@@ -988,69 +1000,71 @@ public class GameManager : MonoBehaviour
 
             if (type == ParenthesisType.Open)
             {
-                openCount++;
+                openStack.Push(i);
             }
             else if (type == ParenthesisType.DoubleOpen)
             {
-                openCount += 2;
+                openStack.Push(i);
+                openStack.Push(i);
             }
             else if (type == ParenthesisType.Close)
             {
-                openCount--;
-
-                if (openCount < 0)
+                if (openStack.Count > 0)
                 {
-                    hasError = true;
-                    parenthesis.SetErrorState(true);
+                    openStack.Pop();
                 }
                 else
                 {
-                    parenthesis.SetErrorState(false);
+                    if (!errorIndices.Contains(i))
+                    {
+                        errorIndices.Add(i);
+                    }
                 }
             }
             else if (type == ParenthesisType.DoubleClose)
             {
-                openCount -= 2;
-
-                if (openCount < 0)
+                if (openStack.Count >= 2)
                 {
-                    hasError = true;
-                    parenthesis.SetErrorState(true);
+                    openStack.Pop();
+                    openStack.Pop();
+                }
+                else if (openStack.Count == 1)
+                {
+                    openStack.Pop();
+
+                    if (!errorIndices.Contains(i))
+                    {
+                        errorIndices.Add(i);
+                    }
                 }
                 else
                 {
-                    parenthesis.SetErrorState(false);
+                    if (!errorIndices.Contains(i))
+                    {
+                        errorIndices.Add(i);
+                    }
                 }
             }
         }
 
-        if (openCount != 0)
+        while (openStack.Count > 0)
         {
-            hasError = true;
+            int unclosedIndex = openStack.Pop();
 
-            foreach (var slot in numberSlots)
+            if (!errorIndices.Contains(unclosedIndex))
             {
-                if (slot == null) continue;
-
-                Parenthesis parenthesis = slot.GetComponent<Parenthesis>();
-
-                if (parenthesis != null && (parenthesis.CurrentType == ParenthesisType.Open || parenthesis.CurrentType == ParenthesisType.DoubleOpen))
-                {
-                    parenthesis.SetErrorState(true);
-                }
+                errorIndices.Add(unclosedIndex);
             }
         }
-        else if (!hasError)
+
+        foreach (int errorIndex in errorIndices)
         {
-            foreach (var slot in numberSlots)
+            if (errorIndex >= 0 && errorIndex < numberSlots.Length && numberSlots[errorIndex] != null)
             {
-                if (slot == null) continue;
-
-                Parenthesis parenthesis = slot.GetComponent<Parenthesis>();
-
+                Parenthesis parenthesis = numberSlots[errorIndex].GetComponent<Parenthesis>();
                 if (parenthesis != null)
                 {
-                    parenthesis.SetErrorState(false);
+                    parenthesis.SetErrorState(true);
                 }
             }
         }
