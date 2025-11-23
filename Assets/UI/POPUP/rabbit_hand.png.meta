@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8d2b018da6b8c5b4a90b7d2343fd92db
+guid: fdb5acedd0d24ae4caff324fb8ba7e2b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8727193593822486383
-    second: UI-011_0
+      213: -2191975900285296562
+    second: rabbit_hand_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,30 +109,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI-011_0
+      name: rabbit_hand_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1000
-        height: 200
+        width: 179
+        height: 92
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6f9addb5583d1970800000000000000
-      internalID: 8727193593822486383
+      spriteID: e40274348898491e0800000000000000
+      internalID: -2191975900285296562
       vertices: []
       indices: 
       edges: []
@@ -160,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      UI-011_0: 8727193593822486383
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
