@@ -316,7 +316,7 @@ public class UIManager : MonoBehaviour
         audioManager.ambSource.Stop();
         audioManager.PlaySFX("SFX04");
         StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
-        SceneManager.LoadSceneAsync("Operators");
+        SceneManager.LoadSceneAsync("Mainmenu");
     }
 
 #if UNITY_ANDROID

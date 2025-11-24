@@ -18796,7 +18796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6b5c3d88c48eb449021604b02b82a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 845631287}
+  controller: {fileID: 0}
   oneShotDropdown: {fileID: 1630083417}
   trailDropdown: {fileID: 1891933173}
   oneShotOptions:
@@ -18822,7 +18822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6b5c3d88c48eb449021604b02b82a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 845631287}
+  controller: {fileID: 0}
   oneShotDropdown: {fileID: 931435449}
   trailDropdown: {fileID: 291976882}
   oneShotOptions:
