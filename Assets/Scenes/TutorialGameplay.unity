@@ -11525,7 +11525,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1895313405}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: SFXVolume
         m_Mode: 1
@@ -23352,7 +23352,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1895313405}
         m_TargetAssemblyTypeName: UIController, Assembly-CSharp
         m_MethodName: BGMVolume
         m_Mode: 1
