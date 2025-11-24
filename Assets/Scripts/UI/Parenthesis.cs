@@ -18,10 +18,17 @@ public class Parenthesis : MonoBehaviour
     [SerializeField] private Sprite parenthesisClose;
     [SerializeField] private Sprite parenthesisDoubleClose;
 
+    [Header("Parenthesis Backgrounds")]
+    [SerializeField] private Sprite noneSprite;
+    [SerializeField] private Sprite correctSprite;
+    [SerializeField] private Sprite errorSprite;
+
+    /*
     [Header("Parenthesis Colors")]
     [SerializeField] private Color noneColor = new Color(0.5f, 0.5f, 0.5f, 0.8f);
     [SerializeField] private Color correctColor = new Color(0f, 1f, 0f, 0.8f);
     [SerializeField] private Color errorColor = new Color(1f, 0f, 0f, 0.8f);
+    */
 
     private ParenthesisType currentType = ParenthesisType.None;
     private GameManager gameManager;
@@ -194,27 +201,27 @@ public class Parenthesis : MonoBehaviour
             case ParenthesisType.None:
                 //parenthesisText.text = "X";
                 parenthesisImage.sprite = parenthesisNone;
-                parenthesisBackground.color = noneColor;
+                parenthesisBackground.sprite = noneSprite;
                 break;
             case ParenthesisType.Open:
                 //parenthesisText.text = "(";
                 parenthesisImage.sprite = parenthesisOpen;
-                parenthesisBackground.color = correctColor;
+                parenthesisBackground.sprite = correctSprite;
                 break;
             case ParenthesisType.Close:
                 //parenthesisText.text = ")";
                 parenthesisImage.sprite = parenthesisClose;
-                parenthesisBackground.color = correctColor;
+                parenthesisBackground.sprite = correctSprite;
                 break;
             case ParenthesisType.DoubleOpen:
                 //parenthesisText.text = "((";
                 parenthesisImage.sprite = parenthesisDoubleOpen;
-                parenthesisBackground.color = correctColor;
+                parenthesisBackground.sprite = correctSprite;
                 break;
             case ParenthesisType.DoubleClose:
                 //parenthesisText.text = "))";
                 parenthesisImage.sprite = parenthesisDoubleClose;
-                parenthesisBackground.color = correctColor;
+                parenthesisBackground.sprite = correctSprite;
                 break;
         }
     }
@@ -223,7 +230,7 @@ public class Parenthesis : MonoBehaviour
     {
         if (isError)
         {
-            parenthesisBackground.color = errorColor;
+            parenthesisBackground.sprite = errorSprite;
         }
         else
         {
