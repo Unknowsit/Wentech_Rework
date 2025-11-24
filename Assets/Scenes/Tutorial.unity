@@ -18779,8 +18779,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05371e5a9f676b4db774242b6a0c540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bgmSlider: {fileID: 0}
-  _sfxSlider: {fileID: 0}
+  _bgmSlider: {fileID: 1832896763}
+  _sfxSlider: {fileID: 2126907635}
   delayTime: 1
   loadingCover: {fileID: 1513164992}
   blackoutScreen: {fileID: 1513164993}
@@ -18796,9 +18796,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6b5c3d88c48eb449021604b02b82a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
-  oneShotDropdown: {fileID: 0}
-  trailDropdown: {fileID: 0}
+  controller: {fileID: 845631287}
+  oneShotDropdown: {fileID: 1630083417}
+  trailDropdown: {fileID: 1891933173}
   oneShotOptions:
   - {fileID: 315143911068011120, guid: 4e31153842dd32049b41e3f1db22ef73, type: 3}
   - {fileID: 2041370504997863635, guid: 160a0c9c3c439b348a56be686e89b26f, type: 3}
@@ -18823,8 +18823,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 845631287}
-  oneShotDropdown: {fileID: 0}
-  trailDropdown: {fileID: 0}
+  oneShotDropdown: {fileID: 931435449}
+  trailDropdown: {fileID: 291976882}
   oneShotOptions:
   - {fileID: 315143911068011120, guid: 4e31153842dd32049b41e3f1db22ef73, type: 3}
   - {fileID: 2041370504997863635, guid: 160a0c9c3c439b348a56be686e89b26f, type: 3}
