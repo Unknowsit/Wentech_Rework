@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -363,7 +363,6 @@ MonoBehaviour:
   parenthesisDoubleOpen: {fileID: 21300000, guid: 742b9bc1c6441f74788e793a60531ec8, type: 3}
   parenthesisClose: {fileID: 21300000, guid: 5e8dd54f98eacd3438f3141c4ad431f4, type: 3}
   parenthesisDoubleClose: {fileID: 21300000, guid: d61c64b05259eea4aa7bb306604049c3, type: 3}
-  noneColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.8}
-  openColor: {r: 0, g: 0.5283019, b: 0, a: 0.8}
-  closeColor: {r: 0, g: 0.5294118, b: 0, a: 0.8}
-  errorColor: {r: 0.49056602, g: 0, b: 0, a: 0.8}
+  noneSprite: {fileID: 662318977248919053, guid: e738fa1b454650242a51915d889ab1ac, type: 3}
+  correctSprite: {fileID: 6365718262515912701, guid: e2e1f616ecf73c743a064f39613ddc44, type: 3}
+  errorSprite: {fileID: 8166710274925509176, guid: 3b790f3399782a143a152d7a8dac1ba3, type: 3}

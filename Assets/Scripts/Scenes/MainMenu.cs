@@ -1,21 +1,27 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System;
 
 public class MainMenu : MonoBehaviour
 {
     private AudioManager audioManager;
-    private Animation anim;
 
     private void Start()
     {
         audioManager = AudioManager.instance;
-        anim = GetComponent<Animation>();
     }
 
     public void NewGame()
     {
         audioManager.PlaySFX("SFX04");
-        SceneManager.LoadSceneAsync("Operators"); // Transition Screen
+        StartCoroutine(LoadNewGameWithDelay());
+    }
+
+    IEnumerator LoadNewGameWithDelay()
+    {
+        yield return new WaitForSeconds(1f);  
+        SceneManager.LoadSceneAsync("Operators");
     }
 
     public void Setting()
@@ -31,6 +37,12 @@ public class MainMenu : MonoBehaviour
     public void Tutorial()
     {
         audioManager.PlaySFX("SFX04");
+        StartCoroutine(TutorialDelay());
+    }
+
+    IEnumerator TutorialDelay()
+    {
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadSceneAsync("Tutorial");
     }
 
@@ -45,6 +57,4 @@ public class MainMenu : MonoBehaviour
         audioManager.PlaySFX("SFX04");
         Application.Quit();
     }
-
-
 }

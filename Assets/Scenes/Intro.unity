@@ -2758,7 +2758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneName: Mainmenu
-  loadDelayTime: 5
+  loadDelayTime: 3
   audioManager: {fileID: 1971172229}
 --- !u!1 &935756334
 GameObject:
@@ -3561,7 +3561,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1100, y: 1100}
+  m_SizeDelta: {x: 1050, y: 1050}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1194394636
 MonoBehaviour:
@@ -3771,8 +3771,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 550, y: 1000}
+  m_AnchoredPosition: {x: 0, y: 3}
+  m_SizeDelta: {x: 550, y: 1006}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1260728579
 MonoBehaviour:
@@ -6057,6 +6057,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 18972ba4d0c31ca41a11fd31b0761231, type: 2}
   - {fileID: 11400000, guid: c019e912ee6c75a458bc1dd813dd727a, type: 2}
   - {fileID: 11400000, guid: 01bc6dcbce501f14281c3ec1eb9fdb15, type: 2}
+  - {fileID: 11400000, guid: 6a05984bed0475f40935dd730aa2592d, type: 2}
   ambData:
   - {fileID: 11400000, guid: 3e404cd5c79d4434c9e5b91ebd345b1a, type: 2}
   - {fileID: 11400000, guid: 1af524b048442064f92312d275ce97e0, type: 2}

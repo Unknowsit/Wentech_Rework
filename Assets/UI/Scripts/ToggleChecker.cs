@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class ToggleChecker : MonoBehaviour
 {
-    public Toggle[] toggles;        // จำนวน toggle ที่ใช้เช็ค
-    public GameObject objectA;      // เปิด/ปิดจากปุ่ม
-    public GameObject objectB;      // อัปเดต realtime (count > 1)
-    public GameObject objectC;      // เปิดเมื่อ count == 1
+    public Toggle[] toggles;       
+    public GameObject objectA;      
+    public GameObject objectB;    
+    public GameObject objectC;
+    public float ObjectDelayTime = 1.0f;
+    public GameObject objectDelay;
 
-    // เรียกจาก Button
+
     public void ToggleObjectA()
     {
         if (objectA != null)
             objectA.SetActive(!objectA.activeSelf);
     }
 
-    // ปุ่มลบ Object B
+   
     public void DeleteObjectB()
     {
         if (objectB != null)
@@ -33,6 +36,11 @@ public class ToggleChecker : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        StartCoroutine(ObjectDelays(objectDelay));
+    }
+
     void Update()
     {
         int count = 0;
@@ -42,17 +50,16 @@ public class ToggleChecker : MonoBehaviour
                 count++;
         }
 
-        // --------------------------
-        // ObjectB: เปิดเมื่อ count > 1
-        // --------------------------
         if (objectB != null)
             objectB.SetActive(count > 1);
 
-        // --------------------------
-        // ObjectC: เปิดเมื่อ count == 1
-        // ปิดเมื่อ count != 1 (รวม 0 และ 2)
-        // --------------------------
         if (objectC != null)
             objectC.SetActive(count == 1);
+    }
+
+    IEnumerator ObjectDelays(GameObject target)
+    {
+        yield return new WaitForSeconds(ObjectDelayTime);
+        objectDelay.SetActive(true);
     }
 }
