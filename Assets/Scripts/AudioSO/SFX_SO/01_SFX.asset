@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 01_SFX
   m_EditorClassIdentifier: 
   audioName: SFX01
-  clip: {fileID: 8300000, guid: bcce6d7211866ec4e893559716216725, type: 3}
+  clip: {fileID: 8300000, guid: c06de38191ccf404c825a8bdf3ce5c09, type: 3}

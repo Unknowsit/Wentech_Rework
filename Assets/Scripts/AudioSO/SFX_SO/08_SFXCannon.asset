@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 08_SFXCannon
   m_EditorClassIdentifier: 
   audioName: SFX08
-  clip: {fileID: 8300000, guid: ee322eeaa65476a44aee9afe76602e12, type: 3}
+  clip: {fileID: 8300000, guid: 7a52df36032f30640928a1bfa38a35da, type: 3}

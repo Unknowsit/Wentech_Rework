@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 06_SFXHitWall
   m_EditorClassIdentifier: 
   audioName: SFX06
-  clip: {fileID: 8300000, guid: 44d4d63fbe1bb6a42937aaa01912e264, type: 3}
+  clip: {fileID: 8300000, guid: 3546974ed6592d04b8ec1151998c8006, type: 3}
