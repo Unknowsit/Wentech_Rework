@@ -313,6 +313,7 @@ public class UIManager : MonoBehaviour
     public void OnExitButtonClicked()
     {
         exitButton.interactable = false;
+        audioManager.ambSource.Stop();
         audioManager.PlaySFX("SFX04");
         StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
         SceneManager.LoadSceneAsync("Operators");

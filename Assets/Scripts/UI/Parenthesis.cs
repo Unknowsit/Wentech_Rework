@@ -20,8 +20,7 @@ public class Parenthesis : MonoBehaviour
 
     [Header("Parenthesis Colors")]
     [SerializeField] private Color noneColor = new Color(0.5f, 0.5f, 0.5f, 0.8f);
-    [SerializeField] private Color openColor = new Color(0f, 1f, 0f, 0.8f);
-    [SerializeField] private Color closeColor = new Color(1f, 0.5f, 0f, 0.8f);
+    [SerializeField] private Color correctColor = new Color(0f, 1f, 0f, 0.8f);
     [SerializeField] private Color errorColor = new Color(1f, 0f, 0f, 0.8f);
 
     private ParenthesisType currentType = ParenthesisType.None;
@@ -200,22 +199,22 @@ public class Parenthesis : MonoBehaviour
             case ParenthesisType.Open:
                 //parenthesisText.text = "(";
                 parenthesisImage.sprite = parenthesisOpen;
-                parenthesisBackground.color = openColor;
+                parenthesisBackground.color = correctColor;
                 break;
             case ParenthesisType.Close:
                 //parenthesisText.text = ")";
                 parenthesisImage.sprite = parenthesisClose;
-                parenthesisBackground.color = closeColor;
+                parenthesisBackground.color = correctColor;
                 break;
             case ParenthesisType.DoubleOpen:
                 //parenthesisText.text = "((";
                 parenthesisImage.sprite = parenthesisDoubleOpen;
-                parenthesisBackground.color = openColor;
+                parenthesisBackground.color = correctColor;
                 break;
             case ParenthesisType.DoubleClose:
                 //parenthesisText.text = "))";
                 parenthesisImage.sprite = parenthesisDoubleClose;
-                parenthesisBackground.color = closeColor;
+                parenthesisBackground.color = correctColor;
                 break;
         }
     }
@@ -236,8 +235,8 @@ public class Parenthesis : MonoBehaviour
     {
         bool shouldShow = GameData.ShouldUseParentheses();
 
+        parenthesisBackground.gameObject.SetActive(shouldShow);
         parenthesisButton.gameObject.SetActive(shouldShow);
-        enabled = shouldShow;
 
         if (!shouldShow)
         {
