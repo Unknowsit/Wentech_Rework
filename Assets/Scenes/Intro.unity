@@ -6057,6 +6057,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 18972ba4d0c31ca41a11fd31b0761231, type: 2}
   - {fileID: 11400000, guid: c019e912ee6c75a458bc1dd813dd727a, type: 2}
   - {fileID: 11400000, guid: 01bc6dcbce501f14281c3ec1eb9fdb15, type: 2}
+  - {fileID: 11400000, guid: f1a6a77dcee66e041b2bf4929f7ac2e5, type: 2}
+  - {fileID: 11400000, guid: 6cdf91219c1f3cf42b4b4e5686f33ad2, type: 2}
   - {fileID: 11400000, guid: 6a05984bed0475f40935dd730aa2592d, type: 2}
   ambData:
   - {fileID: 11400000, guid: 3e404cd5c79d4434c9e5b91ebd345b1a, type: 2}

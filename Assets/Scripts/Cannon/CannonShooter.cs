@@ -49,7 +49,7 @@ public class CannonShooter : MonoBehaviour
 #endif
         Vector2 direction = (Vector2)transform.right;
 
-        AudioManager.instance.PlaySFX("SFX01");
+        AudioManager.instance.PlaySFX("SFX08");
         GameManager.instance.timer.isCounting = false;
         Bullet bullet = Instantiate(bulletPrefab, bulletSpawnPos.position, Quaternion.identity);
         bullet.Shoot(direction.normalized);

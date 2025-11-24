@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: BGM_01
   m_EditorClassIdentifier: 
   audioName: BGM01
-  clip: {fileID: 8300000, guid: 72d9b74ffd80b114ba8c48938be6ebb6, type: 3}
+  clip: {fileID: 8300000, guid: f765487f782587248ab8c16ac01c9dfe, type: 3}

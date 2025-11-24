@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79a962ced6f32af44aa00c1c7a7309a1, type: 3}
-  m_Name: ABG_02
+  m_Name: 08_SFXCannon
   m_EditorClassIdentifier: 
-  audioName: ABS02
-  clip: {fileID: 8300000, guid: 9c93d894301023a41bfd6e8e906a64fe, type: 3}
+  audioName: SFX08
+  clip: {fileID: 8300000, guid: ee322eeaa65476a44aee9afe76602e12, type: 3}

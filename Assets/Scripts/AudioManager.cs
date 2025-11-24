@@ -47,7 +47,7 @@ public class AudioManager : MonoBehaviour
         else if (scene.name == "Mainmenu")
         {
             StartCoroutine(FadeIn(bgmSource, 3f));
-            PlayBGM("BGM01");
+            PlayBGM("BGM03");
 
             if (ambSource != null) ambSource.Stop();
         }
@@ -58,6 +58,7 @@ public class AudioManager : MonoBehaviour
         else if (scene.name == "Gameplay")
         {
             // Code Here
+            PlayBGM("BGM01");
         }
     }
 
