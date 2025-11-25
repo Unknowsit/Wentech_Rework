@@ -316,6 +316,12 @@ public class UIManager : MonoBehaviour
         audioManager.ambSource.Stop();
         audioManager.PlaySFX("SFX04");
         StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
+        StartCoroutine(LoadMainMenuAfterDelay());
+    }
+
+    private IEnumerator LoadMainMenuAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadSceneAsync("Mainmenu");
     }
 

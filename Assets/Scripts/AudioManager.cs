@@ -58,6 +58,7 @@ public class AudioManager : MonoBehaviour
         else if (scene.name == "Gameplay")
         {
             // Code Here
+            StartCoroutine(FadeIn(bgmSource, 3f));
             PlayBGM("BGM01");
         }
     }
@@ -69,6 +70,7 @@ public class AudioManager : MonoBehaviour
 
         bgmSource.volume = savedBGMVolume;
         sfxSource.volume = savedSFXVolume;
+        ambSource.volume = 1.0f;
 
         bool bgmMute = PlayerPrefs.GetInt("BGMMute", 0) == 1;
         bool sfxMute = PlayerPrefs.GetInt("SFXMute", 0) == 1;
@@ -119,6 +121,7 @@ public class AudioManager : MonoBehaviour
         else
         {
             ambSource.clip = audioData.clip;
+            ambSource.volume = 1.0f;
             ambSource.Play();
         }
     }
@@ -147,6 +150,8 @@ public class AudioManager : MonoBehaviour
 
     public IEnumerator FadeIn(AudioSource source, float duration)
     {
+        if (source == ambSource) yield break;
+
         float targetVolume = (source == bgmSource) ? savedBGMVolume : savedSFXVolume;
 
         source.volume = 0f;
@@ -162,6 +167,8 @@ public class AudioManager : MonoBehaviour
 
     public IEnumerator FadeOut(AudioSource source, float duration)
     {
+        if (source == ambSource) yield break;
+
         float startVolume = source.volume;
 
         for (float t = 0; t < duration; t += Time.deltaTime)
