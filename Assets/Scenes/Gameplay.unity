@@ -23478,7 +23478,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: e96dd927581c43343ba9d5da835c679a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 112140c2b08ed474691d6533324a5c56, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -23498,7 +23498,7 @@ Transform:
   m_GameObject: {fileID: 1838464210}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.578, y: -0.763, z: 0}
+  m_LocalPosition: {x: -0.55, y: -0.763, z: 0}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -25741,13 +25741,13 @@ MonoBehaviour:
   cannonTransform: {fileID: 716157972}
   leftCannonPosition: {x: -6.965, y: -3.33, z: 0}
   rightCannonPosition: {x: 6.965, y: -3.33, z: 0}
-  fortressSprite: {fileID: 1415511491}
-  leftCannonSprite: {fileID: 21300000, guid: 6c1638111195b584087bba51db215a6e, type: 3}
-  rightCannonSprite: {fileID: 21300000, guid: a40c401d79603a741ab2dd8b6094d3c3, type: 3}
-  baseSprite: {fileID: 1838464211}
-  leftBaseSprite: {fileID: 21300000, guid: e96dd927581c43343ba9d5da835c679a, type: 3}
-  rightBaseSprite: {fileID: 495399783049071376, guid: b5c6591404a5a1048b6d584c82f32882, type: 3}
   isCannonOnLeft: 1
+  fortressSprite: {fileID: 1415511491}
+  leftCannonSprite: {fileID: 21300000, guid: 567f8bf8f6fe85b489adba958fe5ca67, type: 3}
+  rightCannonSprite: {fileID: 21300000, guid: afe6a7d1dbe2cde4b99aa2110a21a534, type: 3}
+  baseSprite: {fileID: 1838464211}
+  leftBaseSprite: {fileID: 21300000, guid: 112140c2b08ed474691d6533324a5c56, type: 3}
+  rightBaseSprite: {fileID: 21300000, guid: 5083296d9497eb348b7a56425746add9, type: 3}
   shootButtonRect: {fileID: 1136634032}
   shootButtonLeftX: 1554
   shootButtonRightX: -1554
