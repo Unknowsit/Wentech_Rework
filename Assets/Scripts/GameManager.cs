@@ -52,9 +52,6 @@ public class GameManager : MonoBehaviour
     [Header("Spawning Area")]
     public Vector2 areaSize = new Vector2(10f, 5f);
 
-    [Header("Wall Control Setting")]
-    public float rotationSpeed = 50f;
-
     [Header("Cannon Switch Settings")]
     [SerializeField] private Transform cannonTransform;
     [SerializeField] private Vector3 leftCannonPosition = new Vector3(-6.965f, -3.33f, 0f);
@@ -70,6 +67,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpriteRenderer baseSprite;
     [SerializeField] private Sprite leftBaseSprite;
     [SerializeField] private Sprite rightBaseSprite;
+
+    [Header("Wall Control Setting")]
+    public float rotationSpeed = 50f;
 
 #if UNITY_ANDROID || UNITY_EDITOR
     [Header("Android ShootButton")]

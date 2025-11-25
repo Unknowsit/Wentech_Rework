@@ -198,6 +198,7 @@ public class ModeSelector : MonoBehaviour
     public void OnConfirmToTutorial()
     {
         audioManager.PlaySFX("SFX04");
+        StartCoroutine(audioManager.FadeOut(audioManager.bgmSource, delayTime));
         StartCoroutine(TransitionToNextScene(delayTime, "TutorialGameplay"));
     }
 
