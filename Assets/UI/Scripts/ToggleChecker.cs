@@ -24,7 +24,7 @@ public class ToggleChecker : MonoBehaviour
         if (objectB != null)
         {
             Destroy(objectB);
-            objectB = null;  // กัน error ใน Update
+            objectB = null;  
         }
     }
     public void DeleteObjectC()
@@ -32,7 +32,7 @@ public class ToggleChecker : MonoBehaviour
         if (objectC != null)
         {
             Destroy(objectC);
-            objectC = null;  // กัน error ใน Update
+            objectC = null; 
         }
     }
 

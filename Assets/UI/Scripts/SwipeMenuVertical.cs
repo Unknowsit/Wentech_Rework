@@ -3,27 +3,25 @@ using UnityEngine.UI;
 
 public class SwipeMenuVertical : MonoBehaviour
 {
-    public GameObject scrollbar; // ลิงก์ Scrollbar จาก Inspector
+    public GameObject scrollbar; 
     private float scroll_pos = 0;
     private float[] pos;
 
     void Update()
     {
-        // เก็บตำแหน่งของแต่ละ child (ระยะห่างเท่ากัน)
         pos = new float[transform.childCount];
         float distance = 1f / (pos.Length - 1f);
 
         for (int i = 0; i < pos.Length; i++)
             pos[i] = distance * i;
 
-        // รองรับทั้งเมาส์และมือถือ (แตะหน้าจอ)
         if (Input.GetMouseButton(0) || Input.touchCount > 0)
         {
             scroll_pos = scrollbar.GetComponent<Scrollbar>().value;
         }
         else
         {
-            // จัดตำแหน่งให้ล็อกอยู่กับไอเท็มใกล้สุดเมื่อปล่อยนิ้ว
+           
             for (int i = 0; i < pos.Length; i++)
             {
                 if (scroll_pos < pos[i] + (distance / 2) && scroll_pos > pos[i] - (distance / 2))
@@ -34,7 +32,6 @@ public class SwipeMenuVertical : MonoBehaviour
             }
         }
 
-        // ปรับขนาดให้ไอเท็มตรงกลางขยาย
         for (int i = 0; i < pos.Length; i++)
         {
             if (scroll_pos < pos[i] + (distance / 2) && scroll_pos > pos[i] - (distance / 2))
