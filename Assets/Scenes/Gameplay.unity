@@ -25741,9 +25741,12 @@ MonoBehaviour:
   cannonTransform: {fileID: 716157972}
   leftCannonPosition: {x: -6.965, y: -3.33, z: 0}
   rightCannonPosition: {x: 6.965, y: -3.33, z: 0}
-  spriteRenderer: {fileID: 1415511491}
+  fortressSprite: {fileID: 1415511491}
   leftCannonSprite: {fileID: 21300000, guid: 6c1638111195b584087bba51db215a6e, type: 3}
   rightCannonSprite: {fileID: 21300000, guid: a40c401d79603a741ab2dd8b6094d3c3, type: 3}
+  baseSprite: {fileID: 1838464211}
+  leftBaseSprite: {fileID: 21300000, guid: e96dd927581c43343ba9d5da835c679a, type: 3}
+  rightBaseSprite: {fileID: 495399783049071376, guid: b5c6591404a5a1048b6d584c82f32882, type: 3}
   isCannonOnLeft: 1
   shootButtonRect: {fileID: 1136634032}
   shootButtonLeftX: 1554
