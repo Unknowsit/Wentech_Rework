@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -48,6 +48,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform numberBalloonParent;
     [SerializeField] private GameObject operatorBalloonPrefab;
     [SerializeField] private Transform operatorBalloonParent;
+
+    [Header("Step Display")]
+    [SerializeField] private SimpleStepDisplay simpleStepDisplay;
 
     [Header("Spawning Area")]
     public Vector2 areaSize = new Vector2(10f, 5f);
@@ -241,6 +244,24 @@ public class GameManager : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    public NumberSlot[] GetNumberSlots()
+    {
+        return numberSlots;
+    }
+
+    public OperatorSlot[] GetOperatorSlots()
+    {
+        return operatorSlots;
+    }
+
+    public void UpdateStepDisplay()
+    {
+        if (simpleStepDisplay != null && !GameData.IsSingleMode())
+        {
+            simpleStepDisplay.UpdateDisplay();
+        }
     }
 
     private void ResetCounters()
@@ -824,6 +845,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        if (!IsExpressionValid(sequence))
+        {
+            totalText.text = "0";
+            return;
+        }
+
         for (int i = 1; i < sequence.Count - 1; i += 2)
         {
             if (sequence[i] is OperatorMode op && sequence[i - 1] is float left && sequence[i + 1] is float right)
@@ -832,7 +859,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (op == OperatorMode.Divide && Mathf.Approximately(right, 0f))
                     {
-                        Debug.LogWarning($"Division by zero at index {i} � skipping this operation.");
+                        Debug.LogWarning($"Division by zero at index {i} — skipping this operation.");
 
                         sequence.RemoveAt(i + 1);
                         sequence.RemoveAt(i);
@@ -944,7 +971,39 @@ public class GameManager : MonoBehaviour
         totalText.text = hasDivide ? NumberFormatter.FormatWithCommas(sum, 2) : NumberFormatter.FormatWithCommas((int)sum);
     }
 
-    private bool IsParenthesesBalanced(List<object> sequence)
+    public bool IsExpressionValid(List<object> sequence)
+    {
+        if (sequence.Count == 0)
+            return false;
+
+        if (sequence[0] is OperatorMode)
+            return false;
+
+        if (sequence[sequence.Count - 1] is OperatorMode)
+            return false;
+
+        for (int i = 0; i < sequence.Count - 1; i++)
+        {
+            object a = sequence[i];
+            object b = sequence[i + 1];
+
+            if (a is float && b is float)
+                return false;
+
+            if (a is OperatorMode && b is OperatorMode)
+                return false;
+
+            if (a is OperatorMode && !(b is float))
+                return false;
+
+            if (b is OperatorMode && !(a is float))
+                return false;
+        }
+
+        return true;
+    }
+
+    public bool IsParenthesesBalanced(List<object> sequence)
     {
         int openCount = 0;
 

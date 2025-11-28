@@ -178,6 +178,7 @@ public class NumberSlot : MonoBehaviour, IDropHandler
         else
         {
             gameManager.UpdateBalloonSum(uiManager.MultiTotalText);
+            gameManager.UpdateStepDisplay();
         }
     }
 }

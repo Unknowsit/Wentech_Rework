@@ -185,6 +185,7 @@ public class Parenthesis : MonoBehaviour
         UpdateVisual();
         gameManager.ValidateParentheses();
         gameManager.UpdateBalloonSum(UIManager.instance.MultiTotalText);
+        gameManager.UpdateStepDisplay();
         AudioManager.instance.PlaySFX("SFX04");
     }
 

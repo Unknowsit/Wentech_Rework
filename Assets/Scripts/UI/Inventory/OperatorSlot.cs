@@ -180,6 +180,7 @@ public class OperatorSlot : MonoBehaviour, IDropHandler
         else
         {
             gameManager.UpdateBalloonSum(uiManager.MultiTotalText);
+            gameManager.UpdateStepDisplay();
         }
     }
 }
