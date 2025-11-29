@@ -32,12 +32,6 @@ public class SimpleStepDisplay : MonoBehaviour
 
     public void UpdateDisplay()
     {
-        if (GameData.IsSingleMode() || stepTextSlots.Length == 0)
-        {
-            ResetAllTexts();
-            return;
-        }
-
         var numberSlots = gameManager.GetNumberSlots();
         var operatorSlots = gameManager.GetOperatorSlots();
 

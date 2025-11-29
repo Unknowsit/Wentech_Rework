@@ -258,10 +258,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateStepDisplay()
     {
-        if (simpleStepDisplay != null && !GameData.IsSingleMode())
-        {
-            simpleStepDisplay.UpdateDisplay();
-        }
+        simpleStepDisplay.UpdateDisplay();
     }
 
     private void ResetCounters()
@@ -952,6 +949,36 @@ public class GameManager : MonoBehaviour
         }
 
         bool hasDivide = GameData.HasMode(OperatorMode.Divide);
+        List<object> rawSequence = new List<object>();
+
+        for (int i = 0; i < numberSlots.Length; i++)
+        {
+            if (numberSlots[i].HasNumber())
+            {
+                int value = numberSlots[i].GetBalloonValue();
+                rawSequence.Add((float)value);
+            }
+
+            if (operatorSlots != null && i < operatorSlots.Length)
+            {
+                if (operatorSlots[i].HasOperator())
+                {
+                    var op = operatorSlots[i].GetOperatorMode();
+
+                    if (op.HasValue)
+                    {
+                        rawSequence.Add(op.Value);
+                    }
+                }
+            }
+        }
+
+        if (!IsExpressionValid(rawSequence))
+        {
+            totalText.text = "0";
+            return;
+        }
+
         List<object> sequence = BuildSequenceWithParentheses();
 
         if (sequence.Count == 0)
@@ -982,6 +1009,20 @@ public class GameManager : MonoBehaviour
         if (sequence[sequence.Count - 1] is OperatorMode)
             return false;
 
+        int numberCount = 0;
+        int operatorCount = 0;
+
+        foreach (var item in sequence)
+        {
+            if (item is float)
+                numberCount++;
+            else if (item is OperatorMode)
+                operatorCount++;
+        }
+
+        if (operatorCount != numberCount - 1)
+            return false;
+
         for (int i = 0; i < sequence.Count - 1; i++)
         {
             object a = sequence[i];
@@ -991,12 +1032,6 @@ public class GameManager : MonoBehaviour
                 return false;
 
             if (a is OperatorMode && b is OperatorMode)
-                return false;
-
-            if (a is OperatorMode && !(b is float))
-                return false;
-
-            if (b is OperatorMode && !(a is float))
                 return false;
         }
 
@@ -1394,87 +1429,6 @@ public class GameManager : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    /*
-    public void CalculateBalloon()
-    {
-        if (GameData.IsSingleMode())
-        {
-            CalculateBalloonSingleMode();
-        }
-        else
-        {
-            CalculateBalloonMultiMode();
-        }
-    }
-
-    private void CalculateBalloonSingleMode()
-    {
-        int sum = 0;
-        var mode = GameData.GetSingleMode();
-
-        for (int i = 0; i < balloonHitCounts.Count; i++)
-        {
-            switch (mode)
-            {
-                case OperatorMode.Plus:
-                    sum += balloonHitCounts[i];
-                    break;
-                case OperatorMode.Minus:
-                    sum -= balloonHitCounts[i];
-                    break;
-                case OperatorMode.Multiply:
-                    sum *= balloonHitCounts[i];
-                    break;
-                case OperatorMode.Divide:
-                    if (balloonHitCounts[i] != 0)
-                        sum = (i == 0) ? balloonHitCounts[i] : sum / balloonHitCounts[i];
-                    break;
-            }
-        }
-
-        Debug.Log("Player Result: " + sum);
-    }
-
-    private void CalculateBalloonMultiMode()
-    {
-        float sum = 0;
-        bool isFirst = true;
-        int modeIndex = 0;
-
-        for (int i = 0; i < balloonHitCounts.Count; i++)
-        {
-            if (isFirst)
-            {
-                sum = balloonHitCounts[i];
-                isFirst = false;
-                continue;
-            }
-
-            var mode = GameData.SelectedModes[modeIndex % GameData.SelectedModes.Count];
-            modeIndex++;
-
-            switch (mode)
-            {
-                case OperatorMode.Plus:
-                    sum += balloonHitCounts[i];
-                    break;
-                case OperatorMode.Minus:
-                    sum -= balloonHitCounts[i];
-                    break;
-                case OperatorMode.Multiply:
-                    sum *= balloonHitCounts[i];
-                    break;
-                case OperatorMode.Divide:
-                    if (balloonHitCounts[i] != 0)
-                        sum /= balloonHitCounts[i];
-                    break;
-            }
-        }
-
-        Debug.Log("Player Result: " + sum);
-    }
-    */
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
