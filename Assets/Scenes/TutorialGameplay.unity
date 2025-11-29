@@ -579,7 +579,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -3
   m_Sprite: {fileID: 21300000, guid: e96dd927581c43343ba9d5da835c679a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -13562,6 +13562,7 @@ MonoBehaviour:
   numberBalloonParent: {fileID: 1791230919}
   operatorBalloonPrefab: {fileID: 7774271131739635634, guid: 9d4bb700cbc640c469e3075597388328, type: 3}
   operatorBalloonParent: {fileID: 2068024160}
+  simpleStepDisplay: {fileID: 0}
   areaSize: {x: 15, y: 5}
   cannonTransform: {fileID: 32480742}
   leftCannonPosition: {x: -6.965, y: -3.33, z: 0}
