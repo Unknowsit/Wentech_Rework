@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static Balloon;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +34,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<int> balloonHitCounts = new List<int>();
     public List<int> BalloonHitCounts { get { return balloonHitCounts; } }
 
+    [SerializeField] private List<BalloonType> balloonTypes = new List<BalloonType>();
+    public List<BalloonType> BalloonTypes => balloonTypes;
+
+    [SerializeField] private List<BalloonType> balloonHitTypes = new List<BalloonType>();
+    public List<BalloonType> BalloonHitTypes => balloonHitTypes;
+
     [Header("Single-Mode Slots")]
     [SerializeField] private BalloonSlot[] balloonSlots;
 
@@ -52,6 +59,10 @@ public class GameManager : MonoBehaviour
     [Header("Step Display")]
     [SerializeField] private SimpleStepDisplay simpleStepDisplay;
 
+    [Header("Special Balloon Pool")]
+    private List<BalloonType> balloonTypePool = new List<BalloonType>();
+    private int balloonTypePoolIndex = 0;
+
     [Header("Spawning Area")]
     public Vector2 areaSize = new Vector2(10f, 5f);
 
@@ -60,6 +71,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 leftCannonPosition = new Vector3(-6.965f, -3.33f, 0f);
     [SerializeField] private Vector3 rightCannonPosition = new Vector3(6.965f, -3.33f, 0f);
     [SerializeField] private bool isCannonOnLeft = true;
+
+    [Header("Wall Control Setting")]
+    public float rotationSpeed = 50f;
 
     [Header("Fortress Sprite")]
     [SerializeField] private SpriteRenderer fortressSprite;
@@ -70,9 +84,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpriteRenderer baseSprite;
     [SerializeField] private Sprite leftBaseSprite;
     [SerializeField] private Sprite rightBaseSprite;
-
-    [Header("Wall Control Setting")]
-    public float rotationSpeed = 50f;
 
 #if UNITY_ANDROID || UNITY_EDITOR
     [Header("Android ShootButton")]
@@ -136,8 +147,13 @@ public class GameManager : MonoBehaviour
             ClearBalloonSlots();
         }
 
-        if (totalTurns % 2 != 0) balloonList.Clear();
+        if (totalTurns % 2 != 0)
+        {
+            balloonList.Clear();
+            balloonTypes.Clear();
+        }
         balloonHitCounts.Clear();
+        balloonHitTypes.Clear();
         ResetCounters();
 
         totalTurns--;
@@ -213,39 +229,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool HasAnswer(float value)
-    {
-        return value != 0f || PlayerHasBalloon();
-    }
-
-    private bool PlayerHasBalloon()
-    {
-        if (GameData.IsSingleMode())
-            return HasNumberSlotBalloon();
-        else
-            return HasMultiSlotBalloon();
-    }
-
-    public bool HasNumberSlotBalloon()
-    {
-        foreach (var slot in balloonSlots)
-        {
-            if (slot.HasBalloon())
-                return true;
-        }
-        return false;
-    }
-
-    public bool HasMultiSlotBalloon()
-    {
-        foreach (var slot in numberSlots)
-        {
-            if (slot.HasNumber())
-                return true;
-        }
-        return false;
-    }
-
     public NumberSlot[] GetNumberSlots()
     {
         return numberSlots;
@@ -311,12 +294,41 @@ public class GameManager : MonoBehaviour
         uiManager.RoundText.text = $"{currentRound}/{maxRounds}";
     }
 
+    private bool CurrentExpressionIsValid()
+    {
+        if (GameData.IsSingleMode())
+        {
+            return true;
+        }
+
+        List<object> seq = new List<object>();
+
+        for (int i = 0; i < numberSlots.Length; i++)
+        {
+            if (numberSlots[i].HasNumber())
+                seq.Add((float)numberSlots[i].GetBalloonValue());
+
+            if (i < operatorSlots.Length && operatorSlots[i].HasOperator())
+                seq.Add(operatorSlots[i].GetOperatorMode().Value);
+        }
+
+        return IsExpressionValid(seq);
+    }
+
     public void SetPlayerValues(TextMeshProUGUI playerInputText, TextMeshProUGUI playerText)
     {
+        bool valid = CurrentExpressionIsValid();
+        float value = valid ? float.Parse(playerInputText.text) : 0f;
+
+        if (!valid)
+        {
+            playerInputText.text = "0";   // ป้องกัน parse ค่าเก่า
+        }
+
         if (totalTurns % 2 == 0)
         {
             p1 = float.Parse(playerInputText.text);
-            p1HasAnswered = HasAnswer(p1);
+            p1HasAnswered = valid;
             //Debug.Log($"[P1] Answer: {p1}, HasBalloon: {PlayerHasBalloon()}, p1HasAnswered: {p1HasAnswered}");
             //uiManager.ResultP1Text.text = $"{p1.ToString()}";
             uiManager.ResultP1Text.text = NumberFormatter.FormatSmart(p1);
@@ -325,7 +337,7 @@ public class GameManager : MonoBehaviour
         else
         {
             p2 = float.Parse(playerInputText.text);
-            p2HasAnswered = HasAnswer(p2);
+            p2HasAnswered = valid;
             //Debug.Log($"[P2] Answer: {p2}, HasBalloon: {PlayerHasBalloon()}, p2HasAnswered: {p2HasAnswered}");
             //Debug.Log($"[CountScore] Calling with P1:{p1} ({p1HasAnswered}), P2:{p2} ({p2HasAnswered})");
             //uiManager.ResultP2Text.text = $"{p2.ToString()}";
@@ -399,8 +411,90 @@ public class GameManager : MonoBehaviour
         balloonHitCounts.Add(num);
     }
 
+    public void RegisterBalloonType(BalloonType type)
+    {
+        balloonTypes.Add(type);
+    }
+
+    public void RegisterBalloonHit(int num, BalloonType type)
+    {
+        balloonHitCounts.Add(num);
+        balloonHitTypes.Add(type);
+    }
+
+    private void InitializeBalloonTypePool(int totalBalloons)
+    {
+        balloonTypePool.Clear();
+        balloonTypePoolIndex = 0;
+
+        if (GameData.EnableMysteryBalloon && GameData.MysteryBalloonCount > 0)
+        {
+            for (int i = 0; i < GameData.MysteryBalloonCount; i++)
+                balloonTypePool.Add(BalloonType.Mystery);
+        }
+
+        if (GameData.EnableGoldenBalloon && GameData.GoldenBalloonCount > 0)
+        {
+            for (int i = 0; i < GameData.GoldenBalloonCount; i++)
+                balloonTypePool.Add(BalloonType.Golden);
+        }
+
+        if (GameData.EnableComboBalloon && GameData.ComboBalloonCount > 0)
+        {
+            for (int i = 0; i < GameData.ComboBalloonCount; i++)
+                balloonTypePool.Add(BalloonType.Combo);
+        }
+
+        if (GameData.EnableLuckyBalloon && GameData.LuckyBalloonCount > 0)
+        {
+            for (int i = 0; i < GameData.LuckyBalloonCount; i++)
+                balloonTypePool.Add(BalloonType.Lucky);
+        }
+
+        if (GameData.EnableJokerBalloon && GameData.JokerBalloonCount > 0)
+        {
+            for (int i = 0; i < GameData.JokerBalloonCount; i++)
+                balloonTypePool.Add(BalloonType.Joker);
+        }
+
+        int normalCount = totalBalloons - balloonTypePool.Count;
+
+        for (int i = 0; i < normalCount; i++)
+        {
+            balloonTypePool.Add(BalloonType.Normal);
+        }
+
+        ShuffleBalloonTypePool();
+    }
+
+    private void ShuffleBalloonTypePool()
+    {
+        for (int i = balloonTypePool.Count - 1; i > 0; i--)
+        {
+            int randomIndex = Random.Range(0, i + 1);
+            BalloonType temp = balloonTypePool[i];
+            balloonTypePool[i] = balloonTypePool[randomIndex];
+            balloonTypePool[randomIndex] = temp;
+        }
+    }
+
+    public BalloonType GetNextBalloonType()
+    {
+        if (balloonTypePoolIndex >= balloonTypePool.Count)
+        {
+            Debug.LogWarning("Balloon type pool exhausted! Returning Normal.");
+            return BalloonType.Normal;
+        }
+
+        BalloonType type = balloonTypePool[balloonTypePoolIndex];
+        balloonTypePoolIndex++;
+        return type;
+    }
+
     private void GenerateBalloon()
     {
+        InitializeBalloonTypePool(totalBalloons);
+
         while (spawnedCount < totalBalloons && attempts < 101)
         {
             float randomX = Random.Range(-areaSize.x / 2, areaSize.x / 2);

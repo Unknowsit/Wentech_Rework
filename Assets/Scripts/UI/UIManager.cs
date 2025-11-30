@@ -337,7 +337,8 @@ public class UIManager : MonoBehaviour
     {
         //Debug.Log($"[CountScore] Received - P1:{p1} ({p1Answered}), P2:{p2} ({p2Answered})");
         float current = float.Parse(targetText.text);
-        int scoreP1 = 0, scoreP2 = 0;
+        int baseScoreP1 = 0, baseScoreP2 = 0;
+        int bonusScoreP1 = 0, bonusScoreP2 = 0;
 
         float diffP1 = p1Answered ? Mathf.Abs(p1 - current) : float.MaxValue;
         float diffP2 = p2Answered ? Mathf.Abs(p2 - current) : float.MaxValue;
@@ -355,8 +356,8 @@ public class UIManager : MonoBehaviour
                     {
                         if (current > Mathf.Epsilon)
                         {
-                            if (p1Answered) scoreP1 = Mathf.RoundToInt((1f - diffP1 / current) * 1000f);
-                            if (p2Answered) scoreP2 = Mathf.RoundToInt((1f - diffP2 / current) * 1000f);
+                            if (p1Answered) baseScoreP1 = Mathf.RoundToInt((1f - diffP1 / current) * 1000f);
+                            if (p2Answered) baseScoreP2 = Mathf.RoundToInt((1f - diffP2 / current) * 1000f);
                         }
                         break;
                     }
@@ -367,8 +368,8 @@ public class UIManager : MonoBehaviour
 
                         if (absCurrent > Mathf.Epsilon)
                         {
-                            if (p1Answered) scoreP1 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP1) * 1000f);
-                            if (p2Answered) scoreP2 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP2) * 1000f);
+                            if (p1Answered) baseScoreP1 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP1) * 1000f);
+                            if (p2Answered) baseScoreP2 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP2) * 1000f);
                         }
                         else
                         {
@@ -386,8 +387,8 @@ public class UIManager : MonoBehaviour
 
             if (absCurrent > Mathf.Epsilon)
             {
-                if (p1Answered) scoreP1 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP1) * 1000f);
-                if (p2Answered) scoreP2 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP2) * 1000f);
+                if (p1Answered) baseScoreP1 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP1) * 1000f);
+                if (p2Answered) baseScoreP2 = Mathf.RoundToInt(absCurrent / (absCurrent + diffP2) * 1000f);
             }
             else
             {
@@ -396,14 +397,26 @@ public class UIManager : MonoBehaviour
         }
 
         //Debug.Log($"[CountScore] Before Clamp - ScoreP1:{scoreP1}, ScoreP2:{scoreP2}");
+        baseScoreP1 = Mathf.Clamp(baseScoreP1, 0, 1000);
+        baseScoreP2 = Mathf.Clamp(baseScoreP2, 0, 1000);
 
-        scoreP1 = Mathf.Clamp(scoreP1, 0, 1000);
-        scoreP2 = Mathf.Clamp(scoreP2, 0, 1000);
+        if (p1Answered)
+        {
+            bonusScoreP1 = CalculateSpecialBalloonBonus(baseScoreP1, diffP1);
+        }
+
+        if (p2Answered)
+        {
+            bonusScoreP2 = CalculateSpecialBalloonBonus(baseScoreP2, diffP2);
+        }
 
         //Debug.Log($"[CountScore] After Clamp - ScoreP1:{scoreP1}, ScoreP2:{scoreP2}");
 
-        this.scoreP1 += scoreP1;
-        this.scoreP2 += scoreP2;
+        int totalScoreP1 = baseScoreP1 + bonusScoreP1;
+        int totalScoreP2 = baseScoreP2 + bonusScoreP2;
+
+        this.scoreP1 += totalScoreP1;
+        this.scoreP2 += totalScoreP2;
 
         //Debug.Log($"[CountScore] Total Score - P1:{this.scoreP1}, P2:{this.scoreP2}");
 
@@ -413,27 +426,62 @@ public class UIManager : MonoBehaviour
         scoreP1Text.text = NumberFormatter.FormatWithCommas(this.scoreP1);
         scoreP2Text.text = NumberFormatter.FormatWithCommas(this.scoreP2);
 
-        AddScoreHistory(currentRound, p1, scoreP1, p2, scoreP2, current);
+        AddScoreHistory(currentRound, p1, baseScoreP1, bonusScoreP1, p2, baseScoreP2, bonusScoreP2, current);
         currentRound++;
 
         shouldReset = true;
     }
 
-    private void AddScoreHistory(int round, float p1Answer, int p1Score, float p2Answer, int p2Score, float target)
+    private int CalculateSpecialBalloonBonus(int baseScore, float diff)
+    {
+        int mysteryCount = 0;
+        int goldenCount = 0;
+        bool hasLucky = false;
+
+        foreach (var type in gameManager.BalloonHitTypes)
+        {
+            if (type == BalloonType.Mystery) mysteryCount++;
+            if (type == BalloonType.Golden) goldenCount++;
+            if (type == BalloonType.Lucky) hasLucky = true;
+        }
+
+        int bonusScore = 0;
+
+        if (goldenCount > 0)
+        {
+            int goldenBonus = Mathf.RoundToInt(baseScore * 0.15f * goldenCount);
+            bonusScore += goldenBonus;
+        }
+
+        if (mysteryCount > 0)
+        {
+            int mysteryBonus = Mathf.RoundToInt(baseScore * 0.2f * mysteryCount);
+            bonusScore += mysteryBonus;
+        }
+
+        if (hasLucky && Mathf.Approximately(diff, 0f))
+        {
+            bonusScore += 200;
+        }
+
+        return bonusScore;
+    }
+
+    private void AddScoreHistory(int round, float p1Answer, int p1BaseScore, int p1BonusScore, float p2Answer, int p2BaseScore, int p2BonusScore, float target)
     {
         // Player 1 History
         GameObject p1History = Instantiate(scoreHistoryPrefab, p1HistoryContent);
         TextMeshProUGUI p1Text = p1History.GetComponent<TextMeshProUGUI>();
 
         //p1Text.text = $"Round {round}\nScore : +{p1Score}\nTarget : {target}\nAnswer : {p1Answer}";
-        p1Text.text = $"Round {round}\nScore : +{NumberFormatter.FormatWithCommas(p1Score)}\nTarget : {NumberFormatter.FormatSmart(target)}\nAnswer : {NumberFormatter.FormatSmart(p1Answer)}";
+        p1Text.text = $"Round {round}\nScore : +{NumberFormatter.FormatWithCommas(p1BaseScore)}\nBonus : +{NumberFormatter.FormatSmart(p1BonusScore)}\nTarget : {NumberFormatter.FormatSmart(target)}\nAnswer : {NumberFormatter.FormatSmart(p1Answer)}";
 
         // Player 2 History
         GameObject p2History = Instantiate(scoreHistoryPrefab, p2HistoryContent);
         TextMeshProUGUI p2Text = p2History.GetComponent<TextMeshProUGUI>();
 
         //p2Text.text = $"Round {round}\nScore : +{p2Score}\nTarget : {target}\nAnswer : {p2Answer}";
-        p2Text.text = $"Round {round}\nScore : +{NumberFormatter.FormatWithCommas(p2Score)}\nTarget : {NumberFormatter.FormatSmart(target)}\nAnswer : {NumberFormatter.FormatSmart(p2Answer)}";
+        p2Text.text = $"Round {round}\nScore : +{NumberFormatter.FormatWithCommas(p2BaseScore)}\nBonus : +{NumberFormatter.FormatSmart(p2BonusScore)}\nTarget : {NumberFormatter.FormatSmart(target)}\nAnswer : {NumberFormatter.FormatSmart(p2Answer)}";
     }
 
     private IEnumerator ClearResultTexts()

@@ -341,6 +341,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numText: {fileID: 1593389725697546841}
+  balloonImage: {fileID: 7774173360553134385}
+  normalSprite: {fileID: 21300000, guid: 0408324c929ec4142ac169e639a0d235, type: 3}
+  mysterySprite: {fileID: 21300000, guid: 137033f28a1215d439398deefb43224d, type: 3}
+  goldenSprite: {fileID: 21300000, guid: 532ce3d016cb81847becabdee5a1c762, type: 3}
+  comboSprite: {fileID: 21300000, guid: 1627223294f042848bd93119440ffc0b, type: 3}
+  luckySprite: {fileID: 21300000, guid: 132e5e6905b73c84eac0419b9c8b4ef3, type: 3}
+  jokerSprite: {fileID: 21300000, guid: 02f80bbff0a1ced479d35ba49213f180, type: 3}
 --- !u!114 &3269285616855538647
 MonoBehaviour:
   m_ObjectHideFlags: 0
