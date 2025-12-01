@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -82,6 +83,10 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Button nextButton;
     public Button NextButton => nextButton;
+
+    [Header("Balloon Game Data")]
+    public List<BalloonType> p1BalloonTypes = new List<BalloonType>();
+    public List<BalloonType> p2BalloonTypes = new List<BalloonType>();
 
     [Header("Score History UI")]
     [SerializeField] private GameObject scoreHistoryPrefab;
@@ -224,6 +229,8 @@ public class UIManager : MonoBehaviour
     public void OnSubmitButtonClicked()
     {
         audioManager.PlaySFX("SFX04");
+        StoreBalloonTypesForCurrentPlayer();
+
         if (GameData.IsSingleMode())
         {
             StartCoroutine(uiController.UITransition(scorePanel, singleModePanel));
@@ -313,6 +320,8 @@ public class UIManager : MonoBehaviour
     public void OnExitButtonClicked()
     {
         exitButton.interactable = false;
+        p1BalloonTypes.Clear();
+        p2BalloonTypes.Clear();
         audioManager.ambSource.Stop();
         audioManager.PlaySFX("SFX04");
         StartCoroutine(uiController.UITransition(hidePanels: scorePanel));
@@ -402,12 +411,12 @@ public class UIManager : MonoBehaviour
 
         if (p1Answered)
         {
-            bonusScoreP1 = CalculateSpecialBalloonBonus(baseScoreP1, diffP1);
+            bonusScoreP1 = CalculateSpecialBalloonBonus(p1BalloonTypes, baseScoreP1, diffP1);
         }
 
         if (p2Answered)
         {
-            bonusScoreP2 = CalculateSpecialBalloonBonus(baseScoreP2, diffP2);
+            bonusScoreP2 = CalculateSpecialBalloonBonus(p2BalloonTypes, baseScoreP2, diffP2);
         }
 
         //Debug.Log($"[CountScore] After Clamp - ScoreP1:{scoreP1}, ScoreP2:{scoreP2}");
@@ -432,17 +441,22 @@ public class UIManager : MonoBehaviour
         shouldReset = true;
     }
 
-    private int CalculateSpecialBalloonBonus(int baseScore, float diff)
+    private int CalculateSpecialBalloonBonus(List<BalloonType> usedBalloons, int baseScore, float diff)
     {
-        int mysteryCount = 0;
-        int goldenCount = 0;
         bool hasLucky = false;
+        bool hasJoker = false;
 
-        foreach (var type in gameManager.BalloonHitTypes)
+        int goldenCount = 0;
+        int mysteryCount = 0;
+        int comboCount = 0;
+
+        foreach (var type in usedBalloons)
         {
-            if (type == BalloonType.Mystery) mysteryCount++;
             if (type == BalloonType.Golden) goldenCount++;
+            if (type == BalloonType.Mystery) mysteryCount++;
+            if (type == BalloonType.Combo) comboCount++;
             if (type == BalloonType.Lucky) hasLucky = true;
+            if (type == BalloonType.Joker) hasJoker = true;
         }
 
         int bonusScore = 0;
@@ -459,12 +473,82 @@ public class UIManager : MonoBehaviour
             bonusScore += mysteryBonus;
         }
 
+        if (comboCount >= 2)
+        {
+            int comboBonus = (comboCount >= 3) ? 300 : 100;
+            bonusScore += comboBonus;
+        }
+
         if (hasLucky && Mathf.Approximately(diff, 0f))
         {
             bonusScore += 200;
         }
 
+        if (hasJoker && Mathf.Approximately(diff, 0f))
+        {
+            bonusScore += 1000;
+        }
+
         return bonusScore;
+    }
+
+    public void StoreBalloonTypesForCurrentPlayer()
+    {
+        List<BalloonType> usedTypes = new List<BalloonType>();
+
+        if (GameData.IsSingleMode())
+        {
+            BalloonSlot[] balloonSlots = gameManager.GetBalloonSlots();
+
+            if (balloonSlots != null)
+            {
+                foreach (var slot in balloonSlots)
+                {
+                    if (slot != null && slot.transform.childCount > 0)
+                    {
+                        BalloonHitText balloon = slot.transform.GetChild(0).GetComponent<BalloonHitText>();
+
+                        if (balloon != null)
+                        {
+                            usedTypes.Add(balloon.Type);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            NumberSlot[] numberSlots = gameManager.GetNumberSlots();
+
+            if (numberSlots != null)
+            {
+                foreach (var slot in numberSlots)
+                {
+                    if (slot != null && slot.HasNumber())
+                    {
+                        foreach (Transform child in slot.transform)
+                        {
+                            BalloonHitText balloon = child.GetComponent<BalloonHitText>();
+
+                            if (balloon != null)
+                            {
+                                usedTypes.Add(balloon.Type);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (gameManager.totalTurns % 2 == 0)
+        {
+            p1BalloonTypes = new List<BalloonType>(usedTypes);
+        }
+        else
+        {
+            p2BalloonTypes = new List<BalloonType>(usedTypes);
+        }
     }
 
     private void AddScoreHistory(int round, float p1Answer, int p1BaseScore, int p1BonusScore, float p2Answer, int p2BaseScore, int p2BonusScore, float target)

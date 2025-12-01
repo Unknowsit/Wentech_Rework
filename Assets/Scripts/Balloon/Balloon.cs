@@ -107,7 +107,7 @@ public class Balloon : MonoBehaviour
                 valueToRegister = int.Parse(numText.text);
             }
 
-            gameManager.RegisterBalloonHit(valueToRegister, balloonType);
+            gameManager.RegisterBalloonHitType(valueToRegister, balloonType);
             Destroy(gameObject);
         }
     }

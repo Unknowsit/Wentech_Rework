@@ -229,6 +229,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public BalloonSlot[] GetBalloonSlots()
+    {
+        return balloonSlots;
+    }
+
     public NumberSlot[] GetNumberSlots()
     {
         return numberSlots;
@@ -416,7 +421,7 @@ public class GameManager : MonoBehaviour
         balloonTypes.Add(type);
     }
 
-    public void RegisterBalloonHit(int num, BalloonType type)
+    public void RegisterBalloonHitType(int num, BalloonType type)
     {
         balloonHitCounts.Add(num);
         balloonHitTypes.Add(type);
