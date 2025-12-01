@@ -6,7 +6,9 @@ public class DraggableRotatable : MonoBehaviour
     private static DraggableRotatable currentlySelected = null;
 
     private bool isSelected = false;
+
     private Vector3 offset;
+    private Vector3 lastValidPosition;
 
     private Camera cam;
     private GameManager gameManager;
@@ -107,7 +109,17 @@ public class DraggableRotatable : MonoBehaviour
 
                 if (currentMode == Mode.Drag)
                 {
-                    transform.position = mouseWorld + offset;
+                    Vector3 newPos = mouseWorld + offset;
+
+                    if (IsPointerOverUI())
+                    {
+                        transform.position = lastValidPosition;
+                    }
+                    else
+                    {
+                        transform.position = newPos;
+                        lastValidPosition = newPos;
+                    }
                 }
             }
         }
@@ -118,6 +130,9 @@ public class DraggableRotatable : MonoBehaviour
 
             if (currentMode == Mode.Drag)
             {
+                if (IsPointerOverUI())
+                    transform.position = lastValidPosition;
+
                 currentMode = Mode.None;
                 Deselect();
             }
@@ -205,7 +220,17 @@ public class DraggableRotatable : MonoBehaviour
             }
             else if (currentMode == Mode.Drag)
             {
-                transform.position = touchWorld + offset;
+                Vector3 newPos = touchWorld + offset;
+
+                if (IsPointerOverUI())
+                {
+                    transform.position = lastValidPosition;
+                }
+                else
+                {
+                    transform.position = newPos;
+                    lastValidPosition = newPos;
+                }
             }
 
             lastTouchPosition = touchWorld;
@@ -213,7 +238,11 @@ public class DraggableRotatable : MonoBehaviour
 
         if (touch.phase == TouchPhase.Ended && isSelected)
         {
-            // Android: Does nothing because double tap is used instead.
+            if (currentMode == Mode.Drag)
+            {
+                if (IsPointerOverUI())
+                    transform.position = lastValidPosition;
+            }
         }
     }
 
@@ -260,6 +289,7 @@ public class DraggableRotatable : MonoBehaviour
     {
         audioManager.PlaySFX("SFX05");
         currentMode = Mode.Drag;
+        lastValidPosition = transform.position;
     }
 
     private void SetCannonActive(bool isActive)
@@ -276,6 +306,17 @@ public class DraggableRotatable : MonoBehaviour
         return cam.ScreenToWorldPoint(mouseScreenPos);
     }
 #endif
+
+    private bool IsPointerOverUI()
+    {
+#if UNITY_STANDALONE
+        return EventSystem.current.IsPointerOverGameObject();
+#elif UNITY_ANDROID
+        if (Input.touchCount > 0)
+            return EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+        return false;
+#endif
+    }
 
     private void UpdateSprite(bool selected)
     {

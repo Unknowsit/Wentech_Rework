@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: 07_SFXTimeout
   m_EditorClassIdentifier: 
   audioName: SFX07
-  clip: {fileID: 8300000, guid: 7e8e89b045ea862419db24bd780e17c1, type: 3}
+  clip: {fileID: 8300000, guid: 32084e9cab991d8449caab7b4eaf9203, type: 3}
