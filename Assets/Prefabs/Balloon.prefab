@@ -107,11 +107,11 @@ MonoBehaviour:
   rangeSettings: {fileID: 11400000, guid: 3c05b63ab37dab240bc3ccd8d9142ded, type: 2}
   balloonSpriteRenderer: {fileID: 1320797420344460617}
   normalSprite: {fileID: 21300000, guid: 0408324c929ec4142ac169e639a0d235, type: 3}
-  mysterySprite: {fileID: 21300000, guid: 137033f28a1215d439398deefb43224d, type: 3}
-  goldenSprite: {fileID: 21300000, guid: 532ce3d016cb81847becabdee5a1c762, type: 3}
-  comboSprite: {fileID: 21300000, guid: 1627223294f042848bd93119440ffc0b, type: 3}
-  luckySprite: {fileID: 21300000, guid: 132e5e6905b73c84eac0419b9c8b4ef3, type: 3}
-  jokerSprite: {fileID: 21300000, guid: 02f80bbff0a1ced479d35ba49213f180, type: 3}
+  mysterySprite: {fileID: 21300000, guid: 9c3b84c5869ce2744a2689872e5ead5f, type: 3}
+  goldenSprite: {fileID: 21300000, guid: 040de840507a5954db4c511aca02312f, type: 3}
+  luckySprite: {fileID: 21300000, guid: 19458763b7dd3644493f996217f5e403, type: 3}
+  comboSprite: {fileID: 21300000, guid: 44ba04877f325e940b95b49ebe587b21, type: 3}
+  jokerSprite: {fileID: 21300000, guid: b22b78febdfd384429dff31408f6d237, type: 3}
 --- !u!114 &-6361797320801331188
 MonoBehaviour:
   m_ObjectHideFlags: 0
