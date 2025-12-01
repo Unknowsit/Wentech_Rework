@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.EventSystems;
 
 public class CannonShooter : MonoBehaviour
 {
@@ -25,7 +24,8 @@ public class CannonShooter : MonoBehaviour
 #if UNITY_STANDALONE
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !EventSystem.current.IsPointerOverGameObject())
+        //if (Input.GetKeyDown(KeyCode.Space) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Shoot();
         }
@@ -41,11 +41,11 @@ public class CannonShooter : MonoBehaviour
         //Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         //Vector2 direction = mousePos - (Vector2)bulletSpawnPos.position;
 
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+        //Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        //RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
 
-        if (hit.collider != null && hit.collider.CompareTag("Box"))
-            return;
+        //if (hit.collider != null && hit.collider.CompareTag("Box"))
+        //    return;
 #endif
         Vector2 direction = (Vector2)transform.right;
 

@@ -116,7 +116,7 @@ public class Balloon : MonoBehaviour
     {
         if (balloonType == BalloonType.Golden)
         {
-            int[] goldenValues = { 10, 20, 50, 100 };
+            int[] goldenValues = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
             int randomValue = goldenValues[Random.Range(0, goldenValues.Length)];
             numText.text = randomValue.ToString();
         }
@@ -131,7 +131,6 @@ public class Balloon : MonoBehaviour
                 GenerateRandomNumber(GameData.GetRandomMode());
             }
         }
-
         else
         {
             if (GameData.IsSingleMode())

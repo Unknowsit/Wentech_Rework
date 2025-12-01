@@ -236,8 +236,8 @@ public class DraggableRotatable : MonoBehaviour
     {
         isSelected = true;
         currentlySelected = this;
-        SetCannonActive(false);
         currentMode = Mode.None;
+        SetCannonActive(false);
         UpdateSprite(true);
     }
 
@@ -265,7 +265,7 @@ public class DraggableRotatable : MonoBehaviour
     private void SetCannonActive(bool isActive)
     {
         gameManager.cannonAim.enabled = isActive;
-        gameManager.cannonShooter.enabled = isActive;
+        //gameManager.cannonShooter.enabled = isActive;
     }
 
 #if UNITY_STANDALONE
