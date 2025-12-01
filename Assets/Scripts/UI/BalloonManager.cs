@@ -5,18 +5,18 @@ using UnityEngine.UI;
 public class BalloonManager : MonoBehaviour
 {
     [Header("Special Balloon Toggles")]
-    [SerializeField] private Toggle mysteryBalloonToggle;
     [SerializeField] private Toggle goldenBalloonToggle;
+    [SerializeField] private Toggle mysteryBalloonToggle;
     [SerializeField] private Toggle comboBalloonToggle;
     [SerializeField] private Toggle luckyBalloonToggle;
     [SerializeField] private Toggle jokerBalloonToggle;
 
     [Header("Special Balloon Count Sliders")]
-    [SerializeField] private Slider mysteryCountSlider;
-    [SerializeField] private TextMeshProUGUI mysteryCountText;
-
     [SerializeField] private Slider goldenCountSlider;
     [SerializeField] private TextMeshProUGUI goldenCountText;
+
+    [SerializeField] private Slider mysteryCountSlider;
+    [SerializeField] private TextMeshProUGUI mysteryCountText;
 
     [SerializeField] private Slider comboCountSlider;
     [SerializeField] private TextMeshProUGUI comboCountText;
@@ -27,9 +27,6 @@ public class BalloonManager : MonoBehaviour
     [SerializeField] private Slider jokerCountSlider;
     [SerializeField] private TextMeshProUGUI jokerCountText;
 
-    [Header("Info Text")]
-    [SerializeField] private TextMeshProUGUI totalSpecialBalloonsText;
-
     private void Start()
     {
         LoadSettings();
@@ -39,14 +36,14 @@ public class BalloonManager : MonoBehaviour
 
     private void SetupListeners()
     {
-        mysteryBalloonToggle.onValueChanged.AddListener(OnMysteryToggleChanged);
         goldenBalloonToggle.onValueChanged.AddListener(OnGoldenToggleChanged);
+        mysteryBalloonToggle.onValueChanged.AddListener(OnMysteryToggleChanged);
         comboBalloonToggle.onValueChanged.AddListener(OnComboToggleChanged);
         luckyBalloonToggle.onValueChanged.AddListener(OnLuckyToggleChanged);
         jokerBalloonToggle.onValueChanged.AddListener(OnJokerToggleChanged);
 
-        mysteryCountSlider.onValueChanged.AddListener(OnMysteryCountChanged);
         goldenCountSlider.onValueChanged.AddListener(OnGoldenCountChanged);
+        mysteryCountSlider.onValueChanged.AddListener(OnMysteryCountChanged);
         comboCountSlider.onValueChanged.AddListener(OnComboCountChanged);
         luckyCountSlider.onValueChanged.AddListener(OnLuckyCountChanged);
         jokerCountSlider.onValueChanged.AddListener(OnJokerCountChanged);
@@ -54,17 +51,23 @@ public class BalloonManager : MonoBehaviour
 
     private void LoadSettings()
     {
-        mysteryBalloonToggle.isOn = GameData.EnableMysteryBalloon;
         goldenBalloonToggle.isOn = GameData.EnableGoldenBalloon;
+        mysteryBalloonToggle.isOn = GameData.EnableMysteryBalloon;
         comboBalloonToggle.isOn = GameData.EnableComboBalloon;
         luckyBalloonToggle.isOn = GameData.EnableLuckyBalloon;
         jokerBalloonToggle.isOn = GameData.EnableJokerBalloon;
 
-        mysteryCountSlider.value = GameData.MysteryBalloonCount;
         goldenCountSlider.value = GameData.GoldenBalloonCount;
+        mysteryCountSlider.value = GameData.MysteryBalloonCount;
         jokerCountSlider.value = GameData.JokerBalloonCount;
         luckyCountSlider.value = GameData.LuckyBalloonCount;
         comboCountSlider.value = GameData.ComboBalloonCount;
+
+        goldenCountSlider.interactable = GameData.EnableGoldenBalloon;
+        mysteryCountSlider.interactable = GameData.EnableMysteryBalloon;
+        comboCountSlider.interactable = GameData.EnableComboBalloon;
+        luckyCountSlider.interactable = GameData.EnableLuckyBalloon;
+        jokerCountSlider.interactable = GameData.EnableJokerBalloon;
 
         UpdateCountText(mysteryCountText, GameData.MysteryBalloonCount);
         UpdateCountText(goldenCountText, GameData.GoldenBalloonCount);
@@ -73,20 +76,26 @@ public class BalloonManager : MonoBehaviour
         UpdateCountText(jokerCountText, GameData.JokerBalloonCount);
     }
 
-    private void OnMysteryToggleChanged(bool value)
+    private void OnGoldenToggleChanged(bool value)
     {
-        GameData.EnableMysteryBalloon = value;
-        PlayerPrefs.SetInt("EnableMystery", value ? 1 : 0);
-        mysteryCountSlider.interactable = value;
+        GameData.EnableGoldenBalloon = value;
+        goldenCountSlider.interactable = value;
+        PlayerPrefs.SetInt("EnableGolden", value ? 1 : 0);
+        PlayerPrefs.SetInt("GoldenCount", GameData.GoldenBalloonCount);
+        PlayerPrefs.Save();
+
         AudioManager.instance.PlaySFX("SFX02");
         UpdateTotalSpecialBalloons();
     }
 
-    private void OnGoldenToggleChanged(bool value)
+    private void OnMysteryToggleChanged(bool value)
     {
-        GameData.EnableGoldenBalloon = value;
-        PlayerPrefs.SetInt("EnableGolden", value ? 1 : 0);
-        goldenCountSlider.interactable = value;
+        GameData.EnableMysteryBalloon = value;
+        mysteryCountSlider.interactable = value;
+        PlayerPrefs.SetInt("EnableMystery", value ? 1 : 0);
+        PlayerPrefs.SetInt("MysteryCount", GameData.MysteryBalloonCount);
+        PlayerPrefs.Save();
+
         AudioManager.instance.PlaySFX("SFX02");
         UpdateTotalSpecialBalloons();
     }
@@ -94,8 +103,11 @@ public class BalloonManager : MonoBehaviour
     private void OnComboToggleChanged(bool value)
     {
         GameData.EnableComboBalloon = value;
-        PlayerPrefs.SetInt("EnableCombo", value ? 1 : 0);
         comboCountSlider.interactable = value;
+        PlayerPrefs.SetInt("EnableCombo", value ? 1 : 0);
+        PlayerPrefs.SetInt("ComboCount", GameData.ComboBalloonCount);
+        PlayerPrefs.Save();
+
         AudioManager.instance.PlaySFX("SFX02");
         UpdateTotalSpecialBalloons();
     }
@@ -103,8 +115,11 @@ public class BalloonManager : MonoBehaviour
     private void OnLuckyToggleChanged(bool value)
     {
         GameData.EnableLuckyBalloon = value;
-        PlayerPrefs.SetInt("EnableLucky", value ? 1 : 0);
         luckyCountSlider.interactable = value;
+        PlayerPrefs.SetInt("EnableLucky", value ? 1 : 0);
+        PlayerPrefs.SetInt("LuckyCount", GameData.LuckyBalloonCount);
+        PlayerPrefs.Save();
+
         AudioManager.instance.PlaySFX("SFX02");
         UpdateTotalSpecialBalloons();
     }
@@ -112,8 +127,11 @@ public class BalloonManager : MonoBehaviour
     private void OnJokerToggleChanged(bool value)
     {
         GameData.EnableJokerBalloon = value;
-        PlayerPrefs.SetInt("EnableWild", value ? 1 : 0);
         jokerCountSlider.interactable = value;
+        PlayerPrefs.SetInt("EnableJoker", value ? 1 : 0);
+        PlayerPrefs.SetInt("JokerCount", GameData.JokerBalloonCount);
+        PlayerPrefs.Save();
+
         AudioManager.instance.PlaySFX("SFX02");
         UpdateTotalSpecialBalloons();
     }
@@ -123,6 +141,7 @@ public class BalloonManager : MonoBehaviour
         int count = Mathf.RoundToInt(value);
         GameData.MysteryBalloonCount = count;
         PlayerPrefs.SetInt("MysteryCount", count);
+        PlayerPrefs.Save();
         UpdateCountText(mysteryCountText, count);
         UpdateTotalSpecialBalloons();
     }
@@ -132,6 +151,7 @@ public class BalloonManager : MonoBehaviour
         int count = Mathf.RoundToInt(value);
         GameData.GoldenBalloonCount = count;
         PlayerPrefs.SetInt("GoldenCount", count);
+        PlayerPrefs.Save();
         UpdateCountText(goldenCountText, count);
         UpdateTotalSpecialBalloons();
     }
@@ -141,6 +161,7 @@ public class BalloonManager : MonoBehaviour
         int count = Mathf.RoundToInt(value);
         GameData.ComboBalloonCount = count;
         PlayerPrefs.SetInt("ComboCount", count);
+        PlayerPrefs.Save();
         UpdateCountText(comboCountText, count);
         UpdateTotalSpecialBalloons();
     }
@@ -150,6 +171,7 @@ public class BalloonManager : MonoBehaviour
         int count = Mathf.RoundToInt(value);
         GameData.LuckyBalloonCount = count;
         PlayerPrefs.SetInt("LuckyCount", count);
+        PlayerPrefs.Save();
         UpdateCountText(luckyCountText, count);
         UpdateTotalSpecialBalloons();
     }
@@ -158,17 +180,15 @@ public class BalloonManager : MonoBehaviour
     {
         int count = Mathf.RoundToInt(value);
         GameData.JokerBalloonCount = count;
-        PlayerPrefs.SetInt("WildCount", count);
+        PlayerPrefs.SetInt("JokerCount", count);
+        PlayerPrefs.Save();
         UpdateCountText(jokerCountText, count);
         UpdateTotalSpecialBalloons();
     }
 
     private void UpdateCountText(TextMeshProUGUI textUI, int count)
     {
-        if (count == 0)
-            textUI.text = "Random";
-        else
-            textUI.text = count.ToString();
+        textUI.text = count.ToString();
     }
 
     private void UpdateTotalSpecialBalloons()
@@ -189,10 +209,5 @@ public class BalloonManager : MonoBehaviour
 
         if (GameData.EnableJokerBalloon && GameData.JokerBalloonCount > 0)
             total += GameData.JokerBalloonCount;
-
-        if (total == 0)
-            totalSpecialBalloonsText.text = "Random";
-        else
-            totalSpecialBalloonsText.text = $"{total}";
     }
 }

@@ -443,20 +443,19 @@ public class UIManager : MonoBehaviour
 
     private int CalculateSpecialBalloonBonus(List<BalloonType> usedBalloons, int baseScore, float diff)
     {
-        bool hasLucky = false;
-        bool hasJoker = false;
-
         int goldenCount = 0;
         int mysteryCount = 0;
         int comboCount = 0;
+        int luckyCount = 0;
+        int jokerCount = 0;
 
         foreach (var type in usedBalloons)
         {
             if (type == BalloonType.Golden) goldenCount++;
             if (type == BalloonType.Mystery) mysteryCount++;
             if (type == BalloonType.Combo) comboCount++;
-            if (type == BalloonType.Lucky) hasLucky = true;
-            if (type == BalloonType.Joker) hasJoker = true;
+            if (type == BalloonType.Lucky) luckyCount++;
+            if (type == BalloonType.Joker) jokerCount++;
         }
 
         int bonusScore = 0;
@@ -479,14 +478,14 @@ public class UIManager : MonoBehaviour
             bonusScore += comboBonus;
         }
 
-        if (hasLucky && Mathf.Approximately(diff, 0f))
+        if (luckyCount > 0 && Mathf.Approximately(diff, 0f))
         {
-            bonusScore += 200;
+            bonusScore += 200 * luckyCount;
         }
 
-        if (hasJoker && Mathf.Approximately(diff, 0f))
+        if (jokerCount > 0 && Mathf.Approximately(diff, 0f))
         {
-            bonusScore += 1000;
+            bonusScore += 1000 * jokerCount;
         }
 
         return bonusScore;

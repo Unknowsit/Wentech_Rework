@@ -29,11 +29,11 @@ public static class GameData
     public static bool EnableLuckyBalloon = false;
     public static bool EnableJokerBalloon = false;
 
-    public static int MysteryBalloonCount = 0;
-    public static int GoldenBalloonCount = 0;
-    public static int LuckyBalloonCount = 0;
-    public static int ComboBalloonCount = 0;
-    public static int JokerBalloonCount = 0;
+    public static int MysteryBalloonCount = 1;
+    public static int GoldenBalloonCount = 1;
+    public static int LuckyBalloonCount = 1;
+    public static int ComboBalloonCount = 1;
+    public static int JokerBalloonCount = 1;
 
     public static bool IsSingleMode()
     {

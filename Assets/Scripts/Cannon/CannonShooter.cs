@@ -25,7 +25,7 @@ public class CannonShooter : MonoBehaviour
 #if UNITY_STANDALONE
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetKeyDown(KeyCode.Space) && !EventSystem.current.IsPointerOverGameObject())
         {
             Shoot();
         }
