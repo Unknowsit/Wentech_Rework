@@ -320,7 +320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1653,7 +1653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.046734657, b: 0, a: 0.87058824}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6296,6 +6296,8 @@ MonoBehaviour:
   scoreP2Text: {fileID: 610736170}
   objectiveText: {fileID: 1436717632}
   nextButton: {fileID: 228492812}
+  p1BalloonTypes: 
+  p2BalloonTypes: 
   scoreHistoryPrefab: {fileID: 3750781147903050303, guid: 349392f492b0bcf40b12ddc017ca461f, type: 3}
   p1HistoryContent: {fileID: 1506439496}
   p2HistoryContent: {fileID: 2082970210}
@@ -6626,7 +6628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -9093,7 +9095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13835,7 +13837,7 @@ MonoBehaviour:
   invalidColor: {r: 1, g: 0, b: 0, a: 0.5}
   gridSize: 1
   placementAreaMin: {x: -8, y: -3.63}
-  placementAreaMax: {x: 8, y: 4.44}
+  placementAreaMax: {x: 7.2, y: 4.44}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -15943,7 +15945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -19638,7 +19640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -21209,7 +21211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -24515,7 +24517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -25751,6 +25753,8 @@ MonoBehaviour:
   balloonParent: {fileID: 1152949959}
   balloonList: []
   balloonHitCounts: 
+  balloonTypes: 
+  balloonHitTypes: 
   balloonSlots:
   - {fileID: 458473344}
   - {fileID: 1993289370}
@@ -25777,13 +25781,13 @@ MonoBehaviour:
   leftCannonPosition: {x: -6.965, y: -3.33, z: 0}
   rightCannonPosition: {x: 6.965, y: -3.33, z: 0}
   isCannonOnLeft: 1
+  rotationSpeed: 50
   fortressSprite: {fileID: 1415511491}
   leftCannonSprite: {fileID: 21300000, guid: 567f8bf8f6fe85b489adba958fe5ca67, type: 3}
   rightCannonSprite: {fileID: 21300000, guid: afe6a7d1dbe2cde4b99aa2110a21a534, type: 3}
   baseSprite: {fileID: 1838464211}
   leftBaseSprite: {fileID: 21300000, guid: 112140c2b08ed474691d6533324a5c56, type: 3}
   rightBaseSprite: {fileID: 21300000, guid: 5083296d9497eb348b7a56425746add9, type: 3}
-  rotationSpeed: 50
   shootButtonRect: {fileID: 1136634032}
   shootButtonLeftX: 1554
   shootButtonRightX: -1554
