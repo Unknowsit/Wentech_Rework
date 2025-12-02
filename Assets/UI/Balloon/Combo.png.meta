@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 44ba04877f325e940b95b49ebe587b21
+guid: 5a793a70049cc224aa5a8e6975367f77
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5307882462097650756
-    second: Combo_0
+      213: -3668325855077949241
+    second: Combo-2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -109,16 +109,29 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Combo_0
+      name: Combo-2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 111
+        width: 112
         height: 111
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -128,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4443bd61af269a940800000000000000
-      internalID: 5307882462097650756
+      spriteID: 7c0a2b7021d771dc0800000000000000
+      internalID: -3668325855077949241
       vertices: []
       indices: 
       edges: []
@@ -148,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Combo_0: 5307882462097650756
+      Combo-2_0: -3668325855077949241
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

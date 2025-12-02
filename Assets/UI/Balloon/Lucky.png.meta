@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 19458763b7dd3644493f996217f5e403
+guid: 950dbe74a97225a4792db731b5c36293
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3155732317472865195
-    second: Lucky_0
+      213: -7875712341041756970
+    second: Lucky-2 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -109,16 +109,29 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Lucky_0
+      name: Lucky-2 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 111
+        width: 112
         height: 111
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -128,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5544fc25d269434d0800000000000000
-      internalID: -3155732317472865195
+      spriteID: 6d4cb076a59d3b290800000000000000
+      internalID: -7875712341041756970
       vertices: []
       indices: 
       edges: []
@@ -138,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Lucky_0: -3155732317472865195
+      Lucky-2 1_0: -7875712341041756970
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

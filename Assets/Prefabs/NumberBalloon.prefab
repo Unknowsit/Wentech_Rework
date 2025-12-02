@@ -344,10 +344,10 @@ MonoBehaviour:
   numberText: {fileID: 1593389725697546841}
   balloonImage: {fileID: 7774173360553134385}
   normalSprite: {fileID: 21300000, guid: 0408324c929ec4142ac169e639a0d235, type: 3}
-  mysterySprite: {fileID: 21300000, guid: 9c3b84c5869ce2744a2689872e5ead5f, type: 3}
-  goldenSprite: {fileID: 21300000, guid: 040de840507a5954db4c511aca02312f, type: 3}
-  comboSprite: {fileID: 21300000, guid: 44ba04877f325e940b95b49ebe587b21, type: 3}
-  luckySprite: {fileID: 21300000, guid: 19458763b7dd3644493f996217f5e403, type: 3}
+  mysterySprite: {fileID: 21300000, guid: e67e2d7c9ec1af84ab1420f1bf857452, type: 3}
+  goldenSprite: {fileID: 6659503182531968338, guid: 07942adfef970184aabeb763123c167d, type: 3}
+  comboSprite: {fileID: 21300000, guid: 5a793a70049cc224aa5a8e6975367f77, type: 3}
+  luckySprite: {fileID: -7875712341041756970, guid: 950dbe74a97225a4792db731b5c36293, type: 3}
   jokerSprite: {fileID: 21300000, guid: b22b78febdfd384429dff31408f6d237, type: 3}
 --- !u!114 &3269285616855538647
 MonoBehaviour:
