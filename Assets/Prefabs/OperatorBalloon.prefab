@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 3677198445851876404}
   - component: {fileID: 4296183451374381899}
   - component: {fileID: 155830041743471632}
+  - component: {fileID: 6505963822941656554}
   m_Layer: 0
   m_Name: OperatorBalloon
   m_TagString: Untagged
@@ -241,3 +242,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalSlot: {fileID: 0}
   balloonImage: {fileID: 3677198445851876404}
+--- !u!114 &6505963822941656554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7774271131739635634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8621eca010540514eb0d06a611d76916, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedScale: 1.15

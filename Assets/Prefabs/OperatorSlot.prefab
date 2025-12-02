@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 7475680584613231981}
   - component: {fileID: 5741940520358694405}
   - component: {fileID: 8586232467166764656}
+  - component: {fileID: -4927986398897806870}
   m_Layer: 5
   m_Name: OperatorSlot
   m_TagString: Untagged
@@ -191,6 +192,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   warningIcon: {fileID: 3025345747108618776}
   trashButton: {fileID: 5957574871315440701}
+--- !u!114 &-4927986398897806870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4466741007451554737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e9857e351623b54b8d77eff13a80ded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7192552162769260875
 GameObject:
   m_ObjectHideFlags: 0

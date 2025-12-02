@@ -62,14 +62,10 @@ public class OperatorDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandle
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
 
-        if (balloonImage != null)
-            balloonImage.raycastTarget = false;
+        balloonImage.raycastTarget = false;
         canvasGroup.blocksRaycasts = false;
 
-        if (audioManager != null)
-        {
-            audioManager.PlaySFX("SFX02");
-        }
+        audioManager.PlaySFX("SFX02");
     }
 
     public void OnDrag(PointerEventData eventData)
