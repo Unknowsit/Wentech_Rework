@@ -1,26 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 public class ButtonDelay : MonoBehaviour
 {
-    public GameObject objectToActivate;
-
-    
-    public float delay = 5f;
+    public Toggle toggle;          // ตัว Toggle
+    public GameObject targetObject; // Object ที่จะเปิด/ปิด
 
     void Start()
     {
-        StartCoroutine(ActivateAfterDelay());
+        // ตั้งค่าการฟัง Event เวลา Toggle ถูกกด
+        toggle.onValueChanged.AddListener(OnToggleChanged);
+
+        // อัปเดตสถานะตั้งแต่เริ่ม
+        OnToggleChanged(toggle.isOn);
     }
 
-    IEnumerator ActivateAfterDelay()
+    void OnToggleChanged(bool isOn)
     {
-        
-        yield return new WaitForSeconds(delay);
-
-        
-        if (objectToActivate != null)
-        {
-            objectToActivate.SetActive(true);
-        }
+        if (targetObject != null)
+            targetObject.SetActive(isOn);  // true = เปิด, false = ปิด
     }
 }
