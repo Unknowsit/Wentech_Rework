@@ -774,12 +774,64 @@ public class GameManager : MonoBehaviour
         return sum;
     }
 
+    private int GetBalloonTypePriority(BalloonType type)
+    {
+        switch (type)
+        {
+            case BalloonType.Normal:
+                return 0;
+            case BalloonType.Golden:
+                return 1;
+            case BalloonType.Mystery:
+                return 2;
+            case BalloonType.Combo:
+                return 3;
+            case BalloonType.Lucky:
+                return 4;
+            case BalloonType.Joker:
+                return 5;
+            default:
+                return 0;
+        }
+    }
+
+    public void SortBalloonsByType()
+    {
+        if (balloonHitCounts.Count == 0 || balloonHitTypes.Count == 0)
+            return;
+
+        var pairedData = new List<(int value, BalloonType type)>();
+
+        for (int i = 0; i < balloonHitCounts.Count; i++)
+        {
+            pairedData.Add((balloonHitCounts[i], balloonHitTypes[i]));
+        }
+
+        pairedData.Sort((a, b) =>
+        {
+            int priorityA = GetBalloonTypePriority(a.type);
+            int priorityB = GetBalloonTypePriority(b.type);
+            return priorityA.CompareTo(priorityB);
+        });
+
+        balloonHitCounts.Clear();
+        balloonHitTypes.Clear();
+
+        foreach (var data in pairedData)
+        {
+            balloonHitCounts.Add(data.value);
+            balloonHitTypes.Add(data.type);
+        }
+    }
+
     public void SpawnBalloonHitTexts()
     {
         if (hasSpawned) return;
         hasSpawned = true;
 
         Debug.Log($"Spawning balloons. IsSingleMode: {GameData.IsSingleMode()}, Selected Modes: {string.Join(", ", GameData.SelectedModes)}");
+
+        SortBalloonsByType();
 
         if (GameData.IsSingleMode())
         {
