@@ -21,6 +21,14 @@ public class BalloonHitText : MonoBehaviour
     [SerializeField] private Sprite luckySprite;
     [SerializeField] private Sprite jokerSprite;
 
+    [Header("Text Colors")]
+    [SerializeField] private Color normalTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color mysteryTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color goldenTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color comboTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color luckyTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color jokerTextColor = new Color(1f, 1f, 1f, 1f);
+
     private GameManager gameManager;
 
     private void Awake()
@@ -58,23 +66,29 @@ public class BalloonHitText : MonoBehaviour
 
         switch (balloonType)
         {
-            case BalloonType.Mystery:
-                balloonImage.sprite = mysterySprite;
-                break;
             case BalloonType.Golden:
                 balloonImage.sprite = goldenSprite;
+                numberText.color = goldenTextColor;
+                break;
+            case BalloonType.Mystery:
+                balloonImage.sprite = mysterySprite;
+                numberText.color = mysteryTextColor;
                 break;
             case BalloonType.Combo:
                 balloonImage.sprite = comboSprite;
+                numberText.color = comboTextColor;
                 break;
             case BalloonType.Lucky:
                 balloonImage.sprite = luckySprite;
+                numberText.color = luckyTextColor;
                 break;
             case BalloonType.Joker:
                 balloonImage.sprite = jokerSprite;
+                numberText.color = jokerTextColor;
                 break;
             default:
                 balloonImage.sprite = normalSprite;
+                numberText.color = normalTextColor;
                 break;
         }
     }

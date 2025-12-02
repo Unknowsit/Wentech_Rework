@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Balloon : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI numText;
+    [SerializeField] private TextMeshProUGUI numberText;
     [SerializeField] private BalloonRangeData rangeSettings;
 
     [Header("Special Balloon Visuals")]
@@ -14,6 +14,14 @@ public class Balloon : MonoBehaviour
     [SerializeField] private Sprite luckySprite;
     [SerializeField] private Sprite comboSprite;
     [SerializeField] private Sprite jokerSprite;
+
+    [Header("Text Colors")]
+    [SerializeField] private Color normalTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color mysteryTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color goldenTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color comboTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color luckyTextColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] private Color jokerTextColor = new Color(1f, 1f, 1f, 1f);
 
     private GameManager gameManager;
     private BalloonType balloonType = BalloonType.Normal;
@@ -30,7 +38,7 @@ public class Balloon : MonoBehaviour
             DetermineBalloonType();
             RandomNumber();
 
-            string valueToSave = (balloonType == BalloonType.Mystery) ? actualValue.ToString() : numText.text;
+            string valueToSave = (balloonType == BalloonType.Mystery) ? actualValue.ToString() : numberText.text;
             gameManager.RegisterBalloonNumber(valueToSave);
             gameManager.RegisterBalloonType(balloonType);
         }
@@ -42,16 +50,16 @@ public class Balloon : MonoBehaviour
             if (balloonType == BalloonType.Joker)
             {
                 RandomNumber();
-                gameManager.BalloonList[gameManager.currentBalloonIndex] = numText.text;
+                gameManager.BalloonList[gameManager.currentBalloonIndex] = numberText.text;
             }
             else if (balloonType == BalloonType.Mystery)
             {
                 actualValue = int.Parse(savedValue);
-                numText.text = "?";
+                numberText.text = "?";
             }
             else
             {
-                numText.text = savedValue;
+                numberText.text = savedValue;
             }
 
             UpdateVisuals();
@@ -69,23 +77,29 @@ public class Balloon : MonoBehaviour
     {
         switch (balloonType)
         {
-            case BalloonType.Mystery:
-                balloonSpriteRenderer.sprite = mysterySprite;
-                break;
             case BalloonType.Golden:
                 balloonSpriteRenderer.sprite = goldenSprite;
+                numberText.color = goldenTextColor;
+                break;
+            case BalloonType.Mystery:
+                balloonSpriteRenderer.sprite = mysterySprite;
+                numberText.color = mysteryTextColor;
                 break;
             case BalloonType.Lucky:
                 balloonSpriteRenderer.sprite = luckySprite;
+                numberText.color = luckyTextColor;
                 break;
             case BalloonType.Combo:
                 balloonSpriteRenderer.sprite = comboSprite;
+                numberText.color = comboTextColor;
                 break;
             case BalloonType.Joker:
                 balloonSpriteRenderer.sprite = jokerSprite;
+                numberText.color = jokerTextColor;
                 break;
             default:
                 balloonSpriteRenderer.sprite = normalSprite;
+                numberText.color = normalTextColor;
                 break;
         }
     }
@@ -104,7 +118,7 @@ public class Balloon : MonoBehaviour
             }
             else
             {
-                valueToRegister = int.Parse(numText.text);
+                valueToRegister = int.Parse(numberText.text);
             }
 
             gameManager.RegisterBalloonHitType(valueToRegister, balloonType);
@@ -118,7 +132,7 @@ public class Balloon : MonoBehaviour
         {
             int[] goldenValues = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
             int randomValue = goldenValues[Random.Range(0, goldenValues.Length)];
-            numText.text = randomValue.ToString();
+            numberText.text = randomValue.ToString();
         }
         else if (balloonType == BalloonType.Joker)
         {
@@ -145,8 +159,8 @@ public class Balloon : MonoBehaviour
 
         if (balloonType == BalloonType.Mystery)
         {
-            actualValue = int.Parse(numText.text);
-            numText.text = "?";
+            actualValue = int.Parse(numberText.text);
+            numberText.text = "?";
         }
     }
 
@@ -154,7 +168,7 @@ public class Balloon : MonoBehaviour
     {
         int min = rangeSettings.GetMinValue(mode);
         int max = rangeSettings.GetMaxValue(mode);
-        numText.text = Random.Range(min, max + 1).ToString();
+        numberText.text = Random.Range(min, max + 1).ToString();
     }
 
     public string GetBalloonNumber()
@@ -163,6 +177,6 @@ public class Balloon : MonoBehaviour
         {
             return actualValue.ToString();
         }
-        return numText.text;
+        return numberText.text;
     }
 }
