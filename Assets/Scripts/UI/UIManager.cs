@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
     private int p1HintsRemaining = 0;
     private int p2HintsRemaining = 0;
 
+    [Header("Hint Setup")]
     [SerializeField] private GameObject hintPanel;
     public GameObject HintPanel => hintPanel;
 
