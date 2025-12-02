@@ -340,7 +340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe9fe508f0adfda45baf5b2e7c5998ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numText: {fileID: 1593389725697546841}
+  value: 0
+  numberText: {fileID: 1593389725697546841}
   balloonImage: {fileID: 7774173360553134385}
   normalSprite: {fileID: 21300000, guid: 0408324c929ec4142ac169e639a0d235, type: 3}
   mysterySprite: {fileID: 21300000, guid: 9c3b84c5869ce2744a2689872e5ead5f, type: 3}

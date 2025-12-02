@@ -156,4 +156,13 @@ public class Balloon : MonoBehaviour
         int max = rangeSettings.GetMaxValue(mode);
         numText.text = Random.Range(min, max + 1).ToString();
     }
+
+    public string GetBalloonNumber()
+    {
+        if (balloonType == BalloonType.Mystery)
+        {
+            return actualValue.ToString();
+        }
+        return numText.text;
+    }
 }

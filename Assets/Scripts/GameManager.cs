@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static Balloon;
 
 public class GameManager : MonoBehaviour
 {
     private bool hasSpawned = false;
-
-    private bool p1HasAnswered = false;
-    private bool p2HasAnswered = false;
 
     private int attempts = 0;
     private int spawnedCount = 0;
@@ -20,9 +16,14 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public int currentBalloonIndex = 0;
 
+    [Header("Dynamic Target System")]
+    private List<string> p1BalloonList = new List<string>();
+    private List<BalloonType> p1BalloonTypes = new List<BalloonType>();
+
     [Header ("Balloon Properties")]
     [Range(1, 20)] [SerializeField] private int totalBalloons = 10;
     [Range(2, 8)] [SerializeField] private int targetBalloonCount = 2;
+    public int TargetBalloonCount => targetBalloonCount;
     [SerializeField] private float balloonCollisionRadius = 0.5f;
     [SerializeField] private GameObject balloonPrefab;
     [SerializeField] private Transform balloonParent;
@@ -122,6 +123,10 @@ public class GameManager : MonoBehaviour
     {
         ResetGameState();
         GenerateBalloon();
+
+        if (totalTurns % 2 != 0)
+            ModifyBalloons();
+
         CalculateTargetSum(uiManager.TargetText, uiManager.ObjectiveText);
         UpdateRoundDisplay();
         currentBalloonIndex = 0;
@@ -327,31 +332,25 @@ public class GameManager : MonoBehaviour
 
         if (!valid)
         {
-            playerInputText.text = "0";   // ป้องกัน parse ค่าเก่า
+            playerInputText.text = "0";
         }
+
+        float currentTarget = float.Parse(uiManager.TargetText.text);
 
         if (totalTurns % 2 == 0)
         {
             p1 = float.Parse(playerInputText.text);
-            p1HasAnswered = valid;
-            //Debug.Log($"[P1] Answer: {p1}, HasBalloon: {PlayerHasBalloon()}, p1HasAnswered: {p1HasAnswered}");
-            //uiManager.ResultP1Text.text = $"{p1.ToString()}";
             uiManager.ResultP1Text.text = NumberFormatter.FormatSmart(p1);
+            uiManager.CountScore(p1, valid, currentTarget, true);
             playerText.text = "P2";
         }
         else
         {
             p2 = float.Parse(playerInputText.text);
-            p2HasAnswered = valid;
-            //Debug.Log($"[P2] Answer: {p2}, HasBalloon: {PlayerHasBalloon()}, p2HasAnswered: {p2HasAnswered}");
-            //Debug.Log($"[CountScore] Calling with P1:{p1} ({p1HasAnswered}), P2:{p2} ({p2HasAnswered})");
-            //uiManager.ResultP2Text.text = $"{p2.ToString()}";
             uiManager.ResultP2Text.text = NumberFormatter.FormatSmart(p2);
+            uiManager.CountScore(p2, valid, currentTarget, false);
             playerText.text = "P1";
-            uiManager.CountScore(p1, p2, p1HasAnswered, p2HasAnswered);
-
-            p1HasAnswered = false;
-            p2HasAnswered = false;
+            //uiManager.CountScore(p1, p2, p1HasAnswered, p2HasAnswered);
 
             UpdateRoundDisplay();
         }
@@ -427,6 +426,89 @@ public class GameManager : MonoBehaviour
         balloonHitTypes.Add(type);
     }
 
+    public void SaveBalloons()
+    {
+        p1BalloonList = new List<string>(balloonList);
+        p1BalloonTypes = new List<BalloonType>(balloonTypes);
+    }
+
+    private void ModifyBalloons()
+    {
+        if (p1BalloonList.Count == 0)
+        {
+            return;
+        }
+
+        balloonList = new List<string>(p1BalloonList);
+        balloonTypes = new List<BalloonType>(p1BalloonTypes);
+
+        int balloonsToSwap = CalculateBalloonsToSwap(targetBalloonCount);
+        List<int> indicesToSwap = GetRandomIndices(targetBalloonCount, balloonsToSwap);
+        List<int> unusedBalloonIndices = new List<int>();
+
+        for (int i = targetBalloonCount; i < spawnedCount; i++)
+        {
+            unusedBalloonIndices.Add(i);
+        }
+
+        foreach (int swapIndex in indicesToSwap)
+        {
+            if (unusedBalloonIndices.Count > 0)
+            {
+                int randomIdx = Random.Range(0, unusedBalloonIndices.Count);
+                int unusedIndex = unusedBalloonIndices[randomIdx];
+                unusedBalloonIndices.RemoveAt(randomIdx);
+
+                if (unusedIndex < balloonParent.childCount)
+                {
+                    Transform balloonTransform = balloonParent.GetChild(unusedIndex);
+                    Balloon balloon = balloonTransform.GetComponent<Balloon>();
+
+                    if (balloon != null)
+                    {
+                        string oldValue = balloonList[swapIndex];
+                        BalloonType oldType = balloonTypes[swapIndex];
+
+                        balloonList[swapIndex] = balloon.GetBalloonNumber();
+                        balloonTypes[swapIndex] = balloon.Type;
+                    }
+                }
+            }
+        }
+    }
+
+    private int CalculateBalloonsToSwap(int totalBalloons)
+    {
+        if (totalBalloons <= 3)
+        {
+            return 1;
+        }
+        else
+        {
+            return Mathf.FloorToInt(totalBalloons / 2f);
+        }
+    }
+
+    private List<int> GetRandomIndices(int maxIndex, int count)
+    {
+        List<int> indices = new List<int>();
+        List<int> available = new List<int>();
+
+        for (int i = 0; i < maxIndex; i++)
+        {
+            available.Add(i);
+        }
+
+        for (int i = 0; i < count && available.Count > 0; i++)
+        {
+            int randomIdx = Random.Range(0, available.Count);
+            indices.Add(available[randomIdx]);
+            available.RemoveAt(randomIdx);
+        }
+
+        return indices;
+    }
+
     private void InitializeBalloonTypePool(int totalBalloons)
     {
         balloonTypePool.Clear();
@@ -487,7 +569,6 @@ public class GameManager : MonoBehaviour
     {
         if (balloonTypePoolIndex >= balloonTypePool.Count)
         {
-            Debug.LogWarning("Balloon type pool exhausted! Returning Normal.");
             return BalloonType.Normal;
         }
 

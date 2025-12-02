@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class BalloonHitText : MonoBehaviour
 {
-    private int value;
+    [SerializeField] private int value;
     public int Value => value;
 
     private BalloonType balloonType;
     public BalloonType Type => balloonType;
 
-    [SerializeField] private TextMeshProUGUI numText;
+    [SerializeField] private TextMeshProUGUI numberText;
     [SerializeField] private Image balloonImage;
 
     [Header("Special Balloon Sprites")]
@@ -40,7 +40,7 @@ public class BalloonHitText : MonoBehaviour
 
     public void DisplayBalloonHitCount(int i)
     {
-        numText.text = gameManager.BalloonHitCounts[i].ToString();
+        numberText.text = gameManager.BalloonHitCounts[i].ToString();
     }
 
     public void InitializeValue(int i)

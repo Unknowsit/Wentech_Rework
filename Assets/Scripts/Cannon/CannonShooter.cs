@@ -35,6 +35,7 @@ public class CannonShooter : MonoBehaviour
     public void Shoot()
     {
         timer.StopWarningMusic();
+        UIManager.instance.HintPanel.SetActive(false);
 #if UNITY_ANDROID
         UIManager.instance.ShootButton.SetActive(false);
 #elif UNITY_STANDALONE || UNITY_EDITOR

@@ -38,6 +38,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI roundText;
     public TextMeshProUGUI RoundText => roundText;
 
+    [Header("Hint System")]
+    private bool p1HintUsedThisTurn = false;
+    private bool p2HintUsedThisTurn = false;
+    private string p1CurrentHint = "";
+    private string p2CurrentHint = "";
+    private int p1HintsRemaining = 0;
+    private int p2HintsRemaining = 0;
+
+    [SerializeField] private GameObject hintPanel;
+    public GameObject HintPanel => hintPanel;
+
+    [SerializeField] private TextMeshProUGUI hintText;
+    [SerializeField] private Button hintButton;
+    [SerializeField] private TextMeshProUGUI hintCountText;
+
     [Header("Timer Settings")]
     [SerializeField] private Slider _progressBar;
     public Slider _ProgressBar { get { return _progressBar; } set { _progressBar = value; } }
@@ -169,6 +184,8 @@ public class UIManager : MonoBehaviour
         gameManager.SetTargetBalloonCount(targetCounts);
         gameManager.SetBalloonSpawnCount(targetBalloons);
 
+        InitializeHints(targetTurns);
+
         StartCoroutine(DelayTimeToStart(delayTime));
     }
   
@@ -231,6 +248,11 @@ public class UIManager : MonoBehaviour
         audioManager.PlaySFX("SFX04");
         StoreBalloonTypesForCurrentPlayer();
 
+        if (gameManager.totalTurns % 2 == 0)
+        {
+            gameManager.SaveBalloons();
+        }
+
         if (GameData.IsSingleMode())
         {
             StartCoroutine(uiController.UITransition(scorePanel, singleModePanel));
@@ -258,6 +280,19 @@ public class UIManager : MonoBehaviour
     public void OnTapButtonClicked()
     {
         audioManager.PlaySFX("SFX04");
+        hintPanel.SetActive(false);
+
+        if (gameManager.totalTurns % 2 == 0)
+        {
+            p1HintUsedThisTurn = false;
+            p1CurrentHint = "";
+        }
+        else
+        {
+            p2HintUsedThisTurn = false;
+            p2CurrentHint = "";
+        }
+
         if (gameManager.totalTurns == 1)
         {
             UpdateWinnerPanel();
@@ -269,6 +304,7 @@ public class UIManager : MonoBehaviour
             gameManager.SwitchCannonSide();
             gameManager.RestartGame();
             StartCoroutine(DelayTimeToRestart());
+            UpdateHintButtonUI();
 
 #if UNITY_ANDROID
             StartCoroutine(ShootButtonActive());
@@ -342,6 +378,7 @@ public class UIManager : MonoBehaviour
     }
 #endif
 
+    /*
     public void CountScore(float p1, float p2, bool p1Answered, bool p2Answered)
     {
         //Debug.Log($"[CountScore] Received - P1:{p1} ({p1Answered}), P2:{p2} ({p2Answered})");
@@ -439,6 +476,242 @@ public class UIManager : MonoBehaviour
         currentRound++;
 
         shouldReset = true;
+    }
+    */
+
+    public void InitializeHints(int totalRounds)
+    {
+        int hintsPerPlayer = Mathf.FloorToInt(totalRounds / 2f);
+        p1HintsRemaining = hintsPerPlayer;
+        p2HintsRemaining = hintsPerPlayer;
+
+        UpdateHintButtonUI();
+    }
+
+    public void OnHintButtonClicked()
+    {
+        bool isP1Turn = (gameManager.totalTurns % 2 == 0);
+        int remaining = isP1Turn ? p1HintsRemaining : p2HintsRemaining;
+        bool alreadyUsed = isP1Turn ? p1HintUsedThisTurn : p2HintUsedThisTurn;
+        string currentHint = isP1Turn ? p1CurrentHint : p2CurrentHint;
+
+        if (!alreadyUsed)
+        {
+            if (remaining <= 0)
+            {
+                return;
+            }
+
+            currentHint = GenerateHintText();
+
+            if (isP1Turn)
+            {
+                p1HintsRemaining--;
+                p1CurrentHint = currentHint;
+                p1HintUsedThisTurn = true;
+            }
+            else
+            {
+                p2HintsRemaining--;
+                p2CurrentHint = currentHint;
+                p2HintUsedThisTurn = true;
+            }
+
+            UpdateHintButtonUI();
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(currentHint))
+            {
+                return;
+            }
+        }
+
+        hintText.text = currentHint;
+        hintPanel.SetActive(true);
+        audioManager.PlaySFX("SFX04");
+    }
+
+    private string GenerateHintText()
+    {
+        List<string> balloons = new List<string>(gameManager.BalloonList);
+        int targetCount = Mathf.Min(gameManager.TargetBalloonCount, balloons.Count);
+
+        int numbersToReveal = CalculateNumbersToReveal(targetCount);
+        List<int> revealIndices = GetRandomHintIndices(targetCount, numbersToReveal);
+
+        string hintExpression = BuildHintExpression(balloons, revealIndices, targetCount);
+
+        float target = float.Parse(TargetText.text);
+        hintExpression += $" = {NumberFormatter.FormatSmart(target)}";
+
+        return $"Hint:\n{hintExpression}";
+    }
+
+    private int CalculateNumbersToReveal(int total)
+    {
+        if (total <= 2) return 1;
+        return Mathf.FloorToInt(total / 2f);
+    }
+
+    private List<int> GetRandomHintIndices(int maxIndex, int count)
+    {
+        List<int> result = new List<int>();
+        List<int> available = new List<int>();
+
+        for (int i = 0; i < maxIndex; i++)
+            available.Add(i);
+
+        for (int i = 0; i < count && available.Count > 0; i++)
+        {
+            int randIdx = Random.Range(0, available.Count);
+            result.Add(available[randIdx]);
+            available.RemoveAt(randIdx);
+        }
+
+        result.Sort();
+        return result;
+    }
+
+    private string BuildHintExpression(List<string> balloons, List<int> revealIndices, int targetCount)
+    {
+        string expression = "";
+
+        if (GameData.IsSingleMode())
+        {
+            var mode = GameData.GetSingleMode();
+            string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "*" : "/";
+
+            for (int i = 0; i < targetCount; i++)
+            {
+                if (i > 0) expression += $" {opSymbol} ";
+
+                if (revealIndices.Contains(i))
+                    expression += balloons[i];
+                else
+                    expression += "...";
+            }
+        }
+        else
+        {
+            int modeIndex = 0;
+
+            for (int i = 0; i < targetCount; i++)
+            {
+                if (i > 0)
+                {
+                    var mode = GameData.SelectedModes[modeIndex % GameData.SelectedModes.Count];
+                    string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "*" : "/";
+                    expression += $" {opSymbol} ";
+                    modeIndex++;
+                }
+
+                if (revealIndices.Contains(i))
+                    expression += balloons[i];
+                else
+                    expression += "...";
+            }
+        }
+
+        return expression;
+    }
+
+    private void UpdateHintButtonUI()
+    {
+        bool isP1Turn = (gameManager.totalTurns % 2 == 0);
+        int remaining = isP1Turn ? p1HintsRemaining : p2HintsRemaining;
+        bool alreadyUsed = isP1Turn ? p1HintUsedThisTurn : p2HintUsedThisTurn;
+
+        hintCountText.text = $"Hints: {remaining}";
+        hintButton.interactable = (remaining > 0 || alreadyUsed);
+    }
+
+    public void CloseHintPanel()
+    {
+        hintPanel.SetActive(false);
+        audioManager.PlaySFX("SFX02");
+    }
+
+    public void CountScore(float answer, bool hasAnswered, float target, bool isP1)
+    {
+        int baseScore = 0;
+        int bonusScore = 0;
+
+        float diff = hasAnswered ? Mathf.Abs(answer - target) : float.MaxValue;
+
+        if (GameData.IsSingleMode())
+        {
+            var mode = GameData.GetSingleMode();
+
+            switch (mode)
+            {
+                case OperatorMode.Plus:
+                case OperatorMode.Multiply:
+                    {
+                        if (target > Mathf.Epsilon && hasAnswered)
+                        {
+                            baseScore = Mathf.RoundToInt((1f - diff / target) * 1000f);
+                        }
+                    }
+                    break;
+                case OperatorMode.Minus:
+                case OperatorMode.Divide:
+                    {
+                        float absCurrent = Mathf.Abs(target);
+
+                        if (absCurrent > Mathf.Epsilon && hasAnswered)
+                        {
+                            baseScore = Mathf.RoundToInt(absCurrent / (absCurrent + diff) * 1000f);
+                        }
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            bool hasPlusOrMultiply = GameData.HasMode(OperatorMode.Plus) || GameData.HasMode(OperatorMode.Multiply);
+
+            if (hasPlusOrMultiply && target > Mathf.Epsilon && hasAnswered)
+            {
+                baseScore = Mathf.RoundToInt((1f - diff / target) * 1000f);
+            }
+            else
+            {
+                float absTarget = Mathf.Abs(target);
+
+                if (absTarget > Mathf.Epsilon && hasAnswered)
+                {
+                    baseScore = Mathf.RoundToInt(absTarget / (absTarget + diff) * 1000f);
+                }
+            }
+        }
+
+        baseScore = Mathf.Clamp(baseScore, 0, 1000);
+
+        if (hasAnswered)
+        {
+            List<BalloonType> usedBalloons = isP1 ? p1BalloonTypes : p2BalloonTypes;
+            bonusScore = CalculateSpecialBalloonBonus(usedBalloons, baseScore, diff);
+        }
+
+        int totalScore = baseScore + bonusScore;
+
+        if (isP1)
+        {
+            scoreP1 += totalScore;
+            scoreP1Text.text = NumberFormatter.FormatWithCommas(scoreP1);
+            AddScoreHistory(currentRound, answer, baseScore, bonusScore, target, true);
+            //p1BalloonTypes.Clear();
+        }
+        else
+        {
+            scoreP2 += totalScore;
+            scoreP2Text.text = NumberFormatter.FormatWithCommas(scoreP2);
+            AddScoreHistory(currentRound, answer, baseScore, bonusScore, target, false);
+            //p2BalloonTypes.Clear();
+            shouldReset = true;
+            currentRound++;
+        }
     }
 
     private int CalculateSpecialBalloonBonus(List<BalloonType> usedBalloons, int baseScore, float diff)
@@ -550,6 +823,23 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void AddScoreHistory(int round, float answer, int baseScore, int bonusScore, float target, bool isP1)
+    {
+        if (isP1)
+        {
+            GameObject p1History = Instantiate(scoreHistoryPrefab, p1HistoryContent);
+            TextMeshProUGUI p1Text = p1History.GetComponent<TextMeshProUGUI>();
+            p1Text.text = $"Round {round}\nScore : +{NumberFormatter.FormatWithCommas(baseScore)}\nBonus : +{NumberFormatter.FormatSmart(bonusScore)}\nTarget : {NumberFormatter.FormatSmart(target)}\nAnswer : {NumberFormatter.FormatSmart(answer)}";
+        }
+        else
+        {
+            GameObject p2History = Instantiate(scoreHistoryPrefab, p2HistoryContent);
+            TextMeshProUGUI p2Text = p2History.GetComponent<TextMeshProUGUI>();
+            p2Text.text = $"Round {round}\nScore : +{NumberFormatter.FormatWithCommas(baseScore)}\nBonus : +{NumberFormatter.FormatSmart(bonusScore)}\nTarget : {NumberFormatter.FormatSmart(target)}\nAnswer : {NumberFormatter.FormatSmart(answer)}";
+        }
+    }
+
+    /*
     private void AddScoreHistory(int round, float p1Answer, int p1BaseScore, int p1BonusScore, float p2Answer, int p2BaseScore, int p2BonusScore, float target)
     {
         // Player 1 History
@@ -566,6 +856,7 @@ public class UIManager : MonoBehaviour
         //p2Text.text = $"Round {round}\nScore : +{p2Score}\nTarget : {target}\nAnswer : {p2Answer}";
         p2Text.text = $"Round {round}\nScore : +{NumberFormatter.FormatWithCommas(p2BaseScore)}\nBonus : +{NumberFormatter.FormatSmart(p2BonusScore)}\nTarget : {NumberFormatter.FormatSmart(target)}\nAnswer : {NumberFormatter.FormatSmart(p2Answer)}";
     }
+    */
 
     private IEnumerator ClearResultTexts()
     {
