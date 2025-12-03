@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.UI;
 using System;
 
 public class MainMenu : MonoBehaviour
@@ -15,6 +16,7 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         audioManager.PlaySFX("SFX04");
+        this.S
         StartCoroutine(LoadNewGameWithDelay());
     }
 
