@@ -368,7 +368,7 @@ public class UIManager : MonoBehaviour
     private IEnumerator LoadMainMenuAfterDelay()
     {
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadSceneAsync("Mainmenu");
+        SceneManager.LoadSceneAsync("Operators");
     }
 
 #if UNITY_ANDROID
@@ -547,7 +547,7 @@ public class UIManager : MonoBehaviour
         float target = float.Parse(TargetText.text);
         hintExpression += $" = {NumberFormatter.FormatSmart(target)}";
 
-        return $"Hint:\n{hintExpression}";
+        return $"Hint\n{hintExpression}";
     }
 
     private int CalculateNumbersToReveal(int total)

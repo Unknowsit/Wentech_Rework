@@ -3100,6 +3100,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 988392037}
     m_Modifications:
+    - target: {fileID: 43402438303919602, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 520
+      objectReference: {fileID: 0}
     - target: {fileID: 1771627360995293376, guid: b5b316e43f06404478c46703d68106cf, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3200,6 +3204,34 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: 1d78f52a1cd6830488dcb8284425b3d2, type: 2}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_text
+      value: 100,000,000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: b2975b456e3277c45b0980528321b96b, type: 2}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 5775917161639130002, guid: b4dbf26b3e21e354797c9003d9ec4cbc, type: 2}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 4096
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9633,7 +9665,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 656387504}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: Back
+        m_MethodName: NewGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12863,8 +12895,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 120
-  m_fontSizeBase: 120
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12923,6 +12955,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 988392037}
     m_Modifications:
+    - target: {fileID: 43402438303919602, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 520
+      objectReference: {fileID: 0}
     - target: {fileID: 1771627360995293376, guid: b5b316e43f06404478c46703d68106cf, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -13023,6 +13059,30 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: 1d78f52a1cd6830488dcb8284425b3d2, type: 2}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: b2975b456e3277c45b0980528321b96b, type: 2}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 5775917161639130002, guid: b4dbf26b3e21e354797c9003d9ec4cbc, type: 2}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 4096
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13063,6 +13123,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 988392037}
     m_Modifications:
+    - target: {fileID: 43402438303919602, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 520
+      objectReference: {fileID: 0}
     - target: {fileID: 1771627360995293376, guid: b5b316e43f06404478c46703d68106cf, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -13163,6 +13227,30 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 2100000, guid: 1d78f52a1cd6830488dcb8284425b3d2, type: 2}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: b2975b456e3277c45b0980528321b96b, type: 2}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 5775917161639130002, guid: b4dbf26b3e21e354797c9003d9ec4cbc, type: 2}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 4096
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026978926930668781, guid: b5b316e43f06404478c46703d68106cf, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22369,8 +22457,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -22717,7 +22805,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1730465242}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: Back
+        m_MethodName: NewGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
