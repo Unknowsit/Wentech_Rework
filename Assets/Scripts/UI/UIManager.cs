@@ -582,7 +582,7 @@ public class UIManager : MonoBehaviour
         if (GameData.IsSingleMode())
         {
             var mode = GameData.GetSingleMode();
-            string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "*" : "/";
+            string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "×" : "÷";
 
             for (int i = 0; i < targetCount; i++)
             {
@@ -603,7 +603,7 @@ public class UIManager : MonoBehaviour
                 if (i > 0)
                 {
                     var mode = GameData.SelectedModes[modeIndex % GameData.SelectedModes.Count];
-                    string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "*" : "/";
+                    string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "×" : "÷";
                     expression += $" {opSymbol} ";
                     modeIndex++;
                 }
@@ -624,7 +624,7 @@ public class UIManager : MonoBehaviour
         int remaining = isP1Turn ? p1HintsRemaining : p2HintsRemaining;
         bool alreadyUsed = isP1Turn ? p1HintUsedThisTurn : p2HintUsedThisTurn;
 
-        hintCountText.text = $"Hints: {remaining}";
+        hintCountText.text = $"x{remaining}";
         hintButton.interactable = (remaining > 0 || alreadyUsed);
     }
 

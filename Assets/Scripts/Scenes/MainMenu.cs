@@ -44,7 +44,7 @@ public class MainMenu : MonoBehaviour
     IEnumerator TutorialDelay()
     {
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadSceneAsync("Tutorial");
+        SceneManager.LoadSceneAsync("TutorialS");
     }
 
     public void Back()
