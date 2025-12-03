@@ -143,6 +143,22 @@ public class NumberSlot : MonoBehaviour, IDropHandler
         return currentBalloon != null;
     }
 
+    public BalloonHitText GetCurrentBalloon()
+    {
+        if (currentBalloon != null && currentBalloon.transform.parent == transform)
+        {
+            return currentBalloon;
+        }
+
+        currentBalloon = GetBalloonInChildren();
+        return currentBalloon;
+    }
+
+    public bool HasBalloon()
+    {
+        return GetCurrentBalloon() != null;
+    }
+
     public void OnBalloonRemoved()
     {
         currentBalloon = null;

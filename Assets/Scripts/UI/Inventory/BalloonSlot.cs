@@ -49,6 +49,11 @@ public class BalloonSlot : MonoBehaviour, IDropHandler
         return currentBalloon != null ? currentBalloon.Value : 0;
     }
 
+    public BalloonHitText GetCurrentBalloon()
+    {
+        return currentBalloon;
+    }
+
     public bool HasBalloon()
     {
         return currentBalloon != null;

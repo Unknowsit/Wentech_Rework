@@ -47,8 +47,8 @@ public class BalloonDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler
         if (transform.parent == transform.root)
         {
             transform.SetParent(originalSlot);
-
             BalloonSlot slot = originalSlot.GetComponent<BalloonSlot>();
+
             if (slot != null)
             {
                 slot.SetBalloon(GetComponent<BalloonHitText>());

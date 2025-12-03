@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 5267769872463294385}
   - component: {fileID: 8210366477169434461}
   - component: {fileID: 2123204549875238705}
+  - component: {fileID: 3306365153259799072}
   - component: {fileID: 963948488968657805}
   m_Layer: 5
   m_Name: NumberSlot
@@ -341,6 +342,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4aae77b9044d9e94d9045bbca2c5182e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3306365153259799072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8185567121757998125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc70280c95ed5fd48a7bfb11f3d8e9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &963948488968657805

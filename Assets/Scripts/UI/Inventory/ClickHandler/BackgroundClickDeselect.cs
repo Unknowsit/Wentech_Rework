@@ -19,5 +19,13 @@ public class BackgroundClickDeselect : MonoBehaviour, IPointerClickHandler
             selected.Deselect();
             audioManager.PlaySFX("SFX02");
         }
+
+        BalloonClickHandler selectedBalloonClick = BalloonClickHandler.GetCurrentlySelected();
+
+        if (selectedBalloonClick != null)
+        {
+            selectedBalloonClick.Deselect();
+            audioManager.PlaySFX("SFX02");
+        }
     }
 }

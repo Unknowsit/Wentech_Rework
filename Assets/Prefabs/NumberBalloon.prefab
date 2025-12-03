@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1422577271665677360}
   - component: {fileID: 5741940520358694405}
   - component: {fileID: 3170433565608523475}
+  - component: {fileID: 7648570080017632069}
   - component: {fileID: 2035322739441879616}
   m_Layer: 5
   m_Name: NumberBalloon
@@ -82,6 +83,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4aae77b9044d9e94d9045bbca2c5182e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7648570080017632069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4466741007451554737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc70280c95ed5fd48a7bfb11f3d8e9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2035322739441879616
@@ -263,6 +276,7 @@ GameObject:
   - component: {fileID: 7774173360553134385}
   - component: {fileID: 4827692101337299216}
   - component: {fileID: 3269285616855538647}
+  - component: {fileID: 9085032026117736774}
   m_Layer: 0
   m_Name: BalloonHit
   m_TagString: Untagged
@@ -369,3 +383,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalSlot: {fileID: 0}
   balloonImage: {fileID: 7774173360553134385}
+--- !u!114 &9085032026117736774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9070014085027834251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f7750ac564cb9f4c9d61a08763b0c5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedScale: 1.15
