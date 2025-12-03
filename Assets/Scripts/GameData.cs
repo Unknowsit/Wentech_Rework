@@ -20,8 +20,8 @@ public enum ParenthesisType
 
 public static class GameData
 {
-    public static List<OperatorMode> SelectedModes = new List<OperatorMode> { OperatorMode.Plus, OperatorMode.Multiply };
-    public static bool UseParentheses = true;
+    public static List<OperatorMode> SelectedModes = new List<OperatorMode> { OperatorMode.Plus };
+    public static bool UseParentheses = false;
 
     public static bool EnableMysteryBalloon = false;
     public static bool EnableGoldenBalloon = false;

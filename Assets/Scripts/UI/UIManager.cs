@@ -101,8 +101,8 @@ public class UIManager : MonoBehaviour
     public Button NextButton => nextButton;
 
     [Header("Balloon Game Data")]
-    public List<BalloonType> p1BalloonTypes = new List<BalloonType>();
-    public List<BalloonType> p2BalloonTypes = new List<BalloonType>();
+    private List<BalloonType> p1BalloonTypes = new List<BalloonType>();
+    private List<BalloonType> p2BalloonTypes = new List<BalloonType>();
 
     [Header("Score History UI")]
     [SerializeField] private GameObject scoreHistoryPrefab;

@@ -119,7 +119,8 @@ public class BalloonClickHandler : MonoBehaviour, IPointerClickHandler
         }
 
         Transform currentParent = transform.parent;
-        BalloonSlot currentSlot = currentParent.GetComponent<BalloonSlot>();
+        BalloonSlot currentBalloonSlot = currentParent?.GetComponent<BalloonSlot>();
+        NumberSlot currentNumberSlot = currentParent?.GetComponent<NumberSlot>();
 
         BalloonHitText existingBalloon = GetBalloonInSlot(targetSlot.transform);
 
@@ -129,15 +130,31 @@ public class BalloonClickHandler : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-        if (existingBalloon != null && currentSlot != null)
+        if (existingBalloon != null && (currentBalloonSlot != null || currentNumberSlot != null))
         {
-            currentSlot.OnBalloonRemoved();
+            if (currentBalloonSlot != null)
+            {
+                currentBalloonSlot.OnBalloonRemoved();
+            }
+            else if (currentNumberSlot != null)
+            {
+                currentNumberSlot.OnBalloonRemoved();
+            }
+
             targetSlot.OnBalloonRemoved();
 
-            existingBalloon.transform.SetParent(currentSlot.transform);
+            existingBalloon.transform.SetParent(currentParent);
             existingBalloon.transform.localPosition = Vector3.zero;
             existingBalloon.transform.localScale = Vector3.one;
-            currentSlot.SetBalloon(existingBalloon);
+
+            if (currentBalloonSlot != null)
+            {
+                currentBalloonSlot.SetBalloon(existingBalloon);
+            }
+            else if (currentNumberSlot != null)
+            {
+                currentNumberSlot.SetBalloon(existingBalloon);
+            }
 
             transform.SetParent(targetSlot.transform);
             transform.localPosition = Vector3.zero;
@@ -146,9 +163,13 @@ public class BalloonClickHandler : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            if (currentSlot != null)
+            if (currentBalloonSlot != null)
             {
-                currentSlot.OnBalloonRemoved();
+                currentBalloonSlot.OnBalloonRemoved();
+            }
+            else if (currentNumberSlot != null)
+            {
+                currentNumberSlot.OnBalloonRemoved();
             }
 
             if (existingBalloon != null)
@@ -175,8 +196,8 @@ public class BalloonClickHandler : MonoBehaviour, IPointerClickHandler
         }
 
         Transform currentParent = transform.parent;
-        NumberSlot currentNumberSlot = currentParent.GetComponent<NumberSlot>();
-        BalloonSlot currentBalloonSlot = currentParent.GetComponent<BalloonSlot>();
+        NumberSlot currentNumberSlot = currentParent?.GetComponent<NumberSlot>();
+        BalloonSlot currentBalloonSlot = currentParent?.GetComponent<BalloonSlot>();
 
         BalloonHitText existingBalloon = GetBalloonInSlot(targetSlot.transform);
 
