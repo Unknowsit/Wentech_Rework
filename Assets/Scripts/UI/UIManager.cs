@@ -498,6 +498,7 @@ public class UIManager : MonoBehaviour
 
         if (!alreadyUsed)
         {
+            audioManager.PlaySFX("SFX04");
             if (remaining <= 0)
             {
                 return;

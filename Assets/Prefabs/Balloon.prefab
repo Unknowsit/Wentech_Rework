@@ -112,12 +112,12 @@ MonoBehaviour:
   luckySprite: {fileID: -7875712341041756970, guid: 950dbe74a97225a4792db731b5c36293, type: 3}
   comboSprite: {fileID: 21300000, guid: 5a793a70049cc224aa5a8e6975367f77, type: 3}
   jokerSprite: {fileID: 21300000, guid: b22b78febdfd384429dff31408f6d237, type: 3}
-  normalTextColor: {r: 1, g: 0, b: 0, a: 1}
-  mysteryTextColor: {r: 0, g: 0, b: 0, a: 1}
-  goldenTextColor: {r: 1, g: 0, b: 0.6615062, a: 1}
-  comboTextColor: {r: 0.509434, g: 0.29076186, b: 0.29076186, a: 1}
-  luckyTextColor: {r: 1, g: 0.8448516, b: 0, a: 1}
-  jokerTextColor: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
+  normalTextColor: {r: 1, g: 0.8784021, b: 0, a: 1}
+  mysteryTextColor: {r: 1, g: 0.8784314, b: 0, a: 1}
+  goldenTextColor: {r: 1, g: 0.5647059, b: 0, a: 1}
+  comboTextColor: {r: 1, g: 0.87771446, b: 0, a: 1}
+  luckyTextColor: {r: 1, g: 0.58431375, b: 0, a: 1}
+  jokerTextColor: {r: 1, g: 0.6039216, b: 0, a: 1}
 --- !u!114 &-6361797320801331188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,8 +333,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278255602
-  m_fontColor: {r: 0.95006824, g: 1, b: 0, a: 1}
+    rgba: 4279763199
+  m_fontColor: {r: 1, g: 0, b: 0.09249592, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

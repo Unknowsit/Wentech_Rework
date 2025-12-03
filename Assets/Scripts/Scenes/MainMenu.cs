@@ -16,7 +16,6 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         audioManager.PlaySFX("SFX04");
-        this.S
         StartCoroutine(LoadNewGameWithDelay());
     }
 
