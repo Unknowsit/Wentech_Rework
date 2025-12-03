@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -582,7 +582,7 @@ public class UIManager : MonoBehaviour
         if (GameData.IsSingleMode())
         {
             var mode = GameData.GetSingleMode();
-            string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "×" : "÷";
+            string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "Ã—" : "Ã·";
 
             for (int i = 0; i < targetCount; i++)
             {
@@ -603,7 +603,7 @@ public class UIManager : MonoBehaviour
                 if (i > 0)
                 {
                     var mode = GameData.SelectedModes[modeIndex % GameData.SelectedModes.Count];
-                    string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "×" : "÷";
+                    string opSymbol = mode == OperatorMode.Plus ? "+" : mode == OperatorMode.Minus ? "-" : mode == OperatorMode.Multiply ? "Ã—" : "Ã·";
                     expression += $" {opSymbol} ";
                     modeIndex++;
                 }
